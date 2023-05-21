@@ -14,4 +14,4 @@ about:
 
 ## SBBO - Simulation Based Bayesian Optimization
 
-Slides
+Slides [here!](./sbbo_short/sbbo_short.html)
