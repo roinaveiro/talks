@@ -1,0 +1,17 @@
+---
+title: "Research Talks"
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: twitter
+      href: https://twitter.com
+    - icon: github
+      text: Github
+      href: https://github.com
+---
+
+
+## SBBO - Simulation Based Bayesian Optimization
+
+Slides
