@@ -14,9 +14,19 @@ resources:
   - demo.pdf
 ---
 
+## Cheap yet effective way of doing research
+
+* Take a problem from the comp. sci. community
+
+* Bring the statistical perspective / stats. methodology
+
+* Why? 
+
+  - Very mathy for Comp. Sci. reviewers
+  - Very fancy form Stat. reviewers
 
 
-## The problem
+## The CS problem
 
 Find extreme of objective function 
 
@@ -38,7 +48,7 @@ Find extreme of objective function
 
 * Get good estimates of global maximum, with **few objective function evaluations**
 
-* A possible way to go: **Bayesian Optmization**
+* A possible way to go: **Bayesian Optimization**
 
 ## Bayesian Optimization (in a nutshell)
 
@@ -136,7 +146,7 @@ g_H(x) \propto \Psi(x)^H
 
 ## SBBO - Main idea
 
-Inhomogeneus MCMC simulation from $g_H(y, x)$ with increasing $H=H_n$ such that **stationary distribution** for fixed $H$ is $g_H$ converges to uniform over set of expected utility maxmizers
+Inhomogeneus MCMC simulation from $g_H(y, x)$ with increasing $H=H_n$ such that **stationary distribution** for fixed $H$ is $g_H$, converges to uniform over set of expected utility maxmizers
 
 ## SBBO - Gibbs
 
@@ -196,7 +206,7 @@ $$
 
 ## SBBO - Learners
  
-- **BOCS**: Bayesian second-order linear regression with heavy-tailed horseshoe prior
+- **BLr**: Bayesian second-order linear regression with heavy-tailed horseshoe prior
 - **GPr**: GP with Tanimoto kernel
 - NGBoost (Duan et. al., 2020): natural gradient boosting with two different base learners
   * **NGBdec**: Decision tree 
@@ -216,7 +226,6 @@ $$
 
 
 * Report best function value after $t$ evaluations of true objective, averaged over 10 runs (plus/minus one standard error).
-
 
 
 ## Contamination Problem
@@ -257,60 +266,62 @@ Z_i = \Lambda_i (1-x_i)(1 - Z_{i-1}) + (1 - \Gamma_i x_i) Z_{i-1}
 Number of Function Evaluations vs Best Value found for CP
 :::
 
-## Results - Why?
 
-![](sbbo_short_files/CON_acc50.png){width="800" height="600" style="display: block; margin: 0 auto"}
+## RNA design
+
+* RNA sequence: string $A = a_1, a_2, \dots, a_n$, with $a_i \in \lbrace A,C,G,U \rbrace$
+
+* Secondary structure: ensemble of paring basis with minimum free energy (MFE)
+
+* Estimate MFE via thermodynamic model and dynamic programming has time complexity $\mathcal{O}(n^3)$
+
+* Searching for MFE structure is hard: * $4^n$ possibilites
+
+* Use SBBO to find MFE RNA chain of lenght $n$ with **few energy evaluations**
+
+* Conv. Bayesian Neural Nets!
+
+
+## RNA design
+
+
+![](sbbo_short_files/RNA_noBOCS.png){width="800" height="600" style="display: block; margin: 0 auto"}
 
 ::: footer
-Calibrartion Plot and Performance Metrics. Sample size: 50
-:::
-
-## Results - Why?
-
-![](sbbo_short_files/CON_acc200.png){width="800" height="600" style="display: block; margin: 0 auto"}
-
-::: footer
-Calibrartion Plot and Performance Metrics. Sample size: 200
-:::
-
-## Results - Why?
-
-![](sbbo_short_files/CON_acc400.png){width="800" height="600" style="display: block; margin: 0 auto"}
-
-::: footer
-Calibrartion Plot and Performance Metrics. Sample size: 400
+Number of Function Evaluations vs Best Value found for RP
 :::
 
 ## RNA design
 
-* RNA assimilated with chain of letters (A, C, G, U)
 
-* Design RNA chain of lenght $l$ such that MFE is minized
+![](sbbo_short_files/RNA.png){width="800" height="600" style="display: block; margin: 0 auto"}
 
-* $4^l$ possibilites
-
-## RNA design
-
-$l=30$
-
-plot
+::: footer
+Number of Function Evaluations vs Best Value found for RP
+:::
 
 ## Conclusions
 
 * SBBO allows to do BO with any surrogate model (as long as we can sample from its PPD)
 
-* SBBO can be used to optimize expected utilities in combinatorial, continuous and mixed search spaces.
+* Opens the door to use many models (not used before in BO)
+
+* SBBO can be used to optimize expected utilities not only in combinatorial search spaces, also in continuous and mixed ones!
 
 
 ## Future Work
 
+* Can we understand which algorithm will work best apriori?
+
 * More models: Bayesian non-parametric models such as BART
 
-* Multiple proposals?
+* Go beyond the greedy approach...
 
-* Conjugate utilities
+  - Sequential decision problem
+  - Generate multiple proposals at once (repulsion? $S^3$?)
 
-* Multi-objective
+* Exploit the idea of conjugate utilities
+
 
 # Thanks!
 
@@ -333,7 +344,6 @@ k(x, x') = \frac{x \cdot x'}{\Vert x \Vert^2 + \Vert x' \Vert^2 - x \cdot x'}
 
 ## SBBO - Sparse Bayesian linear regression
 
-As in Baptista and Poloczek (2018):
 \begin{eqnarray*}
 && y = \alpha_0 + \sum_j \alpha_j x_j + \sum_{i,j>i} \alpha_{ij} x_i x_j + \epsilon\\
 %
@@ -370,3 +380,27 @@ $$
 
 * **PPD directly accesible**
 
+
+## Results - Why?
+
+![](sbbo_short_files/CON_acc50.png){width="800" height="600" style="display: block; margin: 0 auto"}
+
+::: footer
+Calibrartion Plot and Performance Metrics. Sample size: 50
+:::
+
+## Results - Why?
+
+![](sbbo_short_files/CON_acc200.png){width="800" height="600" style="display: block; margin: 0 auto"}
+
+::: footer
+Calibrartion Plot and Performance Metrics. Sample size: 200
+:::
+
+## Results - Why?
+
+![](sbbo_short_files/CON_acc400.png){width="800" height="600" style="display: block; margin: 0 auto"}
+
+::: footer
+Calibrartion Plot and Performance Metrics. Sample size: 400
+:::

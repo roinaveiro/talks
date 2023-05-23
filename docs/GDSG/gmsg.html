@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Scalable methods for solving games in Adversarial Machine Learning</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Roi Naveiro" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Scalable methods for solving games in Adversarial Machine Learning
+]
+.author[
+### Roi Naveiro
+]
+.date[
+### EURO 2022
+]
+
+---
+
+
+# Adversarial Machine Learning
+
+* Study and guarantee **robustness** of ML-based decisions wrt adversarial data manipulation.
+
+* Conflict adversary - learning system modeled as a **game**.
+
+* Classical Decision Makers, Humans: **discrete** and **low dimensional** decision spaces. 
+
+* New Decision Makers, Algorithms: **continuous** and **high dimensional** decision spaces.
+
+&lt;center&gt; 
+
+**Scalable gradient-based methods for solving sequential games in the new paradigm**
+
+
+---
+
+# Motivation - Adversarial Regression
+
+* `\(R_J\)` and `\(R_D\)` are two competing wine brands.
+
+* `\(R_D\)` has a system to automatically measure wine quality training a regression over some quality indicators. (Response value: wine quality, Covariates: quality indicators).
+
+* `\(R_J\)`, aware of the actual superiority of its competitor's wines, decides to **hack** `\(R_D\)`'s system by manipulating the value of several quality indicators **at operation time**, to artificially decrease `\(R_D\)`'s quality rates. 
+&lt;center&gt;
+![:scale 40%](./img/logo.png)
+
+
+&lt;/center&gt;
+
+---
+
+# Motivation - Adversarial Regression
+
+* `\(R_D\)` is **aware** of the possibility of being hacked and decides to train its regression in an **adversarial robust** manner.
+
+* `\(R_D\)` models this **conflict** as a game between a *learner* `\((R_D)\)` and a *data generator* `\((R_J)\)`. (Brückner and Scheffer, 2011).
+
+* The *data generator* tries to fool the learner **modifying input data at application time**, inducing a change between the data distribution at training `\([p(x,y)]\)` and test `\([\bar{p}(x,y)]\)` times. 
+
+---
+
+# The Learner Problem
+
+* Given a feature vector `\(x \in \mathbb{R}^p\)` and target `\(y \in \mathbb{R}\)`, the learner's decision is to choose the weight vector of a linear model `\(f_w(x) = x^\top w\)`, minimizing **theoretical costs at application time**
+
+`\begin{eqnarray*}
+\theta_l (w, \bar{p}, c_l) = \int c_l(x,y) (f_w(x) - y)^2 \mathop{}\! \mathrm{d} \bar{p}(x,y),
+\end{eqnarray*}`
+
+* To do so, the learner has a training matrix `\(X \in \mathbb{R}^{n\times p}\)` and a vector of target values `\(y\in \mathbb{R}^n\)` (a sample from distribution `\(p(x,y)\)` at training time).
+
+---
+
+# The Data Generator Problem
+
+* The data generator aims at **changing features of test instances** to induce a transformation from `\(p(x,y)\)` to `\(\bar{p}(x,y)\)`. 
+
+* `\(z(x,y)\)` is the data generator's target value for instance `\(x\)` with real value `\(y\)`
+
+* The data generator aims at **choosing the data transformation** that minimizes the theoretical costs given by
+
+`\begin{eqnarray*}
+\theta_d (w, \bar{p}, c_d) = \int c_d(x,y) (f_w(x) - z(x,y))^2 \mathop{}\! \mathrm{d} \bar{p}(x,y) + \Omega_d(p,\bar{p})
+\end{eqnarray*}`
+
+
+---
+
+# Regularized Empirical Costs
+
+* Theoretical costs defined above depend on the unknown distributions `\(p\)` and `\(\bar{p}\)`.
+
+* We focus on their regularized empirical counterparts, given by
+
+`\begin{eqnarray*}
+\widehat{\theta}_l(w, \bar{X}, c_l) &amp;=&amp; \sum_{i=1}^n c_{l,i} (f_w(\bar{x}_i) - y_i)^2 + \Omega_l(f_w),\\
+\widehat{\theta}_d(w, \bar{X}, c_d) &amp;=&amp; \sum_{i=1}^n c_{d,i} (f_w(\bar{x}_i) - z_i)^2 + \Omega_d(X, \bar{X}).
+\end{eqnarray*}`
+
+
+---
+# Resulting Stackelberg Game
+
+* We assume the learner acts first, choosing a weight vector `\(w\)`. Then the data generator, after observing `\(w\)`, chooses his optimal data transformation.
+
+&lt;br/&gt;
+&lt;br/&gt;
+
+&lt;center&gt;
+![:scale 80%](./img/ar4.png)
+&lt;/center&gt;
+
+
+---
+
+# The general problem
+
+Defender (D) makes decision `\(\alpha \in \mathbb{R}^n\)`. Attacker (A), after observing `\(\alpha\)`, makes decision `\(\beta \in \mathbb{R}^m\)`
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;center&gt;
+![:scale 70%](./img/eq.png)
+&lt;/center&gt;
+--
+
+* In AML, `\(\alpha\)` and `\(\beta\)` usually **high dimensional** and **continuous**.
+---
+
+# Gradient Methods 
+
+* Forget about analytical solutions!
+
+* **Gradient methods** require computing  `\(\mathop{}\! \mathrm{d}_\alpha u_D\)` (and moving `\(\alpha\)` in the direction of increasing gradient...)
+
+&lt;br/&gt;
+&lt;center&gt;
+![:scale 70%](./img/eq2.png)
+&lt;/center&gt;
+
+* Inverting the Hessian has cubic complexity!
+
+* We need a different strategy...
+---
+
+# Backward Solution
+
+* Under **certain conditions** (Bottou, 1998), we can approximate our problem by
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;center&gt;
+![:scale 70%](./img/eq3.png)
+&lt;/center&gt;
+
+* Where `\(T \gg 1\)`.
+
+* `\(\lim_{t \rightarrow \infty} \beta(\alpha, t) = \beta^*(\alpha)\)`.
+
+* Let's try to solve this problem instead.
+---
+# Backward Solution
+
+* It can be proved that (Naveiro and Ríos, 2019)
+&lt;br/&gt;
+&lt;center&gt;
+![:scale 80%](./img/eq4.png)
+&lt;/center&gt;
+
+* Provided that `\(\lambda\)` satisfies the **adjoint equation**
+&lt;br/&gt;
+
+&lt;center&gt;
+![:scale 50%](./img/adeq.png)
+&lt;/center&gt;
+
+* With initial conditions `\(\lambda(T) = - \partial_\beta u_D(\alpha, \beta)\)`.
+
+
+---
+# Backward Solution
+
+&lt;center&gt;
+![:scale 100%](./img/bwd.png)
+&lt;/center&gt;
+---
+# Backward Solution - Complexity Analysis
+
+## Time complexity
+
+* If `\(\tau (n,m)\)` is the time required to evaluate `\(u_D(\alpha, \beta)\)` and `\(u_A(\alpha, \beta)\)`, computing their derivatives requires time `\(\mathcal{O}(\tau (n,m))\)`.
+
+* First loop `\(\mathcal{O}(T \tau (n,m))\)`.
+
+* Second loop needs computing Hessian Vector Products, by basic results of AD, they have same complexity as function evaluations!
+
+* Thus, overall time complexity is `\(\mathcal{O}(T\tau (n,m))\)`.
+
+--
+
+## Space complexity 
+
+* We need to store `\(\beta_t(\alpha)\)` for all `\(t\)`.
+
+* `\(\sigma(n,m)\)` is the space requirement for storing each `\(\beta_t(\alpha)\)`.
+
+* Overall space complexity `\(\mathcal{O}(T \sigma(n,m))\)`. 
+
+---
+
+# Forward Solution
+
+* Under **certain conditions**, we can approximate our problem by
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;center&gt;
+![:scale 70%](./img/fwd.png)
+&lt;/center&gt;
+
+* Again, `\(T \gg 1\)`.
+
+* `\(\lim_{t \rightarrow \infty} \beta_t(\alpha) = \beta^*(\alpha)\)`.
+
+---
+
+# Forward Solution
+
+* Using the chain rule
+&lt;br/&gt;
+
+&lt;center&gt;
+![:scale 100%](./img/chr1.png)
+&lt;/center&gt;
+
+* To obtain `\(\mathop{}\! \mathrm{d}_\alpha \beta_T(\alpha)\)` we can sequentially compute
+
+
+&lt;center&gt;
+![:scale 100%](./img/chr2.png)
+&lt;/center&gt;
+
+* This induces a dynamical system in `\(\mathop{}\! \mathrm{d}_\alpha \beta_t(\alpha)\)` that can be iterated in parallel to the dynamical system in `\(\beta_t(\alpha)\)`!
+
+---
+
+# Forward Solution
+
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;center&gt;
+![:scale 100%](./img/fwd_algo.png)
+&lt;/center&gt;
+
+---
+
+# Forward Solution - Complexity Analysis
+
+## Time complexity
+
+* Computing `\(\partial^2_\beta u_A(\alpha, \beta)\)` requires time `\(\mathcal{O}(m \tau(m,n))\)` as it requires computing `\(m\)` Hessian vector products.
+
+* Computing `\(\partial_\alpha \partial_{\beta} u_A(\alpha, \beta)\)` requires computing `\(n\)` Hessian vector products and thus time `\(\mathcal{O}(n \tau(m,n))\)`.
+
+* If we compute the derivative in the other way, first we derive with respect to `\(\beta\)` and then with respect to `\(\alpha\)`, the time complexity is `\(\mathcal{O}(m \tau(m,n))\)`.
+
+* Thus, computing `\(\partial_\alpha \partial_{\beta} u_A(\alpha, \beta)\)` requires `\(\mathcal{O}(\min(n,m) \tau(m,n))\)`.
+
+* Overall, `\(\mathcal{O}(\max[\min(n,m), m]T\tau(m,n))=\mathcal{O}(mT \tau(m,n))\)`.
+
+--
+
+## Space complexity 
+
+* The values `\(\beta_t(\alpha)\)` are overwritten at each iteration.
+
+* Overall space complexity is `\(\mathcal{O}( \sigma(m,n))\)`.
+
+---
+
+# Conceptual Example
+
+* Attacker's utility is `\(u_A(\alpha, \beta) = -\sum_{i=1}^n 3(\beta_i - \alpha_i)^2\)` and the defender's one is `\(u_D(\alpha, \beta) = -\sum_{i=1}^n (7 \alpha_i + \beta_i^2)\)`.
+
+* `\(\mathcal{O}(T \tau(m,n))\)` vs `\(\mathcal{O}(mT \tau(m,n))\)`.
+&lt;center&gt;
+![:scale 80%](./img/time_comp.png)
+&lt;/center&gt;
+
+---
+
+# Application - Adversarial Regression
+
+* We compare ridge regression versus *adversarial robust regression* in the wine problem.
+
+* For ridge regression, we compute the weights in the usual way, and test them in data attacked using those weights.
+
+* For *adversarial robust regression* we compute the weights solving
+
+&lt;center&gt;
+![:scale 80%](./img/ar4.png)
+&lt;/center&gt;
+and test them in data attacked using those weights.
+
+* Note the dimension of the attacker's decision space is huge! He needs to modify `\(k=3263\)` data points each with `\(n=11\)` components!
+
+
+---
+
+# Adversarial Regression
+
+&lt;br/&gt;
+
+&lt;center&gt;
+![:scale 80%](./img/rmse_vs_cw1.png)
+&lt;/center&gt;
+
+---
+
+# Conclusions and future work
+
+* New algorithmic method able to solve **huge Stackelberg Games** (dimension of decision sets of the order of `\(10^4\)`).
+
+* Could be implemented in any **Automatic Differentiation** library (Pytorch, tensorflow...).
+
+* Novel derivation of the backward solution formulating the Stackelberg game as a PDE-constrained optimization problem.
+
+--
+
+* Application to games with uncertain outcomes.
+
+* Application to Bayesian Stackelberg Games and ARA.
+
+* Several attackers?
+
+---
+
+class: middle, center, inverse
+
+# Thank you!!
+
+&lt;span style="color:cyan"&gt;roi.naveiro@icmat.es&lt;/span&gt;
+
+&lt;span style="color:cyan"&gt;www.github.com/roinaveiro/GM_SG&lt;/span&gt;
+
+&lt;span style="color:cyan"&gt;www.roinaveiro.github.io&lt;/span&gt;
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

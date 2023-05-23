@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Decision Analytic Support in Non-Cooperative Sequential Games</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Roi Naveiro, Tahir Ekin, Aberto Torres, David Ríos" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Decision Analytic Support in Non-Cooperative Sequential Games
+]
+.author[
+### Roi Naveiro, Tahir Ekin, Aberto Torres, David Ríos
+]
+.date[
+### <a href="mailto:roi.naveiro@icmat.es" class="email">roi.naveiro@icmat.es</a> | Inst. of Mathematical Sciences (ICMAT-CSIC) Madrid | ADA 2022
+]
+
+---
+
+# Sequential Defense Attack Games
+
+&lt;center&gt;
+![:scale 60%](./img/ssg.png)
+&lt;/center&gt; 
+
+* Gaining Importance due to the raise of AML!
+
+* Classical Decision Makers, Humans: **discrete** and **low dimensional** decision spaces. 
+
+* New Decision Makers, Algorithms: **continuous** and **high dimensional** decision spaces.
+
+---
+# New Solution techniques 
+
+* Forget about (general) analytic solutions!
+
+* Must work with uncertain outcomes
+
+* Must acknowledge uncertainty about adversary
+
+* We propose a **Simulation-based** solution approach:
+
+  * Solves general security games, with uncertain outcomes, complete and incomplete information
+  
+  * Explain it for Sequential Defend-Attack games under incomplete information
+  
+
+---
+# Seq. Games with Uncertain Outcomes
+
+&lt;center&gt;
+![:scale 60%](./img/baid.png)
+&lt;/center&gt;
+
+
+
+---
+# Game theoretic approach
+
+* **Common Knowledge Assumtion**: the Defender knows the Attacker's probabilities and utilities.
+* Compute expected utilities.
+
+`\begin{equation*}
+\psi_A (a,d) = \int u_A (a, \theta )\, p_A(\theta \vert d,a)\, \mathop{}\! \mathrm{d} \theta \quad\text{and}\quad
+\psi_D (d,a) = \int u_D (d, \theta )\, p_D(\theta \vert d,a) \mathop{}\! \mathrm{d} \theta.
+\end{equation*}`
+
+--
+
+* Attacker's best response to defense `\(d\)`
+`\begin{equation}
+a^*(d) = \arg\max_{a \in \mathcal{A}}\, \psi_A(d,a)
+\end{equation}`
+
+--
+
+* Defender's optimal action
+
+`\begin{equation*}
+d^*_\text{GT} = \arg\max_{d \in \mathcal{D}}\, \psi_D(d, a^*(d)).
+\end{equation*}`
+
+* `\(\left[ d^*_\text{GT},\, a^*(d^*_\text{GT}) \right]\)` is a **Nash equilibrium** and a **sub-game perfect equilibrium**.
+
+---
+# ARA approach
+
+* Weaken Common Knowledge Assumption: the Defender **does not know** `\((u_A, p_A)\)`.
+
+* We need `\(p_D(a \vert d)\)`!
+
+* Then, `\(d^*_{\text{ARA}} = \arg\max_{d \in \mathcal{D}} \psi_D(d)\)`, where
+
+`\begin{equation*}
+\psi_D(d) = \int \psi_D(a,d)\, p_D(a \vert d) \mathop{}\! \mathrm{d}a = \int \left[ \int u_D (d, \theta)\, p_D(\theta \vert d,a) \mathop{}\! \mathrm{d} \theta \right]\, p_D(a \vert d) \mathop{}\! \mathrm{d} a ,
+\end{equation*}`
+
+---
+# ARA approach
+
+* To elicitate `\(p_D(a \vert d)\)`, Defender analyses Attacker's problem.
+
+* Model uncertainty about `\((u_A, p_A)\)` through distribution `\(F = (U_A, P_A)\)`.
+
+* Induces distribution over attacker's expected utility `\(\Psi_A(a,d) = \int U_A(a,\theta) P_A(\theta \vert a,d)  \mathop{}\! \mathrm{d}  \theta\)`.
+
+* And `\(A^*(d) = \arg\max_{x \in \mathcal{A}} \Psi_A(x,d)\)`
+* Then,
+
+`\begin{equation}
+    p_D(A \leq a \vert d) = \mathbb{P}_F \left[  A^*(d) \leq a \right],
+\end{equation}`
+
+---
+# ARA approach
+
+* In practice, discretize decision set
+
+* Draw `\(J\)` samples `\(\left\{\left( P_A^i, U_A^i\right) \right\}_{i=1}^J\)` from `\(F\)` and 
+
+`\begin{equation}
+   \hat{p}_D(a \vert d) \approx \frac{\# \{ a =  \arg\max_{x \in \mathcal{A}} \, \Psi_A^i(x,d) \}}{J},
+\end{equation}`
+
+
+* ARA solution is a **Bayes-Nash Eq.** (in sequential games)
+
+
+---
+# MC solution method
+
+&lt;center&gt;
+![:scale 100%](./img/mcara.png)
+&lt;/center&gt;
+
+* Requires generating `\(\vert \mathcal{D} \vert \times (\vert \mathcal{A} \vert \times Q \times J  + P)\)` samples.
+
+
+---
+# APS - Idea 1
+
+
+* Assume we can sample from `\(p_D(d | a)\)`
+
+* Max expected utility 
+
+`$$d^*_{\text{ARA}} = \arg\max_{d} \int \int u_D(d, \theta) \cdot p_D(\theta | d, a) \cdot p_D(d | a) d \theta d a$$`
+
+* Define 
+
+`$$\pi_D(d, a, \theta) \propto u_D(d, \theta) \cdot p_D(\theta | d, a) \cdot p_D(d | a)$$`
+`\(~\)`
+
+* Mode of marginal `\(\pi_D(d)\)` is `\(d^*_{\text{ARA}}\)` !
+
+---
+# APS - Idea 2
+
+* Flat expected utilities, complicates mode identification
+
+* Define 
+
+`$$\pi^H_D(d,\theta_1, \dots, \theta_H, a_1, \dots, a_H) \propto \prod_{i=1}^H u_D(d, \theta_i) \cdot p_D(\theta_i | d , a_i) \cdot p_D(a_i | d)$$`
+
+
+* Marginal more peaked around max!
+
+`$$\pi^H_D(d) \propto \left[ \int \int u_D(d, \theta) \cdot p_D(\theta | d, a) \cdot p_D(d | a) d \theta d a \right]^H$$`
+
+---
+# APS - Implementation
+
+* Sample from `\(\pi(d,\theta_1, \theta_2, \dots, \theta_H, a_1, \dots, a_H)\)` using MCMC.
+
+* Find mode of `\(d\)` samples.
+
+--
+
+1. State of the Markov chain is `\((d, \theta_1, \dots, \theta_H, a_1, \dots, a_H)\)`; 
+
+2. `\(\tilde{d} \sim g(\cdot \vert d)\)`;
+
+3. `\(\tilde{a}_i \sim p_D(a \vert \tilde{d})\)` for `\(i = 1, \dots, H\)`;
+
+3. `\(\tilde{\theta}_i \sim p_D(\theta \vert \tilde{d}, \tilde{a}_i)\)` for `\(i = 1, \dots, H\)`;
+
+4. Accept `\(\tilde{x}, \tilde{\theta}_1, \dots, \tilde{\theta}_H, \tilde{a}_1, \dots \tilde{a}_H\)` with probability
+$$
+    \min \left \lbrace 1,  \frac{g(d \vert \tilde{d})}{g( \tilde{d} \vert d)} \cdot  \prod_{i=1}^H \frac{u_D(\tilde{d}, \tilde{\theta}_i)}{u_D(d, \theta_i )} \right \rbrace
+$$
+5. Repeat
+
+--
+
+* Embed this MCMC within an annealing schedule that increases H!
+
+
+---
+# APS for ARA - `\(p_D(a | d )\)`
+
+* For given `\(d\)`, random augmented distribution `\(\Pi_A(a, \theta \vert d) \propto U_A(a, \theta ) P_A(\theta \vert d, a)\)`,
+
+* Marginal `\(\Pi_A(a \vert d) = \int \Pi_A(a, \theta \vert d) d \theta\)`, proportional to `\(A\)`'s random expected utility `\(\Psi_A(d,a)\)`.
+
+* Random optimal attack `\(A^*(d)\)` coincides a.s. with mode of `\(\Pi_A(a \vert d)\)`.
+
+* Then:
+
+1. `\(u_A(a, \theta) \sim U_A(a, \theta)\)` and `\(p_A(\theta \vert d, a) \sim P_A(\theta \vert d, a)\)`
+
+2. Build `\(\pi_A(a, \theta \vert d) \propto u_A(a, \theta) p_A(\theta \vert d, a)\)` which is a sample from `\(\Pi_A (a, \theta \vert d)\)`.
+
+3. Find `\(\text{mode}[\pi_A(a \vert d)]\)` which is a sample of `\(A^*(d)\)`, whose distribution is `\(\mathbb{P}_F \left[ A^* (d) \leq a  \right] =  p_D(a \leq d)\)`.
+
+
+
+---
+# APS vs MC
+
+* MC requires `\(\vert \mathcal{D} \vert \times (\vert \mathcal{A} \vert \times Q \times J  + P)\)` samples
+
+* APS requires at most `\(N  \times (2M + 5) + 2M + 4\)` samples
+
+* Simple game with continuos decision sets
+
+* Several in parallel
+
+* Compute min number of samples s.t. 90% solutions coincide with truth (to required precision)
+
+&lt;center&gt;
+![:scale 100%](./img/comp.png)
+&lt;/center&gt;
+
+---
+# Application
+
+&lt;center&gt;
+![:scale 70%](./img/casebaid.png)
+&lt;/center&gt;
+
+---
+# Application
+
+* Elicited probability `\(p(a \vert d)\)` for some security controls.
+
+&lt;center&gt;
+![:scale 90%](./img/pad.png)
+&lt;/center&gt;
+
+---
+# Application
+
+* Histogram of samples of security controls.
+
+&lt;center&gt;
+![:scale 90%](./img/aps-no-trick.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-1-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-2-1.png)
+&lt;/center&gt;
+
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-3-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-4-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-5-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-6-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-7-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-8-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-9-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-10-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-11-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-12-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-13-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-14-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-15-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-16-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-17-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-18-1.png)
+&lt;/center&gt;
+
+---
+# Application - Increasing H
+
+&lt;center&gt;
+![:scale 90%](./img/s-19-1.png)
+&lt;/center&gt;
+
+---
+
+# Conclusions 
+
+
+
+* APS for games, both standard and ARA.
+
+* APS better when cardinality of decision spaces is big (or spaces are continuous).
+
+* Suggested **algorithmic approach**
+
+  1. Use MC for broad exploration of decision space.
+  2. Use APS within regions of interest to get refined solutions.
+  
+
+
+---
+
+class: middle, center, inverse
+
+# Thank you!!
+
+**Website** &lt;span style="color:cyan"&gt;roinaveiro.github.io/&lt;/span&gt;
+
+**Email** &lt;span style="color:cyan"&gt;roi.naveiro@icmat.es&lt;/span&gt;
+
+**GitHub** &lt;span style="color:cyan"&gt;github.com/roinaveiro&lt;/span&gt;
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

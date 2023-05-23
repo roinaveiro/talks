@@ -342,8 +342,20 @@ Roi Naveiro
 </div>
 
 </section>
-<section id="the-problem" class="slide level2">
-<h2>The problem</h2>
+<section id="cheap-yet-effective-way-of-doing-research" class="slide level2">
+<h2>Cheap yet effective way of doing research</h2>
+<ul>
+<li><p>Take a problem from the comp. sci. community</p></li>
+<li><p>Bring the statistical perspective / stats. methodology</p></li>
+<li><p>Why?</p>
+<ul>
+<li>Very mathy for Comp. Sci. reviewers</li>
+<li>Very fancy form Stat. reviewers</li>
+</ul></li>
+</ul>
+</section>
+<section id="the-cs-problem" class="slide level2">
+<h2>The CS problem</h2>
 <p>Find extreme of objective function</p>
 <p><span class="math display">\[\begin{equation*}
 \arg\max_{x \in \mathcal{S}} f(x)
@@ -360,7 +372,7 @@ Roi Naveiro
 <h2>Goal</h2>
 <ul>
 <li><p>Get good estimates of global maximum, with <strong>few objective function evaluations</strong></p></li>
-<li><p>A possible way to go: <strong>Bayesian Optmization</strong></p></li>
+<li><p>A possible way to go: <strong>Bayesian Optimization</strong></p></li>
 </ul>
 </section>
 <section id="bayesian-optimization-in-a-nutshell" class="slide level2">
@@ -441,7 +453,7 @@ g_H(x) \propto \Psi(x)^H
 </section>
 <section id="sbbo---main-idea-3" class="slide level2">
 <h2>SBBO - Main idea</h2>
-<p>Inhomogeneus MCMC simulation from <span class="math inline">\(g_H(y, x)\)</span> with increasing <span class="math inline">\(H=H_n\)</span> such that <strong>stationary distribution</strong> for fixed <span class="math inline">\(H\)</span> is <span class="math inline">\(g_H\)</span> converges to uniform over set of expected utility maxmizers</p>
+<p>Inhomogeneus MCMC simulation from <span class="math inline">\(g_H(y, x)\)</span> with increasing <span class="math inline">\(H=H_n\)</span> such that <strong>stationary distribution</strong> for fixed <span class="math inline">\(H\)</span> is <span class="math inline">\(g_H\)</span>, converges to uniform over set of expected utility maxmizers</p>
 </section>
 <section id="sbbo---gibbs" class="slide level2">
 <h2>SBBO - Gibbs</h2>
@@ -497,7 +509,7 @@ g_H(x_q \vert \cdot) \propto \exp \left \lbrace
 <section id="sbbo---learners" class="slide level2">
 <h2>SBBO - Learners</h2>
 <ul>
-<li><strong>BOCS</strong>: Bayesian second-order linear regression with heavy-tailed horseshoe prior</li>
+<li><strong>BLr</strong>: Bayesian second-order linear regression with heavy-tailed horseshoe prior</li>
 <li><strong>GPr</strong>: GP with Tanimoto kernel</li>
 <li>NGBoost (Duan et. al., 2020): natural gradient boosting with two different base learners
 <ul>
@@ -551,54 +563,50 @@ Z_i = \Lambda_i (1-x_i)(1 - Z_{i-1}) + (1 - \Gamma_i x_i) Z_{i-1}
 <p>Number of Function Evaluations vs Best Value found for CP</p>
 </div>
 </section>
-<section id="results---why" class="slide level2">
-<h2>Results - Why?</h2>
-<p><img data-src="sbbo_short_files/CON_acc50.png" style="display: block; margin: 0 auto" width="800" height="600"></p>
-<div class="footer">
-<p>Calibrartion Plot and Performance Metrics. Sample size: 50</p>
-</div>
-</section>
-<section id="results---why-1" class="slide level2">
-<h2>Results - Why?</h2>
-<p><img data-src="sbbo_short_files/CON_acc200.png" style="display: block; margin: 0 auto" width="800" height="600"></p>
-<div class="footer">
-<p>Calibrartion Plot and Performance Metrics. Sample size: 200</p>
-</div>
-</section>
-<section id="results---why-2" class="slide level2">
-<h2>Results - Why?</h2>
-<p><img data-src="sbbo_short_files/CON_acc400.png" style="display: block; margin: 0 auto" width="800" height="600"></p>
-<div class="footer">
-<p>Calibrartion Plot and Performance Metrics. Sample size: 400</p>
-</div>
-</section>
 <section id="rna-design" class="slide level2">
 <h2>RNA design</h2>
 <ul>
-<li><p>RNA assimilated with chain of letters (A, C, G, U)</p></li>
-<li><p>Design RNA chain of lenght <span class="math inline">\(l\)</span> such that MFE is minized</p></li>
-<li><p><span class="math inline">\(4^l\)</span> possibilites</p></li>
+<li><p>RNA sequence: string <span class="math inline">\(A = a_1, a_2, \dots, a_n\)</span>, with <span class="math inline">\(a_i \in \lbrace A,C,G,U \rbrace\)</span></p></li>
+<li><p>Secondary structure: ensemble of paring basis with minimum free energy (MFE)</p></li>
+<li><p>Estimate MFE via thermodynamic model and dynamic programming has time complexity <span class="math inline">\(\mathcal{O}(n^3)\)</span></p></li>
+<li><p>Searching for MFE structure is hard: * <span class="math inline">\(4^n\)</span> possibilites</p></li>
+<li><p>Use SBBO to find MFE RNA chain of lenght <span class="math inline">\(n\)</span> with <strong>few energy evaluations</strong></p></li>
+<li><p>Conv. Bayesian Neural Nets!</p></li>
 </ul>
 </section>
 <section id="rna-design-1" class="slide level2">
 <h2>RNA design</h2>
-<p><span class="math inline">\(l=30\)</span></p>
-<p>plot</p>
+<p><img data-src="sbbo_short_files/RNA_noBOCS.png" style="display: block; margin: 0 auto" width="800" height="600"></p>
+<div class="footer">
+<p>Number of Function Evaluations vs Best Value found for RP</p>
+</div>
+</section>
+<section id="rna-design-2" class="slide level2">
+<h2>RNA design</h2>
+<p><img data-src="sbbo_short_files/RNA.png" style="display: block; margin: 0 auto" width="800" height="600"></p>
+<div class="footer">
+<p>Number of Function Evaluations vs Best Value found for RP</p>
+</div>
 </section>
 <section id="conclusions" class="slide level2">
 <h2>Conclusions</h2>
 <ul>
 <li><p>SBBO allows to do BO with any surrogate model (as long as we can sample from its PPD)</p></li>
-<li><p>SBBO can be used to optimize expected utilities in combinatorial, continuous and mixed search spaces.</p></li>
+<li><p>Opens the door to use many models (not used before in BO)</p></li>
+<li><p>SBBO can be used to optimize expected utilities not only in combinatorial search spaces, also in continuous and mixed ones!</p></li>
 </ul>
 </section>
 <section id="future-work" class="slide level2">
 <h2>Future Work</h2>
 <ul>
+<li><p>Can we understand which algorithm will work best apriori?</p></li>
 <li><p>More models: Bayesian non-parametric models such as BART</p></li>
-<li><p>Multiple proposals?</p></li>
-<li><p>Conjugate utilities</p></li>
-<li><p>Multi-objective</p></li>
+<li><p>Go beyond the greedy approach…</p>
+<ul>
+<li>Sequential decision problem</li>
+<li>Generate multiple proposals at once (repulsion? <span class="math inline">\(S^3\)</span>?)</li>
+</ul></li>
+<li><p>Exploit the idea of conjugate utilities</p></li>
 </ul>
 </section>
 <section>
@@ -622,7 +630,7 @@ k(x, x') = \frac{x \cdot x'}{\Vert x \Vert^2 + \Vert x' \Vert^2 - x \cdot x'}
 </section>
 <section id="sbbo---sparse-bayesian-linear-regression" class="slide level2">
 <h2>SBBO - Sparse Bayesian linear regression</h2>
-<p>As in Baptista and Poloczek (2018): <span class="math display">\[\begin{eqnarray*}
+<p><span class="math display">\[\begin{eqnarray*}
 &amp;&amp; y = \alpha_0 + \sum_j \alpha_j x_j + \sum_{i,j&gt;i} \alpha_{ij} x_i x_j + \epsilon\\
 %
 &amp;&amp; \alpha_k \vert \beta_k, \tau, \sigma^2 \sim \mathcal{N}(0, \beta_k^2 \tau^2 \sigma^2)\\
@@ -656,6 +664,27 @@ k(x, x') = \frac{x \cdot x'}{\Vert x \Vert^2 + \Vert x' \Vert^2 - x \cdot x'}
 <li><p>Base learners used: <strong>shallow decision trees</strong> and <strong>linear regressions with lasso regularization</strong></p></li>
 <li><p><strong>PPD directly accesible</strong></p></li>
 </ul>
+</section>
+<section id="results---why" class="slide level2">
+<h2>Results - Why?</h2>
+<p><img data-src="sbbo_short_files/CON_acc50.png" style="display: block; margin: 0 auto" width="800" height="600"></p>
+<div class="footer">
+<p>Calibrartion Plot and Performance Metrics. Sample size: 50</p>
+</div>
+</section>
+<section id="results---why-1" class="slide level2">
+<h2>Results - Why?</h2>
+<p><img data-src="sbbo_short_files/CON_acc200.png" style="display: block; margin: 0 auto" width="800" height="600"></p>
+<div class="footer">
+<p>Calibrartion Plot and Performance Metrics. Sample size: 200</p>
+</div>
+</section>
+<section id="results---why-2" class="slide level2">
+<h2>Results - Why?</h2>
+<p><img data-src="sbbo_short_files/CON_acc400.png" style="display: block; margin: 0 auto" width="800" height="600"></p>
+<div class="footer">
+<p>Calibrartion Plot and Performance Metrics. Sample size: 400</p>
+</div>
 <div class="footer footer-default">
 
 </div>
