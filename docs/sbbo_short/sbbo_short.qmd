@@ -16,13 +16,13 @@ resources:
 
 ## Cheap yet effective way of doing research
 
-* Take a problem from the comp. sci. community
+* Take a problem from the Comp. Sci. / ML community
 
 * Bring the statistical perspective / stats. methodology
 
 * Why? 
 
-  - Very mathy for Comp. Sci. reviewers
+  - Very mathy/formal for Comp. Sci. / ML reviewers ;)
   - Very fancy form Stat. reviewers
 
 
@@ -42,7 +42,7 @@ Find extreme of objective function
 
 * We can query at $x$  and obtain a (possibly noisy) evaluation of $f(x)$
 
-* Many applications: RNA design, molecular design...
+* Many applications e.g., molecular design
 
 ## Goal 
 
@@ -61,7 +61,7 @@ $$y_t  \equiv y(x_t) \equiv f(x_t) + \epsilon, ~~~~~ \epsilon \sim \mathcal{N}(0
 
 **Problem**: We have budget for $H$ function evaluations. Using all available info, decide where to evaluate:  $x_{T+1}, \dots, x_{T+H}$
 
-**Solution**: Locations maximizing Expected Utility^[Following Bayesian Decision Theory principles]
+**Solution**: Locations maximizing **Posterior Predictive Utility**^[Following Bayesian Decision Theory principles]
 ...too hard, go greedy: just decide next location!
 
 
@@ -69,7 +69,7 @@ $$y_t  \equiv y(x_t) \equiv f(x_t) + \epsilon, ~~~~~ \epsilon \sim \mathcal{N}(0
 
 To do this:
 
-1. Create **probabilistic (Bayesian?) model** of response $y$ given covariates $x$
+1. Create **probabilistic model** of response $y$ given covariates $x$
 
 2. Given prior knowledge about $f(x)$ and evidence coming from $\mathcal{D}_{1:T}$, summarise our **beliefs about result if we query at $\bf{x_{T+1}}$**  through the **Posterior Predictive Distribution**
 
@@ -95,9 +95,9 @@ $\mathcal{S}$ could be a combinatorial search space (or even more complex!). We 
 
 1. Suitable models of response given covariates
 
-2. Solve a combinatorial optimization in Step 3.
+2. Solve a combinatorial optimization in Step 3 (whose objective function might not have a closed-form).
 
-## SBBO
+## The Stat. Technique - SBBO
 
 We propose **Simulation Based Bayesian Optimization (SBBO)**: an approach to 2 that just requires **sampling from posterior predictive distribution** 
 
@@ -110,9 +110,9 @@ allowing us to use a wide variaty of models which are suitable for combinatorial
 
 ## SBBO - Main idea
 
-Convert EU maximization into a **simulation problem**.
+Convert posterior predictive utility maximization into a **simulation problem**.
 
-The EU is:
+The PPU is:
 
 \begin{eqnarray*}
 \Psi(x) \equiv \int u(y, x ) \cdot \pi(y \vert x, \mathcal{D}_{1:T} ) d y
@@ -132,13 +132,13 @@ g(x, y) \propto u(y, x ) \cdot \pi(y \vert x, \mathcal{D}_{1:T} )
 
 ## SBBO - Main idea
 
-* Alternative, Muller et. al. (2004): **auxiliary distribution**
+* Alternative, Muller et. al. (2004): **augmented distribution**
 
 \begin{eqnarray*}
 g_H(x, y_1, \dots, y_H) \propto \prod_{h=1}^H u(y^h, x ) \cdot \pi(y^h \vert x, \mathcal{D}_{1:T} ) 
 \end{eqnarray*}
 
-for positive integer $H$. Marginal in $x$ 
+Marginal in $x$ 
 
 \begin{eqnarray*}
 g_H(x) \propto \Psi(x)^H
@@ -146,7 +146,7 @@ g_H(x) \propto \Psi(x)^H
 
 ## SBBO - Main idea
 
-Inhomogeneus MCMC simulation from $g_H(y, x)$ with increasing $H=H_n$ such that **stationary distribution** for fixed $H$ is $g_H$, converges to uniform over set of expected utility maxmizers
+Inhomogeneus MCMC simulation from $g_H(y, x)$ with increasing $H=H_n$ such that **stationary distribution** for fixed $H_n$ is $g_{H_n}$, converges to uniform over set of posterior predictive utility maxmizers
 
 ## SBBO - Gibbs
 
@@ -206,7 +206,7 @@ $$
 
 ## SBBO - Learners
  
-- **BLr**: Bayesian second-order linear regression with heavy-tailed horseshoe prior
+- **BLr**: Bayesian second-order linear regression with horseshoe prior
 - **GPr**: GP with Tanimoto kernel
 - NGBoost (Duan et. al., 2020): natural gradient boosting with two different base learners
   * **NGBdec**: Decision tree 
@@ -220,7 +220,7 @@ $$
 
 * For $t=1:500$ iterations: 
 
-  * Use SBBO to propose next sample: $x_{t+1}$. Utility function expected improvement: $u(y) = \max_y \left( y-y^*, 0 \right)$
+  * Use SBBO to propose next sample: $x_{t+1}$. Utility function, expected improvement: $u(y) = \max_y \left( y-y^*, 0 \right)$
   * Evaluate true objective: $y_{t+1}(x_{t+1})$
   * Update dataset with $(x_{t+1}, y_{t+1})$
 
@@ -269,17 +269,17 @@ Number of Function Evaluations vs Best Value found for CP
 
 ## RNA design
 
-* RNA sequence: string $A = a_1, a_2, \dots, a_n$, with $a_i \in \lbrace A,C,G,U \rbrace$
+* RNA sequence: string $A = a_1, a_2, \dots, a_p$, with $a_i \in \lbrace A,C,G,U \rbrace$
 
 * Secondary structure: ensemble of paring basis with minimum free energy (MFE)
 
-* Estimate MFE via thermodynamic model and dynamic programming has time complexity $\mathcal{O}(n^3)$
+* Estimate MFE via thermodynamic model and dynamic programming has time complexity $\mathcal{O}(p^3)$
 
-* Searching for MFE structure is hard: * $4^n$ possibilites
+* Searching for sequence with MFE secondary structure. Really hard: $4^p$ possibilites
 
-* Use SBBO to find MFE RNA chain of lenght $n$ with **few energy evaluations**
+* Use SBBO to find MFE RNA chain of lenght $p$ with **few energy evaluations**
 
-* Conv. Bayesian Neural Nets!
+* 1D Conv. Bayesian Neural Nets!
 
 
 ## RNA design
@@ -306,21 +306,20 @@ Number of Function Evaluations vs Best Value found for RP
 
 * Opens the door to use many models (not used before in BO)
 
-* SBBO can be used to optimize expected utilities not only in combinatorial search spaces, also in continuous and mixed ones!
+* SBBO can be used to optimize posterior predictive utilities not only in combinatorial search spaces, also in continuous and mixed ones!
 
 
 ## Future Work
 
-* Can we understand which algorithm will work best apriori?
+* Can we understand why some algorithms work better than others?
 
 * More models: Bayesian non-parametric models such as BART
 
 * Go beyond the greedy approach...
 
   - Sequential decision problem
-  - Generate multiple proposals at once (repulsion? $S^3$?)
+  - Generate multiple proposals at once (repulsion? Shotgun Stochastic Search?)
 
-* Exploit the idea of conjugate utilities
 
 
 # Thanks!

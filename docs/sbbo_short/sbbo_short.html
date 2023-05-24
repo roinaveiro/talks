@@ -345,11 +345,11 @@ Roi Naveiro
 <section id="cheap-yet-effective-way-of-doing-research" class="slide level2">
 <h2>Cheap yet effective way of doing research</h2>
 <ul>
-<li><p>Take a problem from the comp. sci. community</p></li>
+<li><p>Take a problem from the Comp. Sci. / ML community</p></li>
 <li><p>Bring the statistical perspective / stats. methodology</p></li>
 <li><p>Why?</p>
 <ul>
-<li>Very mathy for Comp. Sci. reviewers</li>
+<li>Very mathy/formal for Comp. Sci. / ML reviewers ;)</li>
 <li>Very fancy form Stat. reviewers</li>
 </ul></li>
 </ul>
@@ -365,7 +365,7 @@ Roi Naveiro
 <li><p>No closed form for <span class="math inline">\(f(x)\)</span></p></li>
 <li><p><span class="math inline">\(f(x)\)</span> is expensive to evaluate</p></li>
 <li><p>We can query at <span class="math inline">\(x\)</span> and obtain a (possibly noisy) evaluation of <span class="math inline">\(f(x)\)</span></p></li>
-<li><p>Many applications: RNA design, molecular design…</p></li>
+<li><p>Many applications e.g., molecular design</p></li>
 </ul>
 </section>
 <section id="goal" class="slide level2">
@@ -380,13 +380,13 @@ Roi Naveiro
 <p>Imagine we have access to: <span class="math inline">\(\mathcal{D}_{1:T} = \lbrace x_t, y_t \rbrace_{t=1}^T\)</span> where</p>
 <p><span class="math display">\[y_t  \equiv y(x_t) \equiv f(x_t) + \epsilon, ~~~~~ \epsilon \sim \mathcal{N}(0, \sigma^2)\]</span> <br> <br></p>
 <p><strong>Problem</strong>: We have budget for <span class="math inline">\(H\)</span> function evaluations. Using all available info, decide where to evaluate: <span class="math inline">\(x_{T+1}, \dots, x_{T+H}\)</span></p>
-<p><strong>Solution</strong>: Locations maximizing Expected Utility<sup>1</sup> …too hard, go greedy: just decide next location!</p>
+<p><strong>Solution</strong>: Locations maximizing <strong>Posterior Predictive Utility</strong><sup>1</sup> …too hard, go greedy: just decide next location!</p>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>Following Bayesian Decision Theory principles</p></li></ol></aside></section>
 <section id="bayesian-optimization-in-a-nutshell-1" class="slide level2">
 <h2>Bayesian Optimization (in a nutshell)</h2>
 <p>To do this:</p>
 <ol type="1">
-<li><p>Create <strong>probabilistic (Bayesian?) model</strong> of response <span class="math inline">\(y\)</span> given covariates <span class="math inline">\(x\)</span></p></li>
+<li><p>Create <strong>probabilistic model</strong> of response <span class="math inline">\(y\)</span> given covariates <span class="math inline">\(x\)</span></p></li>
 <li><p>Given prior knowledge about <span class="math inline">\(f(x)\)</span> and evidence coming from <span class="math inline">\(\mathcal{D}_{1:T}\)</span>, summarise our <strong>beliefs about result if we query at <span class="math inline">\(\bf{x_{T+1}}\)</span></strong> through the <strong>Posterior Predictive Distribution</strong></p></li>
 </ol>
 <p><span class="math display">\[\begin{equation*}
@@ -408,11 +408,11 @@ x^*_{T+1} &amp;=&amp; \arg\max_{x_{T+1} \in \mathcal{S}}  \mathbb{E}_{y_{T+1} | 
 <p><span class="math inline">\(\mathcal{S}\)</span> could be a combinatorial search space (or even more complex!). We need:</p>
 <ol type="1">
 <li><p>Suitable models of response given covariates</p></li>
-<li><p>Solve a combinatorial optimization in Step 3.</p></li>
+<li><p>Solve a combinatorial optimization in Step 3 (whose objective function might not have a closed-form).</p></li>
 </ol>
 </section>
-<section id="sbbo" class="slide level2">
-<h2>SBBO</h2>
+<section id="the-stat.-technique---sbbo" class="slide level2">
+<h2>The Stat. Technique - SBBO</h2>
 <p>We propose <strong>Simulation Based Bayesian Optimization (SBBO)</strong>: an approach to 2 that just requires <strong>sampling from posterior predictive distribution</strong></p>
 <p><span class="math display">\[\begin{equation*}
 \pi[y_{T+1} | x_{T+1}, \mathcal{D}_{1:T}]
@@ -421,8 +421,8 @@ x^*_{T+1} &amp;=&amp; \arg\max_{x_{T+1} \in \mathcal{S}}  \mathbb{E}_{y_{T+1} | 
 </section>
 <section id="sbbo---main-idea" class="slide level2">
 <h2>SBBO - Main idea</h2>
-<p>Convert EU maximization into a <strong>simulation problem</strong>.</p>
-<p>The EU is:</p>
+<p>Convert posterior predictive utility maximization into a <strong>simulation problem</strong>.</p>
+<p>The PPU is:</p>
 <p><span class="math display">\[\begin{eqnarray*}
 \Psi(x) \equiv \int u(y, x ) \cdot \pi(y \vert x, \mathcal{D}_{1:T} ) d y
 \end{eqnarray*}\]</span></p>
@@ -441,19 +441,19 @@ g(x, y) \propto u(y, x ) \cdot \pi(y \vert x, \mathcal{D}_{1:T} )
 <section id="sbbo---main-idea-2" class="slide level2">
 <h2>SBBO - Main idea</h2>
 <ul>
-<li>Alternative, Muller et. al.&nbsp;(2004): <strong>auxiliary distribution</strong></li>
+<li>Alternative, Muller et. al.&nbsp;(2004): <strong>augmented distribution</strong></li>
 </ul>
 <p><span class="math display">\[\begin{eqnarray*}
 g_H(x, y_1, \dots, y_H) \propto \prod_{h=1}^H u(y^h, x ) \cdot \pi(y^h \vert x, \mathcal{D}_{1:T} )
 \end{eqnarray*}\]</span></p>
-<p>for positive integer <span class="math inline">\(H\)</span>. Marginal in <span class="math inline">\(x\)</span></p>
+<p>Marginal in <span class="math inline">\(x\)</span></p>
 <p><span class="math display">\[\begin{eqnarray*}
 g_H(x) \propto \Psi(x)^H
 \end{eqnarray*}\]</span></p>
 </section>
 <section id="sbbo---main-idea-3" class="slide level2">
 <h2>SBBO - Main idea</h2>
-<p>Inhomogeneus MCMC simulation from <span class="math inline">\(g_H(y, x)\)</span> with increasing <span class="math inline">\(H=H_n\)</span> such that <strong>stationary distribution</strong> for fixed <span class="math inline">\(H\)</span> is <span class="math inline">\(g_H\)</span>, converges to uniform over set of expected utility maxmizers</p>
+<p>Inhomogeneus MCMC simulation from <span class="math inline">\(g_H(y, x)\)</span> with increasing <span class="math inline">\(H=H_n\)</span> such that <strong>stationary distribution</strong> for fixed <span class="math inline">\(H_n\)</span> is <span class="math inline">\(g_{H_n}\)</span>, converges to uniform over set of posterior predictive utility maxmizers</p>
 </section>
 <section id="sbbo---gibbs" class="slide level2">
 <h2>SBBO - Gibbs</h2>
@@ -509,7 +509,7 @@ g_H(x_q \vert \cdot) \propto \exp \left \lbrace
 <section id="sbbo---learners" class="slide level2">
 <h2>SBBO - Learners</h2>
 <ul>
-<li><strong>BLr</strong>: Bayesian second-order linear regression with heavy-tailed horseshoe prior</li>
+<li><strong>BLr</strong>: Bayesian second-order linear regression with horseshoe prior</li>
 <li><strong>GPr</strong>: GP with Tanimoto kernel</li>
 <li>NGBoost (Duan et. al., 2020): natural gradient boosting with two different base learners
 <ul>
@@ -525,7 +525,7 @@ g_H(x_q \vert \cdot) \propto \exp \left \lbrace
 <li><p>Initial dataset <span class="math inline">\(\mathcal{D}_{1:T} = \lbrace x_t, y_t \rbrace_{t=1}^T\)</span> with <span class="math inline">\(T=5\)</span></p></li>
 <li><p>For <span class="math inline">\(t=1:500\)</span> iterations:</p>
 <ul>
-<li>Use SBBO to propose next sample: <span class="math inline">\(x_{t+1}\)</span>. Utility function expected improvement: <span class="math inline">\(u(y) = \max_y \left( y-y^*, 0 \right)\)</span></li>
+<li>Use SBBO to propose next sample: <span class="math inline">\(x_{t+1}\)</span>. Utility function, expected improvement: <span class="math inline">\(u(y) = \max_y \left( y-y^*, 0 \right)\)</span></li>
 <li>Evaluate true objective: <span class="math inline">\(y_{t+1}(x_{t+1})\)</span></li>
 <li>Update dataset with <span class="math inline">\((x_{t+1}, y_{t+1})\)</span></li>
 </ul></li>
@@ -566,12 +566,12 @@ Z_i = \Lambda_i (1-x_i)(1 - Z_{i-1}) + (1 - \Gamma_i x_i) Z_{i-1}
 <section id="rna-design" class="slide level2">
 <h2>RNA design</h2>
 <ul>
-<li><p>RNA sequence: string <span class="math inline">\(A = a_1, a_2, \dots, a_n\)</span>, with <span class="math inline">\(a_i \in \lbrace A,C,G,U \rbrace\)</span></p></li>
+<li><p>RNA sequence: string <span class="math inline">\(A = a_1, a_2, \dots, a_p\)</span>, with <span class="math inline">\(a_i \in \lbrace A,C,G,U \rbrace\)</span></p></li>
 <li><p>Secondary structure: ensemble of paring basis with minimum free energy (MFE)</p></li>
-<li><p>Estimate MFE via thermodynamic model and dynamic programming has time complexity <span class="math inline">\(\mathcal{O}(n^3)\)</span></p></li>
-<li><p>Searching for MFE structure is hard: * <span class="math inline">\(4^n\)</span> possibilites</p></li>
-<li><p>Use SBBO to find MFE RNA chain of lenght <span class="math inline">\(n\)</span> with <strong>few energy evaluations</strong></p></li>
-<li><p>Conv. Bayesian Neural Nets!</p></li>
+<li><p>Estimate MFE via thermodynamic model and dynamic programming has time complexity <span class="math inline">\(\mathcal{O}(p^3)\)</span></p></li>
+<li><p>Searching for sequence with MFE secondary structure. Really hard: <span class="math inline">\(4^p\)</span> possibilites</p></li>
+<li><p>Use SBBO to find MFE RNA chain of lenght <span class="math inline">\(p\)</span> with <strong>few energy evaluations</strong></p></li>
+<li><p>1D Conv. Bayesian Neural Nets!</p></li>
 </ul>
 </section>
 <section id="rna-design-1" class="slide level2">
@@ -593,20 +593,19 @@ Z_i = \Lambda_i (1-x_i)(1 - Z_{i-1}) + (1 - \Gamma_i x_i) Z_{i-1}
 <ul>
 <li><p>SBBO allows to do BO with any surrogate model (as long as we can sample from its PPD)</p></li>
 <li><p>Opens the door to use many models (not used before in BO)</p></li>
-<li><p>SBBO can be used to optimize expected utilities not only in combinatorial search spaces, also in continuous and mixed ones!</p></li>
+<li><p>SBBO can be used to optimize posterior predictive utilities not only in combinatorial search spaces, also in continuous and mixed ones!</p></li>
 </ul>
 </section>
 <section id="future-work" class="slide level2">
 <h2>Future Work</h2>
 <ul>
-<li><p>Can we understand which algorithm will work best apriori?</p></li>
+<li><p>Can we understand why some algorithms work better than others?</p></li>
 <li><p>More models: Bayesian non-parametric models such as BART</p></li>
 <li><p>Go beyond the greedy approach…</p>
 <ul>
 <li>Sequential decision problem</li>
-<li>Generate multiple proposals at once (repulsion? <span class="math inline">\(S^3\)</span>?)</li>
+<li>Generate multiple proposals at once (repulsion? Shotgun Stochastic Search?)</li>
 </ul></li>
-<li><p>Exploit the idea of conjugate utilities</p></li>
 </ul>
 </section>
 <section>
