@@ -11,8 +11,10 @@ about:
       href: https://github.com
 ---
 
+## Introduction to Machine Learning
 
+[Slides](./ml-upm/ml_cc.html)
 
 ## SBBO - Simulation Based Bayesian Optimization
 
-Slides [here!](./sbbo_short/sbbo_short.html)
+[Slides](./sbbo_short/sbbo_short.html)
