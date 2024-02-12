@@ -1,0 +1,339 @@
+---
+title: "Machine Learning"
+author: "Roi Naveiro (CUNEF, AItenea Biotech SL)"
+format:
+  revealjs: 
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    css: styles.css
+    #footer: <https://roinaveiro.github.io>
+resources:
+  - demo.pdf
+---
+
+
+## Why now?
+
+  ![](ml_cc_files/data.png){.absolute left="50" top="250"  width=90%}
+
+  Over 2017 and 2018 alone, 90 percent of the data in the world was generated.
+
+## Convergence of three key things
+
+  * Tons of data
+
+  * Computational Power
+
+  * Algorithmic advances
+
+    * Stochastic Gradient Descent
+
+    * Powerful models (Architectures)
+
+    * Automatic Differentiation
+
+
+## Machine Learning
+
+  > "Machine learning (ML) is a field of study in artificial intelligence concerned with the development and study of statistical algorithms that can **learn** from data and generalize to unseen data, and thus perform tasks without explicit instructions."
+
+  — Source: Wikipedia
+
+## Machine Learning - Learn?
+
+  > A **computer program** is said to learn from **experience E** with respect to some class of **tasks T** and **performance measure P**, if its performance at tasks in T, as measured by P, improves with experience E.
+
+  — Source: Tom M. Mitchell
+
+
+## Machine Learning Types
+
+  Depending on experience and task
+
+  * Supervised learning
+
+  * Unsupervised learning
+
+  * Reinforcenment learning
+
+## Supervised Learning 
+
+  * We are given **a labelled dataset** $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$, where $\boldsymbol{x}_i \in \mathcal{X}$ and $y \in \mathcal{Y}$
+
+  * Goal: given **unobserved** instance $\boldsymbol{x'}$, predict its $y$
+
+    ![](ml_cc_files/sl.png){.absolute left="200" top="300"  width=65%}
+
+
+
+## SL - Fraud Detection
+
+  Use known transaction to learn function from transaction characteristics to probability of fraud
+
+  ![](ml_cc_files/fraud.png){.absolute left="100" top="200"  width=85%}
+
+## SL - Automated Driving Systems
+
+  Use labelled images to learn function from image to sign
+
+  ![](ml_cc_files/signs.jpg){.absolute left="200" top="160"  width=55%}
+
+
+## SL - Property prediction
+
+  Use known molecules to learn function from structure to property value
+
+  ![](ml_cc_files/qsar.png){.absolute left="100" top="200"  width=85%}
+
+
+
+
+## SL - How can we do it?
+
+  * We need to assume a **parametric probabilistic model** 
+
+  $$
+  \pi( y \vert \boldsymbol{x}, w)
+  $$
+
+  * Use training data $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$ to find **best** parameters $w^*$ 
+
+  * Given new instance $\boldsymbol{x'}$, output $y$ with highest
+
+  $$
+  \pi( y \vert \boldsymbol{x'}, w^*)
+  $$
+
+## Supervised Learning - Ingredients
+  * Labelled data: $\mathcal{D}$ (**Experience, Task**)
+  <br><br>
+
+  * Probabilistic Model: $\pi( y \vert \boldsymbol{x}, w)$ (**Computer Program**)
+  <br><br>
+
+  * Training approach: 
+
+    - Way to measure how good the model is (**Performance**)
+    - Adapt $w$ to improve such performance
+
+
+## Example: linear regression
+
+  * Data $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$ where $\mathcal{x}_i = (x_{i1}, x_{i2}, \dots, x_{ip})$
+
+  * Model: 
+
+  $$
+  \pi( y \vert \boldsymbol{x}, w) = \mathcal{N}(w_1 x_{i1} + \dots w_p x_{ip}, \sigma)
+  $$
+
+## Example: linear regression
+
+  * Training approach: 
+
+    - Maximize likelihood given dataset $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
+
+      $$
+      \max_{w_1, \dots, w_p}\prod_{i=1}^N \pi( y_i \vert \boldsymbol{x}_i, w)
+      $$
+
+    - Equivalent to minimizing sum-of-squares 
+      $$
+      \min_{w_1, \dots, w_p} \sum_{i=1}^N \left(y_i - \hat{y}_i \right)^2, ~~~~~  \hat{y}=w_1 x_{i1} + \dots w_p x_{ip}
+      $$
+
+
+## General Training approach
+
+  Assume we have a probabilistic model $\pi( y \vert \boldsymbol{x}, w)$ and a training data $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
+
+
+  * Find $w^*$ solving
+      $$
+      \max_{w}\prod_{i=1}^N \pi( y_i \vert \boldsymbol{x}_i, w)
+      $$
+
+  * Same as minimizing negative log-likelihood
+
+    $$
+    L(\mathcal{D}, w) = \sum_{i=1}^N -\log \pi( y_i \vert \boldsymbol{x}_i, w) = \sum_{i=1}^N \ell (y_i, \boldsymbol{x}_i, w)
+    $$
+
+
+## Training approach - Bias-Variance
+
+  ![](ml_cc_files/bias-var.png){.absolute left="200" width="700" height="600"}
+
+## Training approach - Regularization
+
+  Many approaches to solve this:
+
+  1. More data
+
+  2. Modify loss: 
+    $$
+    L(\mathcal{D}, w) = \sum_{i=1}^N \ell (y_i, \boldsymbol{x}_i, w) + \Vert w \Vert
+    $$
+
+  3. Modify the optimizer
+
+## Training approach - Optimizer
+
+  Once we have loss function, how to find $w^*$?
+
+  * Analytically, almost never possible
+
+  * Numerically! **Gradient Descent**: follow the gradient
+
+    $$
+    w_{t+1} = w_t - \eta_{t} \cdot \nabla_w L(\mathcal{D}, w) 
+    $$
+
+  * Under some conditions, this converges to optimal $w$... or a *good enough* one
+
+## Training approach - Optimizer
+
+  ![](ml_cc_files/gd.png){.absolute left="100"}
+
+## Training approach - Optimizer
+
+  **Stochastic Gradient Descent**
+    $$
+    \nabla_w L(\mathcal{D}, w) = \sum_{i=1}^N \nabla_w \ell (y_i, \boldsymbol{x}_i, w) \approx \nabla_w \ell (y_k, \boldsymbol{x}_k, w)
+    $$
+
+  ![](ml_cc_files/sgd.png){.absolute left="200"  width="600" height="370"}
+
+
+## Model
+
+  The shape of $\pi( y \vert \boldsymbol{x}, w)$ determines the model. Some important cases: 
+
+  * Regression: $y\in \mathbb{R}$ 
+  $$
+  \pi( y \vert \boldsymbol{x}, w) = \mathcal{N}(f_w(\boldsymbol{x}), \sigma)
+  $$
+
+  * Classification: $y \in \lbrace 1, \dots, K\rbrace$
+
+  \begin{eqnarray*}
+  \pi( y = i \vert \boldsymbol{x}, w) &=& p_i(\boldsymbol{x}, w) \\
+  p_i(\boldsymbol{x}, w) &=& \frac{e^{f_w(\boldsymbol{x})_i}}{\sum_{j=1}^K e^{f_w(\boldsymbol{x})_j}}
+  \end{eqnarray*}
+
+## Linear models
+
+  For linear models $f_w(\boldsymbol{x}) = w_1 x_1 + \dots w_p x_p$
+
+  ![](ml_cc_files/lr.png){.absolute left="200" top="200"  width="700" height="470"}
+
+  Very unflexible!
+
+## Beyond linearity - Neural Nets
+  Single layer and single neuron
+
+ ![](ml_cc_files/neuron.png){.absolute left="200" top="200" width=70%}
+
+## Beyond linearity - Neural Nets
+  Many layers and many neurons
+
+ ![](ml_cc_files/nn.png){.absolute left="200" top="200" width=60%}
+
+## Beyond linearity - Neural Nets
+
+  * Neural Nets can **in theory** approximate any continuous function
+
+  * **Automatic differentiation** allows computing the gradient of the loss wrt the parameters very efficiently (same complexity as evaluating the function)
+
+## Data 
+
+  How to represent input data?
+
+  * Tabular 
+
+  * Images
+
+  * Text
+
+## Data - Images
+  Represented as matrices, $x_i$ corresponds to the intensity of the $i$-th pixel.
+  ![](ml_cc_files/pixels.png){.absolute left="100" top="200" width=85%}
+
+
+## Data - Text
+
+  One hot encoding, $x_i$ can take value 0 or 1.
+  ![](ml_cc_files/ohe.png){.absolute left="200" top="150" width=60%}
+
+## Data - More!
+
+  For instance graphs - Specific architectures (GNNs)
+  ![](ml_cc_files/graphmol.png){.absolute left="300" top="150" width=30%}
+
+
+## Data
+
+  Once images/text had been represented, rest of the procedure is the same:
+
+  1. Observed input-output pairs $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
+
+  2. Choose a model $\pi( y \vert \boldsymbol{x}, w)$. This entails choosing $f_w(\boldsymbol{x})$
+
+  3. Choose a loss function $L(\mathcal{D}, w)$
+
+  4. Optimize to find $w^*$: $w_{t+1} = w_t - \eta_{t} \cdot \nabla_w L(\mathcal{D}, w)$
+
+  5. Given new input $\tilde{\boldsymbol{x}}$, predict using $\pi( y \vert \tilde{\boldsymbol{x}}, w^*)$
+
+## Modern times - Self Supervision
+
+  * We are very good (in general) in **supervised learning problems**
+
+  * We need access to **labelled** $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
+
+  * Most data in the internet is **unlabelled**...
+
+  * How can we create a supervised learning problem out of unlabelled data?
+
+## Modern times - Self Supervision
+
+  * Remove parts of the data (this will be our outcomes)
+
+  * Use the rest of data to predict the removed parts (features/inputs)
+
+## Modern times - GPT
+
+  ![](ml_cc_files/gpt.png){.absolute left="220" top="100" width=60%}
+
+## Some Random Thoughts
+
+  * ML critically affects individual decision-making
+
+    * Privacy? Democracy?
+
+    * We are giving (very valuable data) for free!
+
+  * LLMs might eliminate many *technical* jobs, but not all
+
+    * Safety, security?
+  
+  * 4th Scientific Paradigm
+
+## Thank You!
+
+
+<div style="text-align: center;">
+  <p>Connect with me:</p>
+  <p>Twitter: <a href="https://twitter.com/roinaveiro">@roinaveiro</a></p>
+  <p>Website: <a href="https://roinaveiro.github.io">roinaveiro.github.io</a></p>
+  <p>Email: <a href="mailto:roi.naveiro@cunef.edu">roi.naveiro@cunef.edu</a></p>
+</div>
+
+![](ml_cc_files/cate.jpg){.absolute left="220" top="350" width=60%}
+
+
+
+
+
