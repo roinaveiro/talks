@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning"
+title: "Machine Learning: a Probabilistic Perspective"
 author: "Roi Naveiro (CUNEF, AItenea Biotech SL)"
 format:
   revealjs: 
@@ -20,19 +20,19 @@ resources:
 
   Over 2017 and 2018 alone, 90 percent of the data in the world was generated.
 
-## Convergence of three key things
+## In addition to data
 
-  * Tons of data
-
-  * Computational Power
+  * Computational power
 
   * Algorithmic advances
 
-    * Stochastic Gradient Descent
+    * <span style="background-color: yellow;">**[Powerful models (Architectures)]**</span>
 
-    * Powerful models (Architectures)
+    * <span style="background-color: yellow;">**[Stochastic Gradient Descent]**</span>
 
-    * Automatic Differentiation
+    * <span style="background-color: yellow;">**[Automatic Differentiation]**</span>
+
+
 
 
 ## Machine Learning
@@ -70,7 +70,7 @@ resources:
 
 ## SL - Fraud Detection
 
-  Use known transaction to learn function from transaction characteristics to probability of fraud
+  Use known transactions to learn function from transaction characteristics to probability of fraud
 
   ![](ml_cc_files/fraud.png){.absolute left="100" top="200"  width=85%}
 
@@ -95,7 +95,7 @@ resources:
   * We need to assume a **parametric probabilistic model** 
 
   $$
-  \pi( y \vert \boldsymbol{x}, w)
+  \pi_{w}( y \vert \boldsymbol{x})
   $$
 
   * Use training data $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$ to find **best** parameters $w^*$ 
@@ -103,14 +103,20 @@ resources:
   * Given new instance $\boldsymbol{x'}$, output $y$ with highest
 
   $$
-  \pi( y \vert \boldsymbol{x'}, w^*)
+  \pi_{w}( y \vert \boldsymbol{x'})
   $$
+
+## Machine Learning - Learn?
+
+  > A **computer program** is said to learn from **experience E** with respect to some class of **tasks T** and **performance measure P**, if its performance at tasks in T, as measured by P, improves with experience E.
+
+  — Source: Tom M. Mitchell
 
 ## Supervised Learning - Ingredients
   * Labelled data: $\mathcal{D}$ (**Experience, Task**)
   <br><br>
 
-  * Probabilistic Model: $\pi( y \vert \boldsymbol{x}, w)$ (**Computer Program**)
+  * Probabilistic Model: $\pi_{w}( y \vert \boldsymbol{x})$ (**Computer Program**)
   <br><br>
 
   * Training approach: 
@@ -126,7 +132,7 @@ resources:
   * Model: 
 
   $$
-  \pi( y \vert \boldsymbol{x}, w) = \mathcal{N}(w_1 x_{i1} + \dots w_p x_{ip}, \sigma)
+  \pi_{w}( y \vert \boldsymbol{x}) = \mathcal{N}(w_1 x_{i1} + \dots w_p x_{ip}, \sigma)
   $$
 
 ## Example: linear regression
@@ -136,7 +142,7 @@ resources:
     - Maximize likelihood given dataset $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
 
       $$
-      \max_{w_1, \dots, w_p}\prod_{i=1}^N \pi( y_i \vert \boldsymbol{x}_i, w)
+      \max_{w_1, \dots, w_p}\prod_{i=1}^N \pi_{w}( y_i \vert \boldsymbol{x}_i)
       $$
 
     - Equivalent to minimizing sum-of-squares 
@@ -145,20 +151,33 @@ resources:
       $$
 
 
+## Supervised Learning - Ingredients
+  * Labelled data: $\mathcal{D}$ (**Experience, Task**)
+  <br><br>
+
+  * Probabilistic Model: $\pi_{w}( y \vert \boldsymbol{x})$ (**Computer Program**)
+  <br><br>
+
+  * <span style="font-weight: bold; color: #E55300;">**Training approach**</span>: 
+
+    - Way to measure how good the model is (**Performance**)
+    - Adapt $w$ to improve such performance 
+
+
 ## General Training approach
 
-  Assume we have a probabilistic model $\pi( y \vert \boldsymbol{x}, w)$ and a training data $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
+  Assume we have a probabilistic model $\pi_{w}( y \vert \boldsymbol{x})$ and a training data $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
 
 
   * Find $w^*$ solving
       $$
-      \max_{w}\prod_{i=1}^N \pi( y_i \vert \boldsymbol{x}_i, w)
+      \max_{w}\prod_{i=1}^N \pi_w( y_i \vert \boldsymbol{x}_i)
       $$
 
   * Same as minimizing negative log-likelihood
 
     $$
-    L(\mathcal{D}, w) = \sum_{i=1}^N -\log \pi( y_i \vert \boldsymbol{x}_i, w) = \sum_{i=1}^N \ell (y_i, \boldsymbol{x}_i, w)
+    L(\mathcal{D}, w) = \sum_{i=1}^N -\log \pi_{w}( y_i \vert \boldsymbol{x}_i) = \sum_{i=1}^N \ell (y_i, \boldsymbol{x}_i, w)
     $$
 
 
@@ -170,12 +189,12 @@ resources:
 
   Many approaches to solve this:
 
-  1. More data
+  1. Modify loss: 
+    $$
+    L(\mathcal{D}, w) = \sum_{i=1}^N  \ell (y_i, \boldsymbol{x}_i, w) + \lambda \Vert w \Vert
+    $$
 
-  2. Modify loss: 
-    $$
-    L(\mathcal{D}, w) = \sum_{i=1}^N \ell (y_i, \boldsymbol{x}_i, w) + \Vert w \Vert
-    $$
+  2. More data
 
   3. Modify the optimizer
 
@@ -199,7 +218,7 @@ resources:
 
 ## Training approach - Optimizer
 
-  **Stochastic Gradient Descent**
+  <span style="background-color: yellow;">**[Stochastic Gradient Descent]**</span>
     $$
     \nabla_w L(\mathcal{D}, w) = \sum_{i=1}^N \nabla_w \ell (y_i, \boldsymbol{x}_i, w) \approx \nabla_w \ell (y_k, \boldsymbol{x}_k, w)
     $$
@@ -207,19 +226,31 @@ resources:
   ![](ml_cc_files/sgd.png){.absolute left="200"  width="600" height="370"}
 
 
-## Model
+## Supervised Learning - Ingredients
+  * Labelled data: $\mathcal{D}$ (**Experience, Task**)
+  <br><br>
 
-  The shape of $\pi( y \vert \boldsymbol{x}, w)$ determines the model. Some important cases: 
+  * <span style="font-weight: bold; color: #E55300;">Probabilistic Model: $\pi_{w}( y \vert \boldsymbol{x})$ (**Computer Program**)</span>
+  <br><br>
+
+  * Training approach: 
+
+    - Way to measure how good the model is (**Performance**)
+    - Adapt $w$ to improve such performance 
+
+## Probabilistic Model
+
+  The shape of $\pi_{w}( y \vert \boldsymbol{x})$ determines the model. Some important cases: 
 
   * Regression: $y\in \mathbb{R}$ 
   $$
-  \pi( y \vert \boldsymbol{x}, w) = \mathcal{N}(f_w(\boldsymbol{x}), \sigma)
+  \pi_{w}( y \vert \boldsymbol{x}) = \mathcal{N}(f_w(\boldsymbol{x}), \sigma)
   $$
 
   * Classification: $y \in \lbrace 1, \dots, K\rbrace$
 
   \begin{eqnarray*}
-  \pi( y = i \vert \boldsymbol{x}, w) &=& p_i(\boldsymbol{x}, w) \\
+  \pi_{w}( y = i \vert \boldsymbol{x}, w) &=& p_i(\boldsymbol{x}, w) \\
   p_i(\boldsymbol{x}, w) &=& \frac{e^{f_w(\boldsymbol{x})_i}}{\sum_{j=1}^K e^{f_w(\boldsymbol{x})_j}}
   \end{eqnarray*}
 
@@ -243,9 +274,25 @@ resources:
 
 ## Beyond linearity - Neural Nets
 
-  * Neural Nets can **in theory** approximate any continuous function
+  * Neural Nets can **in theory** approximate any continuous function. <span style="background-color: yellow;">**[Innovative Models]**</span>
 
-  * **Automatic differentiation** allows computing the gradient of the loss wrt the parameters very efficiently (same complexity as evaluating the function)
+  * <span style="background-color: yellow;">**[Automatic Differentiation]**</span> allows computing the gradient of the loss wrt the parameters very efficiently (same complexity as evaluating the function)
+
+  $$
+    w_{t+1} = w_t - \eta_{t} \cdot \nabla_w \ell (y_k, \boldsymbol{x}_k, w)
+    $$
+
+## Supervised Learning - Ingredients
+  * <span style="font-weight: bold; color: #E55300;">Labelled data: $\mathcal{D}$ (**Experience, Task**)</span>
+  <br><br>
+
+  * Probabilistic Model: $\pi_{w}( y \vert \boldsymbol{x})$ (**Computer Program**)
+  <br><br>
+
+  * Training approach: 
+
+    - Way to measure how good the model is (**Performance**)
+    - Adapt $w$ to improve such performance 
 
 ## Data 
 
@@ -279,13 +326,13 @@ resources:
 
   1. Observed input-output pairs $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
 
-  2. Choose a model $\pi( y \vert \boldsymbol{x}, w)$. This entails choosing $f_w(\boldsymbol{x})$
+  2. Choose a model $\pi_{w}( y \vert \boldsymbol{x})$. This entails choosing $f_w(\boldsymbol{x})$
 
   3. Choose a loss function $L(\mathcal{D}, w)$
 
   4. Optimize to find $w^*$: $w_{t+1} = w_t - \eta_{t} \cdot \nabla_w L(\mathcal{D}, w)$
 
-  5. Given new input $\tilde{\boldsymbol{x}}$, predict using $\pi( y \vert \tilde{\boldsymbol{x}}, w^*)$
+  5. Given new input $\tilde{\boldsymbol{x}}$, predict using $\pi_{w^*}( y \vert \tilde{\boldsymbol{x}})$
 
 ## Modern times - Self Supervision
 
@@ -308,6 +355,8 @@ resources:
   ![](ml_cc_files/gpt.png){.absolute left="220" top="100" width=60%}
 
 ## Some Random Thoughts
+
+  * Access to advanced ML models democratized by frameworks like PyTorch
 
   * ML critically affects individual decision-making
 

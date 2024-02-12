@@ -8,10 +8,10 @@
 <link href="ml_cc_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="ml_cc_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="ml_cc_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.549">
+  <meta name="generator" content="quarto-1.3.319">
 
   <meta name="author" content="Roi Naveiro (CUNEF, AItenea Biotech SL)">
-  <title>Machine Learning</title>
+  <title>Machine Learning: a Probabilistic Perspective</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -30,7 +30,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="ml_cc_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="ml_cc_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link rel="stylesheet" href="styles.css">
   <link href="ml_cc_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="ml_cc_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
@@ -159,8 +159,7 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    padding-bottom: 0.5rem;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -329,7 +328,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Machine Learning</h1>
+  <h1 class="title">Machine Learning: a Probabilistic Perspective</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -345,16 +344,15 @@ Roi Naveiro (CUNEF, AItenea Biotech SL)
 <p><img data-src="ml_cc_files/data.png" class="absolute" style="top: 250px; left: 50px; width: 90%; "></p>
 <p>Over 2017 and 2018 alone, 90 percent of the data in the world was generated.</p>
 </section>
-<section id="convergence-of-three-key-things" class="slide level2">
-<h2>Convergence of three key things</h2>
+<section id="in-addition-to-data" class="slide level2">
+<h2>In addition to data</h2>
 <ul>
-<li><p>Tons of data</p></li>
-<li><p>Computational Power</p></li>
+<li><p>Computational power</p></li>
 <li><p>Algorithmic advances</p>
 <ul>
-<li><p>Stochastic Gradient Descent</p></li>
-<li><p>Powerful models (Architectures)</p></li>
-<li><p>Automatic Differentiation</p></li>
+<li><p><span style="background-color: yellow;"><strong>[Powerful models (Architectures)]</strong></span></p></li>
+<li><p><span style="background-color: yellow;"><strong>[Stochastic Gradient Descent]</strong></span></p></li>
+<li><p><span style="background-color: yellow;"><strong>[Automatic Differentiation]</strong></span></p></li>
 </ul></li>
 </ul>
 </section>
@@ -391,7 +389,7 @@ Roi Naveiro (CUNEF, AItenea Biotech SL)
 </section>
 <section id="sl---fraud-detection" class="slide level2">
 <h2>SL - Fraud Detection</h2>
-<p>Use known transaction to learn function from transaction characteristics to probability of fraud</p>
+<p>Use known transactions to learn function from transaction characteristics to probability of fraud</p>
 <p><img data-src="ml_cc_files/fraud.png" class="absolute" style="top: 200px; left: 100px; width: 85%; "></p>
 </section>
 <section id="sl---automated-driving-systems" class="slide level2">
@@ -410,21 +408,28 @@ Roi Naveiro (CUNEF, AItenea Biotech SL)
 <li>We need to assume a <strong>parametric probabilistic model</strong></li>
 </ul>
 <p><span class="math display">\[
-  \pi( y \vert \boldsymbol{x}, w)
+  \pi_{w}( y \vert \boldsymbol{x})
   \]</span></p>
 <ul>
 <li><p>Use training data <span class="math inline">\(\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N\)</span> to find <strong>best</strong> parameters <span class="math inline">\(w^*\)</span></p></li>
 <li><p>Given new instance <span class="math inline">\(\boldsymbol{x'}\)</span>, output <span class="math inline">\(y\)</span> with highest</p></li>
 </ul>
 <p><span class="math display">\[
-  \pi( y \vert \boldsymbol{x'}, w^*)
+  \pi_{w}( y \vert \boldsymbol{x'})
   \]</span></p>
+</section>
+<section id="machine-learning---learn-1" class="slide level2">
+<h2>Machine Learning - Learn?</h2>
+<blockquote>
+<p>A <strong>computer program</strong> is said to learn from <strong>experience E</strong> with respect to some class of <strong>tasks T</strong> and <strong>performance measure P</strong>, if its performance at tasks in T, as measured by P, improves with experience E.</p>
+</blockquote>
+<p>— Source: Tom M. Mitchell</p>
 </section>
 <section id="supervised-learning---ingredients" class="slide level2">
 <h2>Supervised Learning - Ingredients</h2>
 <ul>
 <li><p>Labelled data: <span class="math inline">\(\mathcal{D}\)</span> (<strong>Experience, Task</strong>) <br><br></p></li>
-<li><p>Probabilistic Model: <span class="math inline">\(\pi( y \vert \boldsymbol{x}, w)\)</span> (<strong>Computer Program</strong>) <br><br></p></li>
+<li><p>Probabilistic Model: <span class="math inline">\(\pi_{w}( y \vert \boldsymbol{x})\)</span> (<strong>Computer Program</strong>) <br><br></p></li>
 <li><p>Training approach:</p>
 <ul>
 <li>Way to measure how good the model is (<strong>Performance</strong>)</li>
@@ -439,7 +444,7 @@ Roi Naveiro (CUNEF, AItenea Biotech SL)
 <li><p>Model:</p></li>
 </ul>
 <p><span class="math display">\[
-  \pi( y \vert \boldsymbol{x}, w) = \mathcal{N}(w_1 x_{i1} + \dots w_p x_{ip}, \sigma)
+  \pi_{w}( y \vert \boldsymbol{x}) = \mathcal{N}(w_1 x_{i1} + \dots w_p x_{ip}, \sigma)
   \]</span></p>
 </section>
 <section id="example-linear-regression-1" class="slide level2">
@@ -449,7 +454,7 @@ Roi Naveiro (CUNEF, AItenea Biotech SL)
 <ul>
 <li><p>Maximize likelihood given dataset <span class="math inline">\(\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N\)</span></p>
 <p><span class="math display">\[
-\max_{w_1, \dots, w_p}\prod_{i=1}^N \pi( y_i \vert \boldsymbol{x}_i, w)
+\max_{w_1, \dots, w_p}\prod_{i=1}^N \pi_{w}( y_i \vert \boldsymbol{x}_i)
 \]</span></p></li>
 <li><p>Equivalent to minimizing sum-of-squares <span class="math display">\[
 \min_{w_1, \dots, w_p} \sum_{i=1}^N \left(y_i - \hat{y}_i \right)^2, ~~~~~  \hat{y}=w_1 x_{i1} + \dots w_p x_{ip}
@@ -457,16 +462,28 @@ Roi Naveiro (CUNEF, AItenea Biotech SL)
 </ul></li>
 </ul>
 </section>
+<section id="supervised-learning---ingredients-1" class="slide level2">
+<h2>Supervised Learning - Ingredients</h2>
+<ul>
+<li><p>Labelled data: <span class="math inline">\(\mathcal{D}\)</span> (<strong>Experience, Task</strong>) <br><br></p></li>
+<li><p>Probabilistic Model: <span class="math inline">\(\pi_{w}( y \vert \boldsymbol{x})\)</span> (<strong>Computer Program</strong>) <br><br></p></li>
+<li><p><span style="font-weight: bold; color: #E55300;"><strong>Training approach</strong></span>:</p>
+<ul>
+<li>Way to measure how good the model is (<strong>Performance</strong>)</li>
+<li>Adapt <span class="math inline">\(w\)</span> to improve such performance</li>
+</ul></li>
+</ul>
+</section>
 <section id="general-training-approach" class="slide level2">
 <h2>General Training approach</h2>
-<p>Assume we have a probabilistic model <span class="math inline">\(\pi( y \vert \boldsymbol{x}, w)\)</span> and a training data <span class="math inline">\(\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N\)</span></p>
+<p>Assume we have a probabilistic model <span class="math inline">\(\pi_{w}( y \vert \boldsymbol{x})\)</span> and a training data <span class="math inline">\(\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N\)</span></p>
 <ul>
 <li><p>Find <span class="math inline">\(w^*\)</span> solving <span class="math display">\[
-  \max_{w}\prod_{i=1}^N \pi( y_i \vert \boldsymbol{x}_i, w)
+  \max_{w}\prod_{i=1}^N \pi_w( y_i \vert \boldsymbol{x}_i)
   \]</span></p></li>
 <li><p>Same as minimizing negative log-likelihood</p>
 <p><span class="math display">\[
-L(\mathcal{D}, w) = \sum_{i=1}^N -\log \pi( y_i \vert \boldsymbol{x}_i, w) = \sum_{i=1}^N \ell (y_i, \boldsymbol{x}_i, w)
+L(\mathcal{D}, w) = \sum_{i=1}^N -\log \pi_{w}( y_i \vert \boldsymbol{x}_i) = \sum_{i=1}^N \ell (y_i, \boldsymbol{x}_i, w)
 \]</span></p></li>
 </ul>
 </section>
@@ -478,10 +495,10 @@ L(\mathcal{D}, w) = \sum_{i=1}^N -\log \pi( y_i \vert \boldsymbol{x}_i, w) = \su
 <h2>Training approach - Regularization</h2>
 <p>Many approaches to solve this:</p>
 <ol type="1">
-<li><p>More data</p></li>
 <li><p>Modify loss: <span class="math display">\[
-    L(\mathcal{D}, w) = \sum_{i=1}^N \ell (y_i, \boldsymbol{x}_i, w) + \Vert w \Vert
+    L(\mathcal{D}, w) = \sum_{i=1}^N  \ell (y_i, \boldsymbol{x}_i, w) + \lambda \Vert w \Vert
     \]</span></p></li>
+<li><p>More data</p></li>
 <li><p>Modify the optimizer</p></li>
 </ol>
 </section>
@@ -503,22 +520,34 @@ w_{t+1} = w_t - \eta_{t} \cdot \nabla_w L(\mathcal{D}, w)
 </section>
 <section id="training-approach---optimizer-2" class="slide level2">
 <h2>Training approach - Optimizer</h2>
-<p><strong>Stochastic Gradient Descent</strong> <span class="math display">\[
+<p><span style="background-color: yellow;"><strong>[Stochastic Gradient Descent]</strong></span> <span class="math display">\[
     \nabla_w L(\mathcal{D}, w) = \sum_{i=1}^N \nabla_w \ell (y_i, \boldsymbol{x}_i, w) \approx \nabla_w \ell (y_k, \boldsymbol{x}_k, w)
     \]</span></p>
 <p><img data-src="ml_cc_files/sgd.png" class="absolute" style="left: 200px; width: 600px; height: 370px; "></p>
 </section>
-<section id="model" class="slide level2">
-<h2>Model</h2>
-<p>The shape of <span class="math inline">\(\pi( y \vert \boldsymbol{x}, w)\)</span> determines the model. Some important cases:</p>
+<section id="supervised-learning---ingredients-2" class="slide level2">
+<h2>Supervised Learning - Ingredients</h2>
+<ul>
+<li><p>Labelled data: <span class="math inline">\(\mathcal{D}\)</span> (<strong>Experience, Task</strong>) <br><br></p></li>
+<li><p><span style="font-weight: bold; color: #E55300;">Probabilistic Model: <span class="math inline">\(\pi_{w}( y \vert \boldsymbol{x})\)</span> (<strong>Computer Program</strong>)</span> <br><br></p></li>
+<li><p>Training approach:</p>
+<ul>
+<li>Way to measure how good the model is (<strong>Performance</strong>)</li>
+<li>Adapt <span class="math inline">\(w\)</span> to improve such performance</li>
+</ul></li>
+</ul>
+</section>
+<section id="probabilistic-model" class="slide level2">
+<h2>Probabilistic Model</h2>
+<p>The shape of <span class="math inline">\(\pi_{w}( y \vert \boldsymbol{x})\)</span> determines the model. Some important cases:</p>
 <ul>
 <li><p>Regression: <span class="math inline">\(y\in \mathbb{R}\)</span> <span class="math display">\[
-  \pi( y \vert \boldsymbol{x}, w) = \mathcal{N}(f_w(\boldsymbol{x}), \sigma)
+  \pi_{w}( y \vert \boldsymbol{x}) = \mathcal{N}(f_w(\boldsymbol{x}), \sigma)
   \]</span></p></li>
 <li><p>Classification: <span class="math inline">\(y \in \lbrace 1, \dots, K\rbrace\)</span></p></li>
 </ul>
 <p><span class="math display">\[\begin{eqnarray*}
-  \pi( y = i \vert \boldsymbol{x}, w) &amp;=&amp; p_i(\boldsymbol{x}, w) \\
+  \pi_{w}( y = i \vert \boldsymbol{x}, w) &amp;=&amp; p_i(\boldsymbol{x}, w) \\
   p_i(\boldsymbol{x}, w) &amp;=&amp; \frac{e^{f_w(\boldsymbol{x})_i}}{\sum_{j=1}^K e^{f_w(\boldsymbol{x})_j}}
   \end{eqnarray*}\]</span></p>
 </section>
@@ -541,8 +570,23 @@ w_{t+1} = w_t - \eta_{t} \cdot \nabla_w L(\mathcal{D}, w)
 <section id="beyond-linearity---neural-nets-2" class="slide level2">
 <h2>Beyond linearity - Neural Nets</h2>
 <ul>
-<li><p>Neural Nets can <strong>in theory</strong> approximate any continuous function</p></li>
-<li><p><strong>Automatic differentiation</strong> allows computing the gradient of the loss wrt the parameters very efficiently (same complexity as evaluating the function)</p></li>
+<li><p>Neural Nets can <strong>in theory</strong> approximate any continuous function. <span style="background-color: yellow;"><strong>[Innovative Models]</strong></span></p></li>
+<li><p><span style="background-color: yellow;"><strong>[Automatic Differentiation]</strong></span> allows computing the gradient of the loss wrt the parameters very efficiently (same complexity as evaluating the function)</p></li>
+</ul>
+<p><span class="math display">\[
+    w_{t+1} = w_t - \eta_{t} \cdot \nabla_w \ell (y_k, \boldsymbol{x}_k, w)
+    \]</span></p>
+</section>
+<section id="supervised-learning---ingredients-3" class="slide level2">
+<h2>Supervised Learning - Ingredients</h2>
+<ul>
+<li><p><span style="font-weight: bold; color: #E55300;">Labelled data: <span class="math inline">\(\mathcal{D}\)</span> (<strong>Experience, Task</strong>)</span> <br><br></p></li>
+<li><p>Probabilistic Model: <span class="math inline">\(\pi_{w}( y \vert \boldsymbol{x})\)</span> (<strong>Computer Program</strong>) <br><br></p></li>
+<li><p>Training approach:</p>
+<ul>
+<li>Way to measure how good the model is (<strong>Performance</strong>)</li>
+<li>Adapt <span class="math inline">\(w\)</span> to improve such performance</li>
+</ul></li>
 </ul>
 </section>
 <section id="data" class="slide level2">
@@ -571,10 +615,10 @@ w_{t+1} = w_t - \eta_{t} \cdot \nabla_w L(\mathcal{D}, w)
 <p>Once images/text had been represented, rest of the procedure is the same:</p>
 <ol type="1">
 <li><p>Observed input-output pairs <span class="math inline">\(\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N\)</span></p></li>
-<li><p>Choose a model <span class="math inline">\(\pi( y \vert \boldsymbol{x}, w)\)</span>. This entails choosing <span class="math inline">\(f_w(\boldsymbol{x})\)</span></p></li>
+<li><p>Choose a model <span class="math inline">\(\pi_{w}( y \vert \boldsymbol{x})\)</span>. This entails choosing <span class="math inline">\(f_w(\boldsymbol{x})\)</span></p></li>
 <li><p>Choose a loss function <span class="math inline">\(L(\mathcal{D}, w)\)</span></p></li>
 <li><p>Optimize to find <span class="math inline">\(w^*\)</span>: <span class="math inline">\(w_{t+1} = w_t - \eta_{t} \cdot \nabla_w L(\mathcal{D}, w)\)</span></p></li>
-<li><p>Given new input <span class="math inline">\(\tilde{\boldsymbol{x}}\)</span>, predict using <span class="math inline">\(\pi( y \vert \tilde{\boldsymbol{x}}, w^*)\)</span></p></li>
+<li><p>Given new input <span class="math inline">\(\tilde{\boldsymbol{x}}\)</span>, predict using <span class="math inline">\(\pi_{w^*}( y \vert \tilde{\boldsymbol{x}})\)</span></p></li>
 </ol>
 </section>
 <section id="modern-times---self-supervision" class="slide level2">
@@ -600,6 +644,7 @@ w_{t+1} = w_t - \eta_{t} \cdot \nabla_w L(\mathcal{D}, w)
 <section id="some-random-thoughts" class="slide level2">
 <h2>Some Random Thoughts</h2>
 <ul>
+<li><p>Access to advanced ML models democratized by frameworks like PyTorch</p></li>
 <li><p>ML critically affects individual decision-making</p>
 <ul>
 <li><p>Privacy? Democracy?</p></li>
@@ -629,10 +674,8 @@ Email: <a href="mailto:roi.naveiro@cunef.edu">roi.naveiro@cunef.edu</a>
 </p>
 </div>
 <p><img data-src="ml_cc_files/cate.jpg" class="absolute" style="top: 350px; left: 220px; width: 60%; "></p>
-<div class="quarto-auto-generated-content">
 <div class="footer footer-default">
 
-</div>
 </div>
 </section>
     </div>
@@ -662,6 +705,7 @@ Email: <a href="mailto:roi.naveiro@cunef.edu">roi.naveiro@cunef.edu</a>
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': true,
+'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -923,9 +967,10 @@ Email: <a href="mailto:roi.naveiro@cunef.edu">roi.naveiro@cunef.edu</a>
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      function tippyHover(el, contentFn) {
         const config = {
           allowHTML: true,
+          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -935,17 +980,8 @@ Email: <a href="mailto:roi.naveiro@cunef.edu">roi.naveiro@cunef.edu</a>
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start',
+          placement: 'bottom-start'
         };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
