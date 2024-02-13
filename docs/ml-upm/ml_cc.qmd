@@ -304,6 +304,8 @@ resources:
 
   * Text
 
+  * Graphs
+
 ## Data - Images
   Represented as matrices, $x_i$ corresponds to the intensity of the $i$-th pixel.
   ![](ml_cc_files/pixels.png){.absolute left="100" top="200" width=85%}
@@ -322,7 +324,7 @@ resources:
 
 ## Data
 
-  Once images/text had been represented, rest of the procedure is the same:
+  Once images/text/graphs had been represented, rest of the procedure is the same:
 
   1. Observed input-output pairs $\mathcal{D} = \lbrace \boldsymbol{x}_i, y_i \rbrace_{i=1}^N$
 
