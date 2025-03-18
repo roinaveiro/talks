@@ -544,6 +544,6 @@ Questions are welcome!
 <br>
 
 <div class="centered-figure">
-  <img src="images/ubiña.jpg" alt="My Image" style="max-width: 45%;">
+  <img src="images/ubiña.jpg" alt="Im" style="max-width: 45%;">
   <div class="centered-caption">Peña Ubiña (León)</div>
 </div>
