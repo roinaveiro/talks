@@ -30,8 +30,6 @@ resources:
 </div>
 
 
-Here is your improved slide, clearer, concise, and aligned with your instructions:
-
 ---
 
 ## Comparing Medical Procedures
