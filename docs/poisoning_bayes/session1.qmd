@@ -9,8 +9,9 @@ authors:
     affiliation: "Air Force Institute of Technology"
 format:
   revealjs: 
-    html-math-method: katex
     slide-number: true
+    html-math-method: katex
+    auto-scale: true
     chalkboard: 
       buttons: false
     preview-links: auto
@@ -34,18 +35,23 @@ resources:
 
 ## Comparing Medical Procedures
 
-Doctors compared two minimally invasive treatments for uterine fibroids to determine which:
+::: {.columns}
+
+::: {.column width="50%"}
+Doctors compared two minimally invasive treatments for myomas to determine which:
 
 1. **Is more effective at reducing fibroid size**.
-2. **Is less invasive for patients**, measured by:
-    - Shorter hospital stays
-    - Lower blood loss
-    - Fewer complications
+2. **Is less invasive for patients**, measured by shorter hospital stays, lower blood loss, etc.
+:::
 
+::: {.column width="50%"}
 **Procedures Compared:**
 
 - **Radiofrequency Ablation (RFA)**
 - **Uterine Artery Embolization (UAE)**
+:::
+
+:::
 
 ---
 
@@ -104,9 +110,9 @@ Doctor:
 
 - Bayesian inference is widely used in science, medicine, and policy-making.
 
-- There's an entire field, **Adversarial Machine Learning (AML)**, studying how data manipulations influence machine learning models.
+- **Adversarial Machine Learning (AML)**, studies how data manipulations influence machine learning models.
 
-- However, adversarial attacks targeting **Bayesian inference** specifically are not well understood. Our work addresses this gap.
+- However, adversarial attacks targeting **Bayesian inference** are not well understood. 
 
 ---
 
