@@ -18,8 +18,6 @@ format:
     logo: images/logo.png
     css: styles.css
     footer: '[https://roinaveiro.github.io/](https://roinaveiro.github.io/)'
-resources:
-  - demo.pdf
 ---
 
 ## Collaborating with Doctors
@@ -133,9 +131,9 @@ Doctor:
 - **Honest Bayesian** (defender, $D$) observes data $\mathbf{X}$.
 - Goal: infer unknown parameters $\theta \in \mathbb{R}^d$.
 
-Bayesian posterior contains all relevant inferential information:
+Posterior contains all relevant inferential information:
 $$
-\pi(\theta | \mathbf{X}) \propto \exp\left(\sum_{i=1}^n \log \pi(X_i | \theta)\right) \pi(\theta)
+\pi(\theta | \mathbf{X}) \propto \exp\Big(\textstyle\sum_{i=1}^n \log \pi(X_i | \theta)\Big) \pi(\theta)
 $$
 
 - Typically computed via approximation (e.g., MCMC).
@@ -172,7 +170,7 @@ $$
 
 
 <div class="centered-figure">
-  <img src="images/posterior_treatment_effect.jpeg" alt="My Image" style="max-width: 85%;">
+  <img src="images/posterior_treatment_effect.jpeg" alt="My Image" style="max-width: 70%;">
 </div>
 
 - Posterior mean of ATE ($\beta_1$): $-4.71$ (negative impact).
@@ -208,7 +206,7 @@ Just removing $0.12 \%$ of the **strategically chosen** data points...
 
 
 <div class="centered-figure">
-  <img src="images/tainted_posterior_treatment_effect.jpeg" alt="My Image" style="max-width: 45%;">
+  <img src="images/tainted_posterior_treatment_effect.jpeg" alt="My Image" style="max-width: 37%;">
   <div class="centered-caption">Tainted Posterior for ATE</div>
 </div>
 
@@ -374,14 +372,15 @@ $$
 
 ---
 
-## Integer-Steps Coordinate Descent (ISCD)
+## Integer-Steps Coordinate Descent 
 
 - Start with initial feasible $w = \mathbf{1}$.
 - At each iteration, consider feasible neighbors $w \pm e_i$.
-- Choose neighbor with greatest estimated objective improvement:
+- Select neighbor with best estimated improvement:
 $$
 j \gets \argmin_i \left\{-|\hat{g}_i|+\frac{1}{2}\hat{H}_{i,i}\right\}
 $$
+
 - Update:
 $$
 w \gets w - \text{sign}(\hat{g}_j)e_j
@@ -423,7 +422,7 @@ $$
 ## Back to the Mexico Microcredit data
 
 <div class="centered-figure">
-  <img src="images/microcredit1.jpeg" alt="My Image" style="max-width: 58%;">
+  <img src="images/microcredit1.jpeg" alt="My Image" style="max-width: 45%;">
   <div class="centered-caption">Posterior for ATE</div>
 </div>
 
@@ -432,7 +431,7 @@ $$
 ## Other posteriors are affected too!
 
 <div class="centered-figure">
-  <img src="images/microcredit2.jpeg" alt="My Image" style="max-width: 58%;">
+  <img src="images/microcredit2.jpeg" alt="My Image" style="max-width: 45%;">
   <div class="centered-caption">Posterior for noise level</div>
 </div>
 
@@ -470,15 +469,15 @@ Manipulate data to steer inference about the parameter of the number of rooms ($
 ::: {.columns}
 
 ::: {.column width="49%"}
-![](images/boston1.jpeg){fig-align="center"}
+![](images/boston1.jpeg){fig-align="center" width=80%}
 
-KL Divergence vs Number of Manipulated Data Points
+KL Divergence vs Number of Manipulated Points
 :::
 
 ::: {.column width="50%"}
-![](images/boston2.jpeg){fig-align="center"}
+![](images/boston2.jpeg){fig-align="center" width=80%}
 
-Posterior mean of $\beta_{RM}$ vs Number of Manipulated Data Points
+Posterior mean of $\beta_{RM}$ vs Number of Manipulated Points
 :::
 
 :::
@@ -487,7 +486,7 @@ Posterior mean of $\beta_{RM}$ vs Number of Manipulated Data Points
 ## Which datapoints to manipulate?
 
 <div class="centered-figure">
-  <img src="images/boston3.jpeg" alt="My Image" style="max-width: 70%;">
+  <img src="images/boston3.jpeg" alt="My Image" style="max-width: 45%;">
   <div class="centered-caption">Data manipulations identified by the 2O-R2 heuristic</div>
 </div>
 
@@ -497,13 +496,13 @@ Posterior mean of $\beta_{RM}$ vs Number of Manipulated Data Points
 
 ::: { .flex .justify-center gap=4 }
 
-::: {.column width="49%" .center}
-![](images/boston4.jpeg){width=90%}
+::: {.column width="48%" .center}
+![](images/boston4.jpeg){width=70%}
 
 :::
 
-::: {.column width="49%" .center}
-![](images/boston5.jpeg){width=90%}
+::: {.column width="48%" .center}
+![](images/boston5.jpeg){width=70%}
 
 :::
 
@@ -545,6 +544,6 @@ Questions are welcome!
 <br>
 
 <div class="centered-figure">
-  <img src="images/ubiña.jpg" alt="My Image" style="max-width: 70%;">
+  <img src="images/ubiña.jpg" alt="My Image" style="max-width: 45%;">
   <div class="centered-caption">Peña Ubiña (León)</div>
 </div>
