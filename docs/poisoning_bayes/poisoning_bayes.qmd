@@ -149,7 +149,6 @@ $$
 $$
 
 - Parameter $\beta_1$ represents the **Average Treatment Effect (ATE)**.
-  - ATE measures the expected impact of the treatment (microcredit) on business profit.
 
 ---
 
