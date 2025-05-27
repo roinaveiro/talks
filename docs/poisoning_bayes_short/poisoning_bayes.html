@@ -529,7 +529,7 @@ y_i \sim \mathcal{N}(\beta_0 + \beta_1 x_i, \sigma^2)
 </section>
 <section id="the-attack" class="slide level2">
 <h2>The Attack</h2>
-<p>Just removing a <strong>strategically chosen</strong> <span class="math inline">0.12 \%</span> of the data points…</p>
+<p>Just removing a <strong>strategically chosen</strong> <span class="math inline">0.12 \%</span> <span class="math inline">(B=20)</span> of the data points…</p>
 <div class="centered-figure">
 <img src="images/tainted_posterior_treatment_effect.jpeg" alt="My Image" style="max-width: 37%;">
 <div class="centered-caption">
@@ -547,7 +547,7 @@ Tainted Posterior for ATE
 \min_w \quad \text{KL}(\pi_A(\theta) \parallel \pi_w(\theta | X))
 </span></p>
 <p>Subject to constraints: <span class="math display">
-\|w - \mathbf{1}\|_1 \leq B, \quad \|w\|_\infty \leq L, \quad w \in \mathbb{Z}_{\geq 0}^n
+w \in \mathbb{Z}_{\geq 0}^n, \quad \|w - \mathbf{1}\|_1 \leq B, \quad \|w\|_\infty \leq L
 </span></p>
 </section>
 <section id="but" class="slide level2">
@@ -560,10 +560,31 @@ Tainted Posterior for ATE
 </section>
 <section id="idea" class="slide level2">
 <h2>Idea</h2>
-<ul>
+<ol type="1">
 <li><p>Solve the continuous relaxation first using <strong>projected stochastic gradient-based optimization</strong>.</p></li>
 <li><p>Then, project the solution to the integer space.</p></li>
+</ol>
+</section>
+<section id="sgd-for-continuous-relaxation" class="slide level2">
+<h2>SGD for Continuous Relaxation</h2>
+<ul>
+<li>At each step, use stochastic gradient descent updates:</li>
 </ul>
+<p><span class="math display">
+w_{\text{new}} \gets \Pi_{\mathcal{W}}\left(w_{\text{old}} - \gamma_t \hat{g}\right)
+</span></p>
+<ol type="1">
+<li><span class="math inline">\hat{g}</span> is an unbiased estimate of the gradient objective function</li>
+<li><span class="math inline">\gamma_t</span> is a learning rate</li>
+<li><span class="math inline">\Pi_{\mathcal{W}}</span> is the projection operator onto the feasible set</li>
+</ol>
+<p><span class="math display">
+\mathcal{W} = \{w \in \mathbb{R}^n \mid w \succeq 0,\, \|w\|_{\infty}\le L,\; \|w - \mathbf{1}\|_1 \leq B\}
+</span></p>
+</section>
+<section id="sgd-for-continuous-relaxation-1" class="slide level2">
+<h2>SGD for Continuous Relaxation</h2>
+<p>We need an unbiased estimate <span class="math inline">\hat{g}</span>:</p>
 <div class="fragment">
 <ul>
 <li>Equivalent simplified objective: <span class="math display">
@@ -603,6 +624,23 @@ Tainted Posterior for ATE
 </span></p>
 </div>
 </section>
+<section id="gradient-estimation" class="slide level2">
+<h2>Gradient Estimation</h2>
+<ul>
+<li>Unbiased gradient estimate:</li>
+</ul>
+<p><span class="math display">
+\hat{g} = \frac{1}{P}\sum_{i=1}^P f_X(\theta_i) - \frac{1}{Q}\sum_{j=1}^Q f_X(\theta_j)
+</span></p>
+<ul>
+<li>With samples: <span class="math inline">\theta_i \sim \pi_w(\theta|\mathbf{X})</span> and <span class="math inline">\theta_j \sim \pi_A(\theta)</span></li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Interestingly, <strong>we do not need a closed-form expressions</strong> for neither the posterior nor the target distribution!</li>
+</ul>
+</div>
+</section>
 <section id="convexity-and-hessian" class="slide level2">
 <h2>Convexity and Hessian</h2>
 <ul>
@@ -618,55 +656,6 @@ Tainted Posterior for ATE
 <li>Objective function is <strong>convex</strong> (relaxed).</li>
 <li>Convergence results from stochastic gradient descent apply!</li>
 </ul></li>
-</ul>
-</div>
-</section>
-<section id="solution-approaches-main-idea" class="slide level2">
-<h2>Solution Approaches: Main Idea</h2>
-<p>We use a two-stage heuristic (SGD-R2):</p>
-<ol type="1">
-<li><strong>Relaxation</strong>: Solve continuous relaxation via projected stochastic gradient methods.</li>
-</ol>
-<div class="fragment">
-<ol start="2" type="1">
-<li><strong>Rounding step</strong>: Project the relaxed solution onto the integer feasible set.</li>
-</ol>
-</div>
-</section>
-<section id="sgd-rounded-relaxation-sgd-r2" class="slide level2">
-<h2>SGD Rounded Relaxation (SGD-R2)</h2>
-<ul>
-<li>At each step, use stochastic gradient descent updates:</li>
-</ul>
-<p><span class="math display">
-w_{\text{new}} \gets \Pi_{\mathcal{W}}\left(w_{\text{old}} - \gamma_t \hat{g}\right)
-</span></p>
-<p>where <span class="math inline">\Pi_{\mathcal{W}}</span> is the projection operator onto the feasible set</p>
-<p><span class="math display">
-\mathcal{W} = \{w \in \mathbb{R}^n \mid w \succeq 0,\, \|w\|_{\infty}\le L,\; \|w - \mathbf{1}\|_1 \leq B\}
-</span></p>
-<div class="fragment">
-<ul>
-<li>Recall that the gradient could be expressed as: <span class="math display">
-\mathbb{E}_{\pi_w}[f_X(\theta)] - \mathbb{E}_{\pi_A}[f_X(\theta)]
-</span></li>
-</ul>
-</div>
-</section>
-<section id="sgd-r2-gradient-estimation" class="slide level2">
-<h2>SGD-R2: Gradient Estimation</h2>
-<ul>
-<li>Unbiased gradient estimate:</li>
-</ul>
-<p><span class="math display">
-\hat{g} = \frac{1}{P}\sum_{i=1}^P f_X(\theta_i) - \frac{1}{Q}\sum_{j=1}^Q f_X(\theta_j)
-</span></p>
-<ul>
-<li>With samples: <span class="math inline">\theta_i \sim \pi_w(\theta|\mathbf{X})</span> and <span class="math inline">\theta_j \sim \pi_A(\theta)</span></li>
-</ul>
-<div class="fragment">
-<ul>
-<li>Interestingly, <strong>we do not need a closed-form expressions</strong> for neither the posterior nor the target distribution!</li>
 </ul>
 </div>
 </section>
@@ -692,13 +681,6 @@ w^*_i = 1 + \text{sign}(w_i - 1)(\lfloor |w_i - 1| \rfloor + \alpha_i)
 <li><p>Second-order methods (2O-R2): Exploit Hessian information.</p></li>
 </ul>
 </section>
-<section id="computational-considerations" class="slide level2">
-<h2>Computational considerations</h2>
-<ul>
-<li>Estimating gradients might require MCMC sampling.</li>
-<li>However, gradual changes in <span class="math inline">w</span> allow reuse of previous MCMC samples, reducing burn-in and computational overhead.</li>
-</ul>
-</section>
 <section id="back-to-the-mexico-microcredit-data" class="slide level2">
 <h2>Back to the Mexico Microcredit data</h2>
 <p>Assume we have resources to manipulate at most <span class="math inline">B=20</span> data points (just <span class="math inline">0.12\%</span> of the data!).</p>
@@ -709,15 +691,6 @@ w^*_i = 1 + \text{sign}(w_i - 1)(\lfloor |w_i - 1| \rfloor + \alpha_i)
 <img src="images/microcredit1.jpeg" alt="My Image" style="max-width: 45%;">
 <div class="centered-caption">
 Posterior for ATE
-</div>
-</div>
-</section>
-<section id="other-posteriors-are-affected-too" class="slide level2">
-<h2>Other posteriors are affected too!</h2>
-<div class="centered-figure">
-<img src="images/microcredit2.jpeg" alt="My Image" style="max-width: 45%;">
-<div class="centered-caption">
-Posterior for noise level
 </div>
 </div>
 </section>
@@ -877,6 +850,15 @@ Data manipulations identified by the 2O-R2 heuristic
 </figure>
 </div>
 <p>Posterior mean of <span class="math inline">\beta_{RM}</span> vs Number of Manipulated Points</p>
+</div>
+</div>
+</section>
+<section id="other-posteriors-are-affected-too" class="slide level2">
+<h2>Other posteriors are affected too!</h2>
+<div class="centered-figure">
+<img src="images/microcredit2.jpeg" alt="My Image" style="max-width: 45%;">
+<div class="centered-caption">
+Posterior for noise level
 </div>
 </div>
 <p><img src="images/logo.png" class="slide-logo"></p>

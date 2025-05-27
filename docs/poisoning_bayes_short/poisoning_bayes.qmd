@@ -207,7 +207,7 @@ $$
 
 ## The Attack
 
-Just removing a **strategically chosen** $0.12 \%$ of the  data points...
+Just removing a **strategically chosen** $0.12 \%$ $(B=20)$ of the  data points...
 
 
 <div class="centered-figure">
@@ -237,7 +237,7 @@ $$
 
 Subject to constraints:
 $$
-\|w - \mathbf{1}\|_1 \leq B, \quad \|w\|_\infty \leq L, \quad w \in \mathbb{Z}_{\geq 0}^n
+w \in \mathbb{Z}_{\geq 0}^n, \quad \|w - \mathbf{1}\|_1 \leq B, \quad \|w\|_\infty \leq L
 $$
 
 ---
@@ -252,11 +252,37 @@ $$
 ## Idea
 
 
+1. Solve the continuous relaxation first using **projected stochastic gradient-based optimization**. 
 
 
-- Solve the continuous relaxation first using **projected stochastic gradient-based optimization**. 
 
-- Then, project the solution to the integer space.
+2. Then, project the solution to the integer space.
+
+
+---
+
+## SGD for Continuous Relaxation
+
+- At each step, use stochastic gradient descent updates:
+  
+$$
+w_{\text{new}} \gets \Pi_{\mathcal{W}}\left(w_{\text{old}} - \gamma_t \hat{g}\right)
+$$
+
+1. $\hat{g}$ is an unbiased estimate of the gradient objective function
+2. $\gamma_t$ is a learning rate
+3. $\Pi_{\mathcal{W}}$ is the projection operator onto the feasible set
+
+$$
+\mathcal{W} = \{w \in \mathbb{R}^n \mid w \succeq 0,\, \|w\|_{\infty}\le L,\; \|w - \mathbf{1}\|_1 \leq B\}
+$$
+
+---
+
+## SGD for Continuous Relaxation
+
+
+We need an unbiased estimate $\hat{g}$:
 
 :::{.fragment}
 - Equivalent simplified objective:
@@ -298,6 +324,24 @@ $$
 \nabla_w \log Z(w) - \mathbb{E}_{\pi_A}[f_X(\theta)] = \mathbb{E}_{\pi_w}[f_X(\theta)] - \mathbb{E}_{\pi_A}[f_X(\theta)]
 $$
 :::
+
+---
+
+## Gradient Estimation
+
+
+- Unbiased gradient estimate:
+
+$$
+\hat{g} = \frac{1}{P}\sum_{i=1}^P f_X(\theta_i) - \frac{1}{Q}\sum_{j=1}^Q f_X(\theta_j)
+$$
+
+- With samples: $\theta_i \sim \pi_w(\theta|\mathbf{X})$ and $\theta_j \sim \pi_A(\theta)$
+
+:::{.fragment}
+- Interestingly, **we do not need a closed-form expressions** for neither the posterior nor the target distribution!
+:::
+
 ---
 
 ## Convexity and Hessian
@@ -312,56 +356,6 @@ $$
 - Hessian is positive semidefinite:
   - Objective function is **convex** (relaxed).
   - Convergence results from stochastic gradient descent apply!
-:::
-
----
-
-## Solution Approaches: Main Idea
-
-We use a two-stage heuristic (SGD-R2):
-
-1. **Relaxation**: Solve continuous relaxation via projected stochastic gradient methods.
-
-:::{.fragment}
-2. **Rounding step**: Project the relaxed solution onto the integer feasible set.
-:::
----
-
-## SGD Rounded Relaxation (SGD-R2)
-
-- At each step, use stochastic gradient descent updates:
-  
-$$
-w_{\text{new}} \gets \Pi_{\mathcal{W}}\left(w_{\text{old}} - \gamma_t \hat{g}\right)
-$$
-
-where $\Pi_{\mathcal{W}}$ is the projection operator onto the feasible set
-
-$$
-\mathcal{W} = \{w \in \mathbb{R}^n \mid w \succeq 0,\, \|w\|_{\infty}\le L,\; \|w - \mathbf{1}\|_1 \leq B\}
-$$
-
-:::{.fragment}
-- Recall that the gradient could be expressed as:
-$$
-\mathbb{E}_{\pi_w}[f_X(\theta)] - \mathbb{E}_{\pi_A}[f_X(\theta)]
-$$
-:::
----
-
-## SGD-R2: Gradient Estimation
-
-
-- Unbiased gradient estimate:
-
-$$
-\hat{g} = \frac{1}{P}\sum_{i=1}^P f_X(\theta_i) - \frac{1}{Q}\sum_{j=1}^Q f_X(\theta_j)
-$$
-
-- With samples: $\theta_i \sim \pi_w(\theta|\mathbf{X})$ and $\theta_j \sim \pi_A(\theta)$
-
-:::{.fragment}
-- Interestingly, **we do not need a closed-form expressions** for neither the posterior nor the target distribution!
 :::
 
 ---
@@ -391,16 +385,6 @@ $$
 - Second-order methods (2O-R2): Exploit Hessian information.
 
 
-
----
-
-## Computational considerations
-
-- Estimating gradients might require MCMC sampling.
-- However, gradual changes in $w$ allow reuse of previous MCMC samples, reducing burn-in and computational overhead.
-
-
-
 ---
 
 ## Back to the Mexico Microcredit data
@@ -417,14 +401,6 @@ Assume we have resources to manipulate at most $B=20$ data points (just $0.12\%$
   <div class="centered-caption">Posterior for ATE</div>
 </div>
 
----
-
-## Other posteriors are affected too!
-
-<div class="centered-figure">
-  <img src="images/microcredit2.jpeg" alt="My Image" style="max-width: 45%;">
-  <div class="centered-caption">Posterior for noise level</div>
-</div>
 
 
 ---
@@ -598,3 +574,13 @@ Posterior mean of $\beta_{RM}$ vs Number of Manipulated Points
 :::
 
 :::
+
+
+---
+
+## Other posteriors are affected too!
+
+<div class="centered-figure">
+  <img src="images/microcredit2.jpeg" alt="My Image" style="max-width: 45%;">
+  <div class="centered-caption">Posterior for noise level</div>
+</div>
