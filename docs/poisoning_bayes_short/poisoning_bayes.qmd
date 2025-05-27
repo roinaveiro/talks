@@ -1,5 +1,5 @@
 ---
-title: "Can Small Data Manipulations Compromise ML-Based Decisions?"
+title: "Sensitivity of Bayesian inference to data deletion and replication"
 authors:
   - name: "Roi Naveiro"
     affiliation: "CUNEF University"

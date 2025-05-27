@@ -8,9 +8,9 @@
 <link href="poisoning_bayes_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="poisoning_bayes_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="poisoning_bayes_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.4.549">
+  <meta name="generator" content="quarto-1.3.319">
 
-  <title>Can Small Data Manipulations Compromise ML-Based Decisions?</title>
+  <title>Sensitivity of Bayesian inference to data deletion and replication</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -29,7 +29,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="poisoning_bayes_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="poisoning_bayes_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link rel="stylesheet" href="styles.css">
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -174,8 +174,7 @@
   }
 
   .callout.callout-titled .callout-body > .callout-content > :last-child {
-    padding-bottom: 0.5rem;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
   }
 
   .callout.callout-titled .callout-icon::before {
@@ -344,7 +343,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Can Small Data Manipulations Compromise ML-Based Decisions?</h1>
+  <h1 class="title">Sensitivity of Bayesian inference to data deletion and replication</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -867,24 +866,22 @@ Data manipulations identified by the 2O-R2 heuristic
 <div class="column" style="width:49%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/boston1.jpeg" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="images/boston1.jpeg" style="width:80.0%"></p>
 </figure>
 </div>
 <p>KL Divergence vs Number of Manipulated Points</p>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/boston2.jpeg" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="images/boston2.jpeg" style="width:80.0%"></p>
 </figure>
 </div>
 <p>Posterior mean of <span class="math inline">\beta_{RM}</span> vs Number of Manipulated Points</p>
 </div>
 </div>
-<div class="quarto-auto-generated-content">
 <p><img src="images/logo.png" class="slide-logo"></p>
 <div class="footer footer-default">
 <p><a href="https://roinaveiro.github.io/">https://roinaveiro.github.io/</a></p>
-</div>
 </div>
 </section>
     </div>
@@ -913,6 +910,7 @@ Data manipulations identified by the 2O-R2 heuristic
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': true,
+'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
@@ -1156,9 +1154,10 @@ Data manipulations identified by the 2O-R2 heuristic
         // clear code selection
         e.clearSelection();
       });
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      function tippyHover(el, contentFn) {
         const config = {
           allowHTML: true,
+          content: contentFn,
           maxWidth: 500,
           delay: 100,
           arrow: false,
@@ -1168,17 +1167,8 @@ Data manipulations identified by the 2O-R2 heuristic
           interactive: true,
           interactiveBorder: 10,
           theme: 'light-border',
-          placement: 'bottom-start',
+          placement: 'bottom-start'
         };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
           config['offset'] = [0,0];
           config['maxWidth'] = 700;
         window.tippy(el, config); 
