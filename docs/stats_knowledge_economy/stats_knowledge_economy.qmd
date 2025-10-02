@@ -1,0 +1,274 @@
+---
+title: "Statistics in the Knowledge Economy"
+author: 
+  - name: "Roi Naveiro"
+    affiliation: "CUNEF Universidad"
+format:
+  revealjs: 
+    slide-number: true
+    html-math-method: katex
+    autoScale: true   # <--- correct option
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    logo: images/logo.png
+    css: styles.css
+    footer: '[https://roinaveiro.github.io/](https://roinaveiro.github.io/)'
+---
+
+## Knowledge Economy
+
+"Economic system in which the production of goods and services is based principally on knowledge-intensive activities that contribute to advancement in technical and scientific innovation."
+
+IMG
+
+## Knowledge Economy and Statistics
+
+Statistics is (essentially) the discipline that turns data into knowledge.
+
+<br>
+
+> **If statistics is about extracting knowledge from data, then the knowledge economy is our natural home—but are we living up to that role?**
+
+## Knowledge Economy and Statistics
+
+## Are We Living Up to Our Role?
+
+::: {.center}
+## **No—otherwise, this session wouldn’t exist.**
+
+<br>
+
+<span style="font-size:1.2em; color: #888;">Why the disconnect?</span>
+:::
+
+
+---
+
+##  The Shift in Drivers of Statistics
+
+::: {.columns}
+:::: {.column width="50%"}
+
+**Tradition – Science as driver**
+
+* Domains: astronomy, genetics, medicine.
+* **Goal**: diffuse and evolving → to generate knowledge, explain phenomena, refine theories.
+
+::::
+
+:::: {.column width="50%"}
+
+**Today – Industry as driver**
+
+* Domains: tech, advertising, e-commerce, autonomous systems.
+* **Goal**: explicit and measurable → maximize profit.
+
+  * Proxy goals: engagement, retention, clicks, subscriptions, etc.
+
+:::: 
+:::
+
+---
+
+## Key Differences in Goals
+
+* Scientific goals are *open-ended* and hard to pin down.
+* Industrial goals are *singular and concrete* (money), with proxies that shape research agendas.
+
+---
+
+## The Problematic Disconnect
+
+* The tradition within statistics hasn’t adapted to new drivers.
+
+* Not saying that statisticians should abandon scientific goals.
+
+  * If you are doing purely theoretical work, that’s fine. (Problem 1)
+  * If you are working for science, that’s fine. (Problem 2)
+  * But there is a subset of statisticians in academia working on industrial problems that are completely disconnected from practice!
+
+
+## Causes of the Disconnect
+
+* Lack of deep connection with industry.
+
+* A publishing system that values elegance over effectiveness.
+
+* A slow, peer-reviewed journal system that is out of sync with industry timelines.
+
+
+---
+
+## Online Controlled Experiments
+
+* At scale: Airbnb, Netflix, Microsoft run **thousands of A/B tests daily**.
+* Goal: maximize engagement and revenue.
+* Needs: automation, reliable metrics, scalable experimentation platforms.
+* Experiments are directly tied to **business objectives**.
+
+---
+
+## Online Controlled Experiments: Tradition vs. Today
+
+**Tradition (science-driven):**
+
+* Small, clean trials in agriculture, medicine, psychology.
+* Focus on unbiasedness, efficiency, asymptotics.
+
+**Today (industry-driven challenges):**
+
+* Many experiments running in parallel → interference.
+* Millions of users → scalability.
+* Real-time sequential testing and monitoring.
+* Messy data: noncompliance, missingness, heterogeneity.
+
+---
+
+## Computational Advertising
+
+* Multi-billion-dollar industry: **ad auctions, targeting, personalization**.
+* Decisions in **milliseconds** across billions of users.
+* Goal: maximize clicks, conversions, and revenue.
+* Research is **metrics-driven**: CTR, auction efficiency.
+
+---
+
+## Computational Advertising: New Statistical Challenges
+
+* Traditional discrete-choice / survey models don’t scale.
+* Adversarial setting: agents manipulate bids, users game the system.
+* Need causal inference at scale: bias correction for targeting.
+* **Statistical challenge:** inference under *strategic behavior* and *non-iid data*.
+
+---
+
+## Large Language Models (LLMs)
+
+* Foundation of today’s knowledge economy.
+* Used for search, chatbots, copilots, content generation.
+* Progress is driven by **scale and benchmarks**, not statistical theory.
+* Key issues: reliability, hallucination, robustness, evaluation.
+
+---
+
+## LLMs: New Statistical Challenges
+
+* Statistical NLP tradition: small corpora, hand-crafted features, likelihood-based inference.
+* Today: trillion-parameter models, data not iid, distribution shifts.
+* **Challenge for statisticians:**
+
+  * Quantify uncertainty in outputs.
+  * Develop robustness methods (adversarial + distributional).
+  * Define *new inferential questions*: what does “confidence” mean for generative models?
+
+---
+
+## Autonomous Driving
+
+* Safety-critical AI system with massive societal impact.
+* Combines sensors, perception, prediction, decision-making.
+* Needs: **real-time performance, reliability, robustness**.
+* Failures have catastrophic consequences.
+
+---
+
+## Autonomous Driving: Tradition vs. Today
+
+**Tradition (science-driven):**
+
+* Statistical signal processing, Kalman filters, probabilistic robotics.
+* Smaller data, controlled environments, low-stakes.
+
+**Today (industry-driven challenges):**
+
+* Deep learning perception + massive simulation environments.
+* Must handle rare events and adversarial scenarios.
+* **Challenge for statisticians:**
+
+  * Rare-event inference at scale (likelihood-free).
+  * Robustness to distribution shifts and attacks.
+  * Safety guarantees under uncertainty.
+
+---
+
+
+## Common Thread
+
+* Research driven by clear **metrics**.
+
+* Scalability to massive datasets.
+
+* Things happen in **real time**, we need fast methods.
+
+* Sometimes we rely in complex simulators (without likelihoods).
+
+## Common Thread
+
+* World changes fast → **distribution shifts**.
+
+* This breaks the iid assumption that underpins most statistical methods
+
+  * Causal inference: interventional shift.
+  * Experiments: interference, heterogeneity.
+  * Ads: strategic behavior, feedback loops.
+  * LLMs: adversarial prompts.
+  * Driving: rare events, adversarial agents, safety constraints.
+
+## Statistical challenges
+
+All this aspects translate into new statistical challenges:
+
+* Inference methods scalable to massive data.
+* Fast inference for real-time decisions.
+* Likelihood-free inference.
+* Robustness to distribution shifts.
+* Robustness to adversarial attacks.
+* Causal inference under interference and strategic behavior.
+
+---
+
+## To sum up...
+
+* As Bob Dylan said, "The times they are a-changin'."
+
+* Specially true in statistics, where the drivers of research have shifted from science to industry.
+
+* Statisticians in academia working on industrial problems are often disconnected from practice.
+
+* We need to adapt our methods and mindset to address the challenges of the knowledge economy.
+
+## Learning from Computer Science
+
+
+* Metrics-driven research: benchmarks and leaderboards.
+
+* Conference system: faster iteration, closer to industry timelines.
+
+* Software & reproducibility: code is a first-class research output.
+
+* Think in more dimensions: scalability, robustness, latency, interpretability.
+
+* Effectiveness prioritized.
+
+This creates a stronger ecosystem between academia and industry.
+
+## Moving Forward
+
+> We don't have to become computer scientists (please!), but rather take inspiration from their practices to make our research more relevant.
+
+---
+
+## Thank You!
+
+Questions are welcome!
+
+📧 **roi.naveiro@cunef.edu**  
+🌐 [https://github.com/roinaveiro](https://github.com/roinaveiro)
+
+<br>
+
+<div class="centered-figure">
+  <img src="images/ubiña.jpg" alt="Im" style="max-width: 45%;">
+  <div class="centered-caption">Peña Ubiña (León)</div>
+</div>

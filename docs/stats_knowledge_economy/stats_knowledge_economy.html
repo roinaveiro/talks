@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="stats_knowledge_economy_files/libs/clipboard/clipboard.min.js"></script>
+<script src="stats_knowledge_economy_files/libs/quarto-html/tabby.min.js"></script>
+<script src="stats_knowledge_economy_files/libs/quarto-html/popper.min.js"></script>
+<script src="stats_knowledge_economy_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="stats_knowledge_economy_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="stats_knowledge_economy_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="stats_knowledge_economy_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Roi Naveiro">
+  <title>Statistics in the Knowledge Economy</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="stats_knowledge_economy_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="stats_knowledge_economy_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="stats_knowledge_economy_files/libs/revealjs/dist/theme/quarto-534cd8e3a96973385dffff3f4709048d.css">
+  <link rel="stylesheet" href="styles.css">
+  <link href="stats_knowledge_economy_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="stats_knowledge_economy_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="stats_knowledge_economy_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="stats_knowledge_economy_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="stats_knowledge_economy_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="stats_knowledge_economy_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Statistics in the Knowledge Economy</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Roi Naveiro 
+</div>
+        <p class="quarto-title-affiliation">
+            CUNEF Universidad
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="knowledge-economy" class="slide level2">
+<h2>Knowledge Economy</h2>
+<p>“Economic system in which the production of goods and services is based principally on knowledge-intensive activities that contribute to advancement in technical and scientific innovation.”</p>
+<p>IMG</p>
+</section>
+<section id="knowledge-economy-and-statistics" class="slide level2">
+<h2>Knowledge Economy and Statistics</h2>
+<p>Statistics is (essentially) the discipline that turns data into knowledge.</p>
+<p><br></p>
+<blockquote>
+<p><strong>If statistics is about extracting knowledge from data, then the knowledge economy is our natural home—but are we living up to that role?</strong></p>
+</blockquote>
+</section>
+<section id="knowledge-economy-and-statistics-1" class="slide level2">
+<h2>Knowledge Economy and Statistics</h2>
+</section>
+<section id="are-we-living-up-to-our-role" class="slide level2">
+<h2>Are We Living Up to Our Role?</h2>
+</section>
+<section id="nootherwise-this-session-wouldnt-exist." class="slide level2 center">
+<h2><strong>No—otherwise, this session wouldn’t exist.</strong></h2>
+<p><br></p>
+<p><span style="font-size:1.2em; color: #888;">Why the disconnect?</span></p>
+</section>
+<section id="the-shift-in-drivers-of-statistics" class="slide level2">
+<h2>The Shift in Drivers of Statistics</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Tradition – Science as driver</strong></p>
+<ul>
+<li>Domains: astronomy, genetics, medicine.</li>
+<li><strong>Goal</strong>: diffuse and evolving → to generate knowledge, explain phenomena, refine theories.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Today – Industry as driver</strong></p>
+<ul>
+<li><p>Domains: tech, advertising, e-commerce, autonomous systems.</p></li>
+<li><p><strong>Goal</strong>: explicit and measurable → maximize profit.</p>
+<ul>
+<li>Proxy goals: engagement, retention, clicks, subscriptions, etc.</li>
+</ul></li>
+</ul>
+</div></div>
+</section>
+<section id="key-differences-in-goals" class="slide level2">
+<h2>Key Differences in Goals</h2>
+<ul>
+<li>Scientific goals are <em>open-ended</em> and hard to pin down.</li>
+<li>Industrial goals are <em>singular and concrete</em> (money), with proxies that shape research agendas.</li>
+</ul>
+</section>
+<section id="the-problematic-disconnect" class="slide level2">
+<h2>The Problematic Disconnect</h2>
+<ul>
+<li><p>The tradition within statistics hasn’t adapted to new drivers.</p></li>
+<li><p>Not saying that statisticians should abandon scientific goals.</p>
+<ul>
+<li>If you are doing purely theoretical work, that’s fine. (Problem 1)</li>
+<li>If you are working for science, that’s fine. (Problem 2)</li>
+<li>But there is a subset of statisticians in academia working on industrial problems that are completely disconnected from practice!</li>
+</ul></li>
+</ul>
+</section>
+<section id="causes-of-the-disconnect" class="slide level2">
+<h2>Causes of the Disconnect</h2>
+<ul>
+<li><p>Lack of deep connection with industry.</p></li>
+<li><p>A publishing system that values elegance over effectiveness.</p></li>
+<li><p>A slow, peer-reviewed journal system that is out of sync with industry timelines.</p></li>
+</ul>
+</section>
+<section id="online-controlled-experiments" class="slide level2">
+<h2>Online Controlled Experiments</h2>
+<ul>
+<li>At scale: Airbnb, Netflix, Microsoft run <strong>thousands of A/B tests daily</strong>.</li>
+<li>Goal: maximize engagement and revenue.</li>
+<li>Needs: automation, reliable metrics, scalable experimentation platforms.</li>
+<li>Experiments are directly tied to <strong>business objectives</strong>.</li>
+</ul>
+</section>
+<section id="online-controlled-experiments-tradition-vs.-today" class="slide level2">
+<h2>Online Controlled Experiments: Tradition vs.&nbsp;Today</h2>
+<p><strong>Tradition (science-driven):</strong></p>
+<ul>
+<li>Small, clean trials in agriculture, medicine, psychology.</li>
+<li>Focus on unbiasedness, efficiency, asymptotics.</li>
+</ul>
+<p><strong>Today (industry-driven challenges):</strong></p>
+<ul>
+<li>Many experiments running in parallel → interference.</li>
+<li>Millions of users → scalability.</li>
+<li>Real-time sequential testing and monitoring.</li>
+<li>Messy data: noncompliance, missingness, heterogeneity.</li>
+</ul>
+</section>
+<section id="computational-advertising" class="slide level2">
+<h2>Computational Advertising</h2>
+<ul>
+<li>Multi-billion-dollar industry: <strong>ad auctions, targeting, personalization</strong>.</li>
+<li>Decisions in <strong>milliseconds</strong> across billions of users.</li>
+<li>Goal: maximize clicks, conversions, and revenue.</li>
+<li>Research is <strong>metrics-driven</strong>: CTR, auction efficiency.</li>
+</ul>
+</section>
+<section id="computational-advertising-new-statistical-challenges" class="slide level2">
+<h2>Computational Advertising: New Statistical Challenges</h2>
+<ul>
+<li>Traditional discrete-choice / survey models don’t scale.</li>
+<li>Adversarial setting: agents manipulate bids, users game the system.</li>
+<li>Need causal inference at scale: bias correction for targeting.</li>
+<li><strong>Statistical challenge:</strong> inference under <em>strategic behavior</em> and <em>non-iid data</em>.</li>
+</ul>
+</section>
+<section id="large-language-models-llms" class="slide level2">
+<h2>Large Language Models (LLMs)</h2>
+<ul>
+<li>Foundation of today’s knowledge economy.</li>
+<li>Used for search, chatbots, copilots, content generation.</li>
+<li>Progress is driven by <strong>scale and benchmarks</strong>, not statistical theory.</li>
+<li>Key issues: reliability, hallucination, robustness, evaluation.</li>
+</ul>
+</section>
+<section id="llms-new-statistical-challenges" class="slide level2">
+<h2>LLMs: New Statistical Challenges</h2>
+<ul>
+<li><p>Statistical NLP tradition: small corpora, hand-crafted features, likelihood-based inference.</p></li>
+<li><p>Today: trillion-parameter models, data not iid, distribution shifts.</p></li>
+<li><p><strong>Challenge for statisticians:</strong></p>
+<ul>
+<li>Quantify uncertainty in outputs.</li>
+<li>Develop robustness methods (adversarial + distributional).</li>
+<li>Define <em>new inferential questions</em>: what does “confidence” mean for generative models?</li>
+</ul></li>
+</ul>
+</section>
+<section id="autonomous-driving" class="slide level2">
+<h2>Autonomous Driving</h2>
+<ul>
+<li>Safety-critical AI system with massive societal impact.</li>
+<li>Combines sensors, perception, prediction, decision-making.</li>
+<li>Needs: <strong>real-time performance, reliability, robustness</strong>.</li>
+<li>Failures have catastrophic consequences.</li>
+</ul>
+</section>
+<section id="autonomous-driving-tradition-vs.-today" class="slide level2">
+<h2>Autonomous Driving: Tradition vs.&nbsp;Today</h2>
+<p><strong>Tradition (science-driven):</strong></p>
+<ul>
+<li>Statistical signal processing, Kalman filters, probabilistic robotics.</li>
+<li>Smaller data, controlled environments, low-stakes.</li>
+</ul>
+<p><strong>Today (industry-driven challenges):</strong></p>
+<ul>
+<li><p>Deep learning perception + massive simulation environments.</p></li>
+<li><p>Must handle rare events and adversarial scenarios.</p></li>
+<li><p><strong>Challenge for statisticians:</strong></p>
+<ul>
+<li>Rare-event inference at scale (likelihood-free).</li>
+<li>Robustness to distribution shifts and attacks.</li>
+<li>Safety guarantees under uncertainty.</li>
+</ul></li>
+</ul>
+</section>
+<section id="common-thread" class="slide level2">
+<h2>Common Thread</h2>
+<ul>
+<li><p>Research driven by clear <strong>metrics</strong>.</p></li>
+<li><p>Scalability to massive datasets.</p></li>
+<li><p>Things happen in <strong>real time</strong>, we need fast methods.</p></li>
+<li><p>Sometimes we rely in complex simulators (without likelihoods).</p></li>
+</ul>
+</section>
+<section id="common-thread-1" class="slide level2">
+<h2>Common Thread</h2>
+<ul>
+<li><p>World changes fast → <strong>distribution shifts</strong>.</p></li>
+<li><p>This breaks the iid assumption that underpins most statistical methods</p>
+<ul>
+<li>Causal inference: interventional shift.</li>
+<li>Experiments: interference, heterogeneity.</li>
+<li>Ads: strategic behavior, feedback loops.</li>
+<li>LLMs: adversarial prompts.</li>
+<li>Driving: rare events, adversarial agents, safety constraints.</li>
+</ul></li>
+</ul>
+</section>
+<section id="statistical-challenges" class="slide level2">
+<h2>Statistical challenges</h2>
+<p>All this aspects translate into new statistical challenges:</p>
+<ul>
+<li>Inference methods scalable to massive data.</li>
+<li>Fast inference for real-time decisions.</li>
+<li>Likelihood-free inference.</li>
+<li>Robustness to distribution shifts.</li>
+<li>Robustness to adversarial attacks.</li>
+<li>Causal inference under interference and strategic behavior.</li>
+</ul>
+</section>
+<section id="to-sum-up" class="slide level2">
+<h2>To sum up…</h2>
+<ul>
+<li><p>As Bob Dylan said, “The times they are a-changin’.”</p></li>
+<li><p>Specially true in statistics, where the drivers of research have shifted from science to industry.</p></li>
+<li><p>Statisticians in academia working on industrial problems are often disconnected from practice.</p></li>
+<li><p>We need to adapt our methods and mindset to address the challenges of the knowledge economy.</p></li>
+</ul>
+</section>
+<section id="learning-from-computer-science" class="slide level2">
+<h2>Learning from Computer Science</h2>
+<ul>
+<li><p>Metrics-driven research: benchmarks and leaderboards.</p></li>
+<li><p>Conference system: faster iteration, closer to industry timelines.</p></li>
+<li><p>Software &amp; reproducibility: code is a first-class research output.</p></li>
+<li><p>Think in more dimensions: scalability, robustness, latency, interpretability.</p></li>
+<li><p>Effectiveness prioritized.</p></li>
+</ul>
+<p>This creates a stronger ecosystem between academia and industry.</p>
+</section>
+<section id="moving-forward" class="slide level2">
+<h2>Moving Forward</h2>
+<blockquote>
+<p>We don’t have to become computer scientists (please!), but rather take inspiration from their practices to make our research more relevant.</p>
+</blockquote>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank You!</h2>
+<p>Questions are welcome!</p>
+<p>📧 <strong>roi.naveiro@cunef.edu</strong><br>
+🌐 <a href="https://github.com/roinaveiro">https://github.com/roinaveiro</a></p>
+<p><br></p>
+<div class="centered-figure">
+<img src="images/ubiña.jpg" alt="Im" style="max-width: 45%;">
+<div class="centered-caption">
+Peña Ubiña (León)
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="images/logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://roinaveiro.github.io/">https://roinaveiro.github.io/</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="stats_knowledge_economy_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="stats_knowledge_economy_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":false},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
