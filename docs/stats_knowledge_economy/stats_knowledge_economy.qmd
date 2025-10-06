@@ -16,11 +16,14 @@ format:
     footer: '[https://roinaveiro.github.io/](https://roinaveiro.github.io/)'
 ---
 
-::: {.center}
+## Watch-out!
+
+<br>
+<br>
+
 <div class="centered-figure">
   <img src="images/disclaimer.jpg" alt="Disclaimer" style="max-width: 100%;">
 </div>
-:::
 
 --- 
 
