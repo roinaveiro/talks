@@ -1,0 +1,22 @@
+
+
+.border {
+  border: 1px solid #dee2e6;
+}
+
+.border-thick {
+  border-width: 3px;
+}
+
+.centered-figure {
+  text-align: center;
+}
+
+.centered-figure img {
+  display: inline-block;
+}
+
+.centered-caption {
+  font-size: 0.9em;
+  color: #666;
+}
