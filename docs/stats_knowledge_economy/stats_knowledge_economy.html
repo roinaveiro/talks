@@ -415,7 +415,7 @@ Roi Naveiro
 <section id="causes-of-the-disconnect" class="slide level2">
 <h2>Causes of the Disconnect</h2>
 <ul>
-<li><p>Lack of deep <strong>connection with industry</strong>.</p></li>
+<li><p>Lack of deep <strong>collaboration with industry</strong>.</p></li>
 <li><p>Lack of <strong>clear metrics</strong> to optimize.</p></li>
 <li><p>Not enough emphasis on <strong>scalability</strong>.</p></li>
 <li><p>Not enough emphasis on <strong>open-source software</strong> and <strong>open science</strong>.</p></li>
@@ -456,7 +456,6 @@ Roi Naveiro
 <li>Foundation of today’s <del>knowledge</del> intelligence economy.</li>
 <li>Used for search, chatbots, copilots, content generation.</li>
 <li>Progress is driven by <strong>scale and benchmarks</strong>.</li>
-<li>“Alignment with human preferences”.</li>
 <li>Key issues: reliability, hallucination, robustness, evaluation.</li>
 </ul>
 <div class="centered-figure">
@@ -466,14 +465,11 @@ Roi Naveiro
 <section id="statistical-challenges-1" class="slide level2">
 <h2>Statistical Challenges</h2>
 <ul>
-<li><p>Statistical NLP tradition: small corpora, hand-crafted features, likelihood-based inference.</p></li>
-<li><p>Today: trillion-parameter models, data not iid, distribution shifts.</p></li>
-<li><p><strong>Challenge for statisticians:</strong></p>
-<ul>
-<li>Quantify (and define) uncertainty in outputs.</li>
-<li>Develop robustness methods (adversarial + distributional).</li>
+<li>Quantify (and define) <strong>uncertainty in outputs</strong>.</li>
+<li>How can we <strong>callibrate</strong> such uncertainty?</li>
+<li>How can we <strong>certify</strong> LLMs outputs for high-stakes applications?</li>
+<li>Enhance robustness in LLMs (adversarial + distributional).</li>
 <li>…</li>
-</ul></li>
 </ul>
 </section>
 <section id="autonomous-driving" class="slide level2">
@@ -481,7 +477,7 @@ Roi Naveiro
 <ul>
 <li>Safety-critical AI system with massive societal impact.</li>
 <li>Combines sensors, perception, prediction, decision-making.</li>
-<li>Needs: <strong>real-time performance, reliability, robustness</strong>.</li>
+<li>Needs: <strong>real-time performance, reliability, scalability, robustness</strong>.</li>
 <li>Failures have catastrophic consequences.</li>
 </ul>
 <div class="centered-figure">
@@ -492,31 +488,10 @@ Roi Naveiro
 <h2>Statistical Challenges</h2>
 <ul>
 <li><p>Deep learning perception + massive simulation environments.</p></li>
-<li><p><strong>Challenge for statisticians:</strong></p>
-<ul>
-<li>Inference at scale (likelihood-free).</li>
-<li>Robustness to distribution shifts and attacks.</li>
-<li>Safety guarantees under uncertainty.</li>
-<li>…</li>
-</ul></li>
-</ul>
-</section>
-<section id="computational-advertising" class="slide level2">
-<h2>Computational Advertising</h2>
-<ul>
-<li>Multi-billion-dollar industry: <strong>ad auctions, targeting, personalization</strong>.</li>
-<li>Decisions in <strong>milliseconds</strong> across billions of users.</li>
-<li>Goal: maximize clicks, conversions, and revenue.</li>
-<li>Research is <strong>metrics-driven</strong>: CTR, auction efficiency.</li>
-</ul>
-</section>
-<section id="new-statistical-challenges" class="slide level2">
-<h2>New Statistical Challenges</h2>
-<ul>
-<li>Traditional discrete-choice / survey models don’t scale.</li>
-<li>Adversarial setting: agents manipulate bids, users game the system.</li>
-<li>Need causal inference at scale: bias correction for targeting.</li>
-<li>Inference under <em>strategic behavior</em> and <em>non-iid data</em>.</li>
+<li><p>Inference <strong>at scale</strong> (likelihood-free).</p></li>
+<li><p><strong>Robustness</strong> to distribution shifts and attacks.</p></li>
+<li><p><strong>Safety guarantees</strong> under uncertainty.</p></li>
+<li><p>…</p></li>
 </ul>
 </section>
 <section id="common-threads-across-domains" class="slide level2">
@@ -529,17 +504,6 @@ Roi Naveiro
 <li>Happens in OCE (interventional shifts), LLMs (adversarial prompts), ADS (adversarial image manipulation).</li>
 </ul></li>
 <li><p><strong>Robustness</strong> and <strong>adaptability</strong> are essential for modern statistical practice.</p></li>
-</ul>
-</section>
-<section id="statistical-challenges-3" class="slide level2">
-<h2>Statistical challenges</h2>
-<ul>
-<li>Inference methods <strong>scalable to massive data</strong>.</li>
-<li>Fast inference for <strong>real-time decisions</strong>.</li>
-<li><strong>Likelihood-free</strong> inference.</li>
-<li>Robustness to <strong>distribution shifts</strong>.</li>
-<li>Robustness to <strong>adversarial attacks</strong>.</li>
-<li>Causal inference under <strong>interference</strong>.</li>
 </ul>
 </section>
 <section id="to-sum-up" class="slide level2">
@@ -581,8 +545,37 @@ Roi Naveiro
 Peña Ubiña (León)
 </div>
 </div>
-<p><img src="images/logo.png" class="slide-logo"></p>
-<div class="footer footer-default">
+</section>
+<section id="computational-advertising" class="slide level2">
+<h2>Computational Advertising</h2>
+<ul>
+<li>Multi-billion-dollar industry: <strong>ad auctions, targeting, personalization</strong>.</li>
+<li>Decisions in <strong>milliseconds</strong> across billions of users.</li>
+<li>Goal: maximize clicks, conversions, and revenue.</li>
+<li>Research is <strong>metrics-driven</strong>: CTR, auction efficiency.</li>
+</ul>
+</section>
+<section id="new-statistical-challenges" class="slide level2">
+<h2>New Statistical Challenges</h2>
+<ul>
+<li>Traditional discrete-choice / survey models don’t scale.</li>
+<li>Adversarial setting: agents manipulate bids, users game the system.</li>
+<li>Need causal inference at scale: bias correction for targeting.</li>
+<li>Inference under <em>strategic behavior</em> and <em>non-iid data</em>.</li>
+</ul>
+</section>
+<section id="statistical-challenges-3" class="slide level2">
+<h2>Statistical challenges</h2>
+<ul>
+<li>Inference methods <strong>scalable to massive data</strong>.</li>
+<li>Fast inference for <strong>real-time decisions</strong>.</li>
+<li><strong>Likelihood-free</strong> inference.</li>
+<li>Robustness to <strong>distribution shifts</strong>.</li>
+<li>Robustness to <strong>adversarial attacks</strong>.</li>
+<li>Causal inference under <strong>interference</strong>.</li>
+</ul>
+
+<img src="images/logo.png" class="slide-logo r-stretch"><div class="footer footer-default">
 <p><a href="https://roinaveiro.github.io/">https://roinaveiro.github.io/</a></p>
 </div>
 </section>

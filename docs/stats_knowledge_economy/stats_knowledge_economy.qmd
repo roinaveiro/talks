@@ -109,7 +109,7 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 ## Causes of the Disconnect
 
-* Lack of deep **connection with industry**.
+* Lack of deep **collaboration with industry**.
 
 * Lack of **clear metrics** to optimize.
 
@@ -158,7 +158,6 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 * Foundation of today’s ~~knowledge~~ intelligence economy.
 * Used for search, chatbots, copilots, content generation.
 * Progress is driven by **scale and benchmarks**.
-* "Alignment with human preferences".
 * Key issues: reliability, hallucination, robustness, evaluation.
 
 <div class="centered-figure">
@@ -170,13 +169,12 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 ## Statistical Challenges
 
-* Statistical NLP tradition: small corpora, hand-crafted features, likelihood-based inference.
-* Today: trillion-parameter models, data not iid, distribution shifts.
-* **Challenge for statisticians:**
 
-  * Quantify (and define) uncertainty in outputs.
-  * Develop robustness methods (adversarial + distributional).
-  * ...
+* Quantify (and define) **uncertainty in outputs**.
+* How can we **callibrate** such uncertainty?
+* How can we **certify** LLMs outputs for high-stakes applications?
+* Enhance robustness in LLMs (adversarial + distributional).
+* ...
 
 ---
 
@@ -184,7 +182,7 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 * Safety-critical AI system with massive societal impact.
 * Combines sensors, perception, prediction, decision-making.
-* Needs: **real-time performance, reliability, robustness**.
+* Needs: **real-time performance, reliability, scalability, robustness**.
 * Failures have catastrophic consequences.
 
 
@@ -198,31 +196,14 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 * Deep learning perception + massive simulation environments.
 
-* **Challenge for statisticians:**
+* Inference **at scale** (likelihood-free).
 
-  * Inference at scale (likelihood-free).
-  * Robustness to distribution shifts and attacks.
-  * Safety guarantees under uncertainty.
-  * ...
+* **Robustness** to distribution shifts and attacks.
 
----
+* **Safety guarantees** under uncertainty.
 
+* ...
 
-## Computational Advertising
-
-* Multi-billion-dollar industry: **ad auctions, targeting, personalization**.
-* Decisions in **milliseconds** across billions of users.
-* Goal: maximize clicks, conversions, and revenue.
-* Research is **metrics-driven**: CTR, auction efficiency.
-
----
-
-## New Statistical Challenges
-
-* Traditional discrete-choice / survey models don’t scale.
-* Adversarial setting: agents manipulate bids, users game the system.
-* Need causal inference at scale: bias correction for targeting.
-* Inference under *strategic behavior* and *non-iid data*.
 
 ---
 
@@ -238,14 +219,6 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 * **Robustness** and **adaptability** are essential for modern statistical practice.
 
-## Statistical challenges
-
-* Inference methods **scalable to massive data**.
-* Fast inference for **real-time decisions**.
-* **Likelihood-free** inference.
-* Robustness to **distribution shifts**.
-* Robustness to **adversarial attacks**.
-* Causal inference under **interference**.
 
 ---
 
@@ -300,3 +273,34 @@ This creates a stronger ecosystem between academia and industry.
   <img src="images/ubiña.jpg" alt="Im" style="max-width: 55%;">
   <div class="centered-caption">Peña Ubiña (León)</div>
 </div>
+
+
+---
+
+
+## Computational Advertising
+
+* Multi-billion-dollar industry: **ad auctions, targeting, personalization**.
+* Decisions in **milliseconds** across billions of users.
+* Goal: maximize clicks, conversions, and revenue.
+* Research is **metrics-driven**: CTR, auction efficiency.
+
+---
+
+## New Statistical Challenges
+
+* Traditional discrete-choice / survey models don’t scale.
+* Adversarial setting: agents manipulate bids, users game the system.
+* Need causal inference at scale: bias correction for targeting.
+* Inference under *strategic behavior* and *non-iid data*.
+
+---
+
+## Statistical challenges
+
+* Inference methods **scalable to massive data**.
+* Fast inference for **real-time decisions**.
+* **Likelihood-free** inference.
+* Robustness to **distribution shifts**.
+* Robustness to **adversarial attacks**.
+* Causal inference under **interference**.
