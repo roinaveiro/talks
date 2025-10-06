@@ -32,7 +32,7 @@ format:
 "Economic system in which the production of goods and services is based principally on **knowledge-intensive activities** that contribute to advancement in technical and scientific innovation."
 
 <div class="centered-figure">
-  <img src="images/ai_economy.jpeg" alt="AI Economy" style="max-width: 50%;">
+  <img src="images/ai_economy.jpeg" alt="AI Economy" style="max-width: 30%;">
 </div>
 
 ---
@@ -90,7 +90,7 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 
 <div class="centered-figure">
-  <img src="images/follow_money.jpg" alt="Follow the Money" style="max-width: 80%;">
+  <img src="images/follow_money.jpg" alt="Follow the Money" style="max-width: 75%;">
 </div>
 
 ---
@@ -127,13 +127,13 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 ## Online Controlled Experiments
 
-* At scale: Airbnb, Netflix, Microsoft run **thousands of A/B tests daily**.
+* Airbnb, Netflix... run **thousands of A/B tests daily**.
 * Goal: maximize engagement and revenue.
 * Needs: automation, reliable metrics, scalable experimentation platforms.
 * Experiments are directly tied to **business objectives**.
 
 <div class="centered-figure">
-  <img src="images/ab.jpeg" alt="Follow the Money" style="max-width: 60%;">
+  <img src="images/ab.jpeg" alt="Follow the Money" style="max-width: 40%;">
 </div>
 
 ---
@@ -162,7 +162,7 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 * Key issues: reliability, hallucination, robustness, evaluation.
 
 <div class="centered-figure">
-  <img src="images/llm.jpeg" alt="LLM" style="max-width: 60%;">
+  <img src="images/llm.jpeg" alt="LLM" style="max-width: 40%;">
 </div>
 
 
@@ -234,7 +234,7 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 * The world changes fast: **distribution shifts** and **non-iid data** are the norm.
 
-  * Happens in OCE (interventional shifts), LLMs (adversarial prompts), autonomous driving (adversarial image manipulation).
+  * Happens in OCE (interventional shifts), LLMs (adversarial prompts), ADS (adversarial image manipulation).
 
 * **Robustness** and **adaptability** are essential for modern statistical practice.
 
@@ -253,7 +253,7 @@ Statistics is (essentially) the discipline that turns data into knowledge.
 
 
 <div class="centered-figure">
-  <img src="images/bob.jpg" alt="bob" style="max-width: 60%;">
+  <img src="images/bob.jpg" alt="bob" style="max-width: 15%;">
 </div>
 
 * Specially true in statistics, where the **drivers of research** have shifted **from science to industry**.
