@@ -1,0 +1,83 @@
+
+
+.border {
+  border: 1px solid #dee2e6;
+}
+
+.border-thick {
+  border-width: 3px;
+}
+
+.centered-figure {
+  text-align: center;
+}
+
+.centered-figure img {
+  display: inline-block;
+}
+
+.centered-caption {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.attack-card {
+  border-radius: 14px;
+  border: 2px solid #d9d9d9;
+  padding: 1rem 1.1rem;
+  min-height: 10rem;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.poisoning-card {
+  border-color: #9b2226;
+  background: linear-gradient(180deg, #fff4f1 0%, #ffffff 100%);
+}
+
+.evasion-card {
+  border-color: #005f73;
+  background: linear-gradient(180deg, #eefafb 0%, #ffffff 100%);
+}
+
+.attack-card-formula {
+  margin-top: 1.1rem;
+  font-size: 1.2rem;
+}
+
+.pipeline-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.pipeline-box {
+  min-width: 10rem;
+  padding: 0.8rem 0.9rem;
+  border: 2px solid #1d3557;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f3f7fb 0%, #ffffff 100%);
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(29, 53, 87, 0.08);
+}
+
+.pipeline-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #1d3557;
+}
+
+.pipeline-math {
+  margin-top: 0.3rem;
+  font-size: 1.1rem;
+}
+
+.pipeline-arrow {
+  font-size: 1.5rem;
+  color: #9b2226;
+}
