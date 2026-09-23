@@ -1,0 +1,64 @@
+[
+  {
+    "asset": "assets/spatial-map.svg",
+    "source": "context/mmd/figs/spatial_lm/spatial_mean_attacks_selected_attack_map.pdf",
+    "source_sha256": "82c60df1225579aa6a406aab6e38c0683c74b60d9d6e477b01fb9911d7c76488",
+    "asset_sha256": "19e7a93aab1ad02fb9a98fc7e195549b31c64f3a8d27f058f8b10df7d63575d3",
+    "transformation": "Complete original PDF page converted to SVG with outlined fonts"
+  },
+  {
+    "asset": "assets/spatial-posteriors.svg",
+    "source": "context/mmd/figs/spatial_lm/spatial_mean_attacks_all_beta_posteriors.pdf",
+    "source_sha256": "ea6d509b4ce13b7596bec53fc75a03ee91c2703c8f8d97905e8354b17b2b0ade",
+    "asset_sha256": "e9811abaf229eb8636d1fe7f02e95b0c6bb541137428ba9dd0943721efd0eaf1",
+    "transformation": "Complete original PDF page converted to SVG with outlined fonts"
+  },
+  {
+    "asset": "assets/radon-gap.svg",
+    "source": "context/mmd/figs/radon_lake_utility_gap_posterior.pdf",
+    "source_sha256": "b71a804b9b03e48baaefa9706f37233b17689dd9e22cf38939e862b671718996",
+    "asset_sha256": "514cd06a402f14838cfd18afe85345a3468f5b092e653735dd7b75f312171111",
+    "transformation": "Complete original PDF page converted to SVG with outlined fonts"
+  },
+  {
+    "asset": "assets/radon-decomposition.svg",
+    "source": "context/mmd/figs/radon_lake_cost_decomposition.pdf",
+    "source_sha256": "c828aac40ab6f0bc0c1279389578d1e8993b38df4379b87873b165d98e62442f",
+    "asset_sha256": "cef1fcdb713e835cdab925b1d4e439789dcf329dbf4d457a6f96ebeac69028a0",
+    "transformation": "Complete original PDF page converted to SVG with outlined fonts"
+  },
+  {
+    "asset": "assets/radon-deletions.svg",
+    "source": "context/mmd/figs/radon_deleted_observations.pdf",
+    "source_sha256": "888a554c1dfd6811cf969dbb368aa11b4f8beeeed34081cb73911bf373f3fd10",
+    "asset_sha256": "85860299b819d418829f285d061aebf33ee7e3479b372b2bbe8f9ff4a44a57df",
+    "transformation": "Complete original PDF page converted to SVG with outlined fonts"
+  },
+  {
+    "asset": "assets/radon-counties.svg",
+    "source": "context/mmd/figs/radon_county_expected_health_cost.pdf",
+    "source_sha256": "1f51b630cf42cae8a65488f4cf69867ccd4295cb60996d861a7222e48c34b6a8",
+    "asset_sha256": "a8bc62d3af1b9644bd2523d6f53392f7d7e6ad8987d8af8e9245cdfc880d6e66",
+    "transformation": "Complete original PDF page converted to SVG with outlined fonts"
+  },
+  {
+    "asset": "assets/spatial-flooding-panel.svg",
+    "source": "context/mmd/figs/spatial_lm/spatial_mean_attacks_all_beta_posteriors.pdf",
+    "source_sha256": "ea6d509b4ce13b7596bec53fc75a03ee91c2703c8f8d97905e8354b17b2b0ade",
+    "asset_sha256": "7a6a32a2fb5240988698cc1f9907ee765dbfb3bad91f1d096892c0ba460fd468",
+    "crop": [
+      983.0,
+      65.0,
+      1217.0611572265625,
+      268.9047546386719
+    ],
+    "transformation": "Original FFREQ coefficient panel extracted without redrawing; shared gray/blue legend supplied in slide caption"
+  },
+  {
+    "asset": "assets/spatial-ba-location-changes.png",
+    "source": "context/posterior_attraction_BA/Figures/spatial_lm/location_changes_with_response_EPA_b1=40_b3=1.0.png",
+    "source_sha256": "ec22527a308f15b3dda3e1964b8667cff4df38483b674a465bcdda22716ad985",
+    "asset_sha256": "ec22527a308f15b3dda3e1964b8667cff4df38483b674a465bcdda22716ad985",
+    "transformation": "Unchanged byte-for-byte copy"
+  }
+]

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="288" viewBox="0 0 1120 288" role="img" aria-labelledby="title desc">
+  <title id="title">Two vehicles approaching a lane merge</title>
+  <desc id="desc">The upper lane closes between the beginning and end of a merge zone. Our automated vehicle occupies the ending lane. A human-driven car occupies the continuing lane. Both choose steering and acceleration.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#617583"/></marker></defs>
+  <g font-family="Arial, sans-serif" font-size="25" fill="#253846">
+    <text x="38" y="29" fill="#004369" font-weight="bold">Our automated vehicle</text>
+    <text x="607" y="29" fill="#617583">Lane closes ahead</text>
+    <path d="M28 55H480L875 142H1090V232H28Z" fill="#f0f6f6"/>
+    <path d="M28 55H480L875 142H1090M28 232H1090" fill="none" stroke="#253846" stroke-width="5"/>
+    <path d="M28 143H860" fill="none" stroke="#617583" stroke-width="3" stroke-dasharray="16 13"/>
+    <path d="M480 47V240M875 133V240" fill="none" stroke="#b58a39" stroke-width="2" stroke-dasharray="5 7"/>
+    <g transform="translate(180,75)"><rect width="95" height="47" rx="10" fill="#004369"/><path d="M18 4V43M72 4V43" stroke="#b7d8e1" stroke-width="5"/><text x="47" y="31" text-anchor="middle" fill="white" font-size="21" font-weight="bold">AV</text></g>
+    <g transform="translate(335,166)"><rect width="95" height="47" rx="10" fill="#b3434e"/><path d="M18 4V43M72 4V43" stroke="#edc6ca" stroke-width="5"/><text x="47" y="31" text-anchor="middle" fill="white" font-size="21" font-weight="bold">HV</text></g>
+    <path d="M292 99H398M448 190H554" stroke="#617583" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="573" y="201" fill="#b3434e">Human-driven car</text>
+    <text x="480" y="275" text-anchor="middle" font-size="22">Merge begins</text>
+    <text x="875" y="275" text-anchor="middle" font-size="22">Lane ends</text>
+  </g>
+</svg>

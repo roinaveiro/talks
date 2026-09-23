@@ -1,0 +1,23 @@
+{
+  "assets": {
+    "sequential-interaction-original.svg": {
+      "source": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/main.tex, first tikzpicture, Figure 1(a)",
+      "method": "Original TikZ compiled with its original stripe pattern in a standalone wrapper; complete PDF page converted to SVG with text outlined. Nodes, arcs, labels and legend unchanged.",
+      "editable_source": "assets/sequential-interaction-original.tex",
+      "source_sha256": "3ec13d66b6b5bdbd7d03db52b3e4f424a0c40ac8fbbdf88fdc2d7460c24a1f9f",
+      "sha256": "c5122273b7acb708c2345bd57c4ae035cc6d352259028840a4da1113567c44a9"
+    },
+    "cunef-logo.svg": {
+      "source": "https://www.cunef.edu/",
+      "retrieved": "2026-09-23",
+      "method": "Official inline SVG named logo extracted unchanged except for removal of CSS class and addition of standalone xmlns attribute. Original paths, dimensions, and orange fill preserved.",
+      "sha256": "1bba09c4dcc42f14f5e947d7d27c1c5f505bcbb4f395d65cab0bc0a8829f21b1"
+    },
+    "sequential-merge-h2s.png": {
+      "source": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/Figures/MergeGame/merge_demo_H2S.png",
+      "method": "byte-for-byte copy; all original axes, trajectories, panels and annotations preserved.",
+      "sha256": "d1c5e2295fdf19b8e876def06749963bae465f825d447c3a5bd8fc3d674ad7f8"
+    }
+  },
+  "vacancy_announcement_source": "User-provided TODO in secure-ml.qmd, reviewed 2026-09-23; positions and dates summarized without adding an application deadline."
+}

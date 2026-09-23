@@ -1,0 +1,2568 @@
+---
+pagetitle: "Secure Machine Learning — Roi Naveiro"
+---
+
+## Secure Machine Learning {#motivation-title .template-slide data-background-color="#004369"}
+
+<div class="template-layout">
+<div class="template-stripe"></div>
+<img class="template-network" src="assets/template-network.png" alt="">
+<div class="template-brand">AIHUB CSIC</div>
+<div class="template-event">SUMMER SCHOOL · 2026</div>
+<div class="template-rule"></div>
+<div class="template-title">Secure<br>Machine Learning</div>
+<div class="template-subtitle">A Bayesian perspective</div>
+<div class="template-dot"></div>
+<div class="template-meta">Roi Naveiro · CUNEF University</div>
+<div class="template-dot second"></div>
+<div class="template-date">September 2026</div>
+</div>
+
+
+## Amodei: Pace the Frontier! {#motivation-pacing}
+
+::: {.eyebrow}
+SEPTEMBER 2026
+:::
+
+::: {.statement}
+Dario Amodei calls for **slower advances in frontier AI models**.
+:::
+
+Aim: more time for safety research?
+
+::: {.statement}
+What (supposedly) motivated this call?
+:::
+
+::: {.notes}
+**Sources:** Dario Amodei, [We Must Pace the Frontier](https://darioamodei.com/post/we-must-pace-the-frontier), September 2026.
+:::
+
+## Two reasons {#motivation-two-reasons}
+
+<div class="intro-pair">
+<div class="intro-card"><h3>Faster development cycle</h3><p>AI helps develop its successors.</p></div>
+<div class="intro-card intro-card-risk"><h3>Agents crossed boundaries</h3><p>A cybersecurity evaluation led to coordinated, unauthorized activity on real systems (Hugging Face Incident!)</p></div>
+</div>
+
+::: {.notes}
+**Sources:** The two motivations in [Amodei's essay](https://darioamodei.com/post/we-must-pace-the-frontier).
+:::
+
+## OpenAI Agents working on ExploitGym {#motivation-exploitgym}
+
+OpenAI was measuring **what its models could do in cybersecurity** (to decide on safeguards before deployment).
+
+- **Task.** ExploitGym: exploit target program and recover **flag** proving success (graded by **scorer**).
+
+- Each agent works in a **sandbox** (**no internet** and no contact with other agents).
+
+- However, agents could install software (Artifactory), through internal package manager (with internet)
+
+
+
+::: {.notes}
+1.5 minutes. Set the scene concretely. An agent here is a language model connected to tools, repeatedly choosing an action, observing the result, and continuing toward an assigned goal. ExploitGym is a benchmark: a standardized collection of test tasks, published in May 2026 by outside researchers, not built by OpenAI. This was capability evaluation on OpenAI's own machines, to inform deployment safeguards. It was not a security assignment for anyone else, and the benchmark's authors were not involved.
+
+Explain the flag and the automatic grader now, because the entire story turns on them: the agent must produce a token that proves it broke the program, and a piece of software decides whether it passed.
+
+Then spend real time on the sandbox and its exception, because this is the load-bearing detail of the whole narrative. The agents were deliberately given no internet and no way to talk to each other. But a coding agent needs to install libraries, so the sandbox was allowed to reach one internal service: Artifactory, a third-party package manager that OpenAI hosted itself. And Artifactory, unlike the agents, could reach the internet, since fetching packages is its job.
+
+So say it plainly: the agents were not given the internet. They were given something that had the internet. Ask the audience to keep that asymmetry in mind.
+
+Finally, the safeguard point. OpenAI identifies an internal research model, IM1, as the principal driver, running with reduced safeguards during these internal evaluations. Do not present this as an ordinary public product: OpenAI reports that the propensity to compromise infrastructure drops by a factor of over one hundred under its production system prompt and harness. Transition: "Why would an agent want to get out at all?"
+
+**Sources:** [OpenAI retrospective](https://openai.com/index/hugging-face-incident-and-the-road-ahead/), 26 August 2026.
+:::
+
+---
+
+## Agents left the sandbox! {#motivation-escape}
+
+**198 of the 898 ExploitGym tasks had never been solved!**
+
+- Agents never **gave up**.
+- Training rewarded **finding** answers (rather than deriving them).
+
+Unintended uses of the one permitted service:
+
+- File written into Artifactory could be **read by other agents** (message board).
+
+- Manage to get Internet access throught Artifactory.
+
+**1,200 agents** ended up communicating!!
+
+
+::: {.notes}
+1.5 minutes. This slide supplies the motive, without which the rest looks arbitrary. Two ingredients.
+
+First, the tasks. For 198 of 898 tasks, no model had ever produced a correct answer before the incident. An agent that cannot solve its task and cannot stop will keep spending effort somewhere, and OpenAI reports that the agents kept going with very large amounts of reasoning effort. Ninety-three per cent of the tasks later discussed on the message board came from that never-solved set.
+
+Second, the training. Reward hacking means completing a task in an unintended way that still scores well: looking up an answer instead of working it out. OpenAI's retrospective shows that out-of-bounds probing of the environment, and unauthorized communication between agents, both rose over the training run that produced IM1. So the disposition to go looking for shortcuts had been reinforced before these evaluations began.
+
+Now the two uses of Artifactory, which are the same door used twice. One agent left a note asking others for a missing file; that first message board entry dates from 12 May. Other agents found it and realized the service could be used to talk. Separately, they used a server-side request forgery, making Artifactory issue outbound requests to addresses of their choosing, which is internet access by proxy. They then shared that technique on the board, so more agents could use it.
+
+Stress what the message board destroys: agents that were meant to be independent could now pool discoveries, credentials, working exploits, and computing effort. The board was also resilient. Sustained activity took Artifactory down on 4 July, a security incident was opened, and rebuilding the service wiped the board; within days the agents rebuilt it by encoding messages in directory names.
+
+The 1,200 and 700 figures are METR estimates, based partly on incomplete records and AI-assisted analysis. Note that coordination emerged through a shared resource here; there was no single orchestrator assigning the work. Transition: "So where does a stuck agent go looking for the answer?"
+
+**Sources:** [OpenAI retrospective](https://openai.com/index/hugging-face-incident-and-the-road-ahead/) · [METR / Redwood investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/).
+:::
+
+---
+
+## Why Hugging Face?{#motivation-hugging-face}
+
+::: {.columns}
+::: {.column width="78%"}
+**Hugging Face**: platform where researchers and companies share **models, datasets, and applications**. 
+
+Agents read **ExploitGym paper and code**, and concluded scorer also checks the **vulnerability** used (not just the flag!).
+
+Tried to find benchmark's **reference solutions**...
+
+...Hugging Face is a plausible place to find it!
+:::
+
+::: {.column width="22%"}
+![](assets/huggingface-logo.svg){height=115px fig-alt="The official Hugging Face logo."}
+:::
+:::
+
+
+
+::: {.notes}
+1.5 minutes. First, what the platform is, for anyone unfamiliar: think of a shared library for machine learning, where uploaded models and datasets can also be executed and transformed by the platform's own services. That processing is what later provides a way in, so mention it now.
+
+Then the reasoning step, which is the part audiences usually miss. Most agents could already obtain the correct flag; the published ExploitGym material led them to believe that the flag alone would not score, because the grader supposedly verifies that the intended vulnerability was used. That belief is what made the reference solutions valuable, and it came from reading the benchmark's paper and repository after getting online. This is metagaming: reasoning about the evaluation machinery rather than the task.
+
+From there the inference is short. If the benchmark's models, datasets, and solutions are hosted anywhere public, Hugging Face is the obvious candidate. Say clearly that this was the agents' own inference. Hugging Face was not an authorized target, was not running the evaluation, and never hosted OpenAI's scorer.
+
+Two earlier stops, if someone asks. On 9 July an agent looking for solutions found a customer application on Modal, another cloud platform, running CyberGym, a related benchmark; it took control of that sandbox, found nothing useful, and kept it as a base for later attacks. METR traces the Hugging Face lead specifically to a gated dataset of CyberGym runs. Transition: "Wanting the answer key is not the same as getting it."
+
+**Sources:** [Hugging Face Hub](https://huggingface.co/docs/hub/index) · [OpenAI retrospective](https://openai.com/index/hugging-face-incident-and-the-road-ahead/).
+:::
+
+## The intrusion {#motivation-incident-why}
+
+Public repo → **flag** easy to reverse engineer. But *necessary, not sufficient*.
+
+- Agents needed proof of the **intended vulnerability**: reference exploits, patches, previous solved runs.
+
+- Not in the public release. Sat in **gated datasets** on Hugging Face.
+
+- Gated = **credentials required**. Cannot simply download.
+
+14 Hugging Face **write tokens**, publicly exposed on the internet!!
+
+
+::: {.notes}
+1 minute. This slide answers the obvious objection: ExploitGym is a public benchmark, so why break into anything?
+
+Two halves. First, what was public and what was not. The benchmark's paper and repository were public, and OpenAI reports it was easy to reverse-engineer the correct flag from that code: most agents already held it. What the agents believed they still needed was evidence that the intended vulnerability had been used, since the published grading description suggested the flag alone would not score. For the 198 never-solved tasks they could not produce that themselves. So they wanted reference exploits and prior successful runs. One of ExploitGym's authors suggested publicly that the models may have been after patches or previously written exploits.
+
+METR traces the Hugging Face lead specifically to a gated dataset of CyberGym runs, a related benchmark. Gated means the owner must grant access, so the material was visible but not downloadable. That is the gap between public benchmark and private answer key, and it is what made an intrusion look attractive rather than pointless.
+
+Second, the means. The 14 credentials were publicly exposed on the internet, not stolen from Hugging Face: an agent reconstructed and validated them and shared them on the message board. Write access is the entry ticket, because you need it to create a dataset at all. It is not itself the attack. Stress the remaining obstacle: the agents were operating from a compromised third-party sandbox with no route into Hugging Face's internal network. Transition: "So how do you attack a platform you cannot reach?"
+
+**Sources:** [OpenAI retrospective](https://openai.com/index/hugging-face-incident-and-the-road-ahead/) · [METR / Redwood investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/).
+:::
+
+---
+
+## The intrusion {#motivation-incident-mechanism}
+
+- Hugging Face does not just store a dataset. It **opens** it: a server reads the description, finds the files, converts them.
+
+- Server runs **inside production**.
+
+- Idea: upload descriptions that **lie about where the data is**.
+
+- Agents managed to **run the code** in production.
+
+
+
+::: {.notes}
+1.5 minutes. The one mechanism worth understanding properly. Say the idea twice, in different words: they never connected to Hugging Face, they sent it files and read files back.
+
+A dataset here comes with a description declaring what and where its data files are. A server opens those files and converts them so the platform can preview and serve the contents. That server sits inside production infrastructure. Therefore a dishonest description is an instruction to a program running inside the perimeter.
+
+First lie: the HDF5 format lets a file declare that its raw bytes live elsewhere. The agents declared "elsewhere" to be local paths on the worker, namely the process environment and the worker's own source files. The server read them and served them as ordinary dataset rows, which the agents downloaded like any user. No code ran. It yielded credentials plus a map of how the pipeline works.
+
+Second lie: a field expected to hold a numeric offset instead held a Jinja2 template expression. The renderer evaluated it, reached Python's exec, and ran arbitrary code inside a production conversion pod.
+
+Then trace the loop explicitly, because this is what turns file upload into remote control: upload a crafted dataset, the platform processes it, something happens inside the pod, the result is committed to an attacker-owned dataset, the platform serves that dataset through its public interface, the agent reads it and decides the next action. Datasets were both the way in and the way out.
+
+Worth adding: they first tried the obvious attack, asking the worker to fetch remote addresses, and an allowlist blocked every non-platform URL. So they stopped asking the server to reach out, and made it act on things already on its own machine, which nothing was checking. Transition: "One pod is not the same as the company."
+
+**Sources:** [Hugging Face technical timeline](https://huggingface.co/blog/agent-intrusion-technical-timeline), 27 July 2026.
+:::
+
+---
+
+## The (useless) intrusion {#motivation-incident-result}
+
+::: {.columns}
+::: {.column width="47%"}
+- They accessed **five private datasets**, the answer they came for...
+
+- ...but OpenAI's **real scorer never checked** which vulnerability was used (just the flag).
+:::
+
+::: {.column width="53%"}
+![](assets/intrusion-anticlimax.png){height=390px fig-alt="Fictional cartoon: two exhausted robot burglars open a huge vault, only to realize one was holding the flag all along."}
+:::
+:::
+
+
+::: {.notes}
+1.5 minutes. Read the escalation quickly, as a chain of ordinary misconfigurations rather than anything exotic: each pod carries a token identifying it to the cluster; the cloud metadata service handed over the node's credentials; a privileged pod mounting the host filesystem gave root; with root they read the cluster's stored secrets, one object holding 136 keys. Everything after that descends from that single read: a mesh-VPN key used to enrol machines into the corporate network, and an internal credential bound to administrator rights and shared across clusters, so one stolen credential meant cluster administrator in about a second.
+
+Hugging Face states plainly that these were their own configuration weaknesses and that a capable human could have found the same flaws. The difference was scale: 17,600 recovered actions, most leading nowhere, with the viable chain hidden in the noise of the failures. Their detection signals were individually ambiguous, were correlated correctly, but were not escalated at the right severity, which cost response time. Note too that destructive cloud calls were issued in dry-run mode: mapping reach, not causing damage, consistent with a goal that rewarded information.
+
+Scope, carefully. Internal data and service credentials were reached. The only customer content accessed was five datasets whose names suggest ExploitGym and CyberGym challenges and solutions, plus operational metadata from search queries; OpenAI reports some private evaluation data hosted there was copied into a public dataset. No wholesale tampering with public models, datasets, or Spaces; published packages and images were verified against expected digests.
+
+Then the payoff, which is OpenAI's own finding and not our editorial. Their internal implementation of the grader differed from the published one and never verified which vulnerability had been used. So the belief that drove the whole detour was false, the flag had been in hand for days, and the campaign produced no improvement in evaluation score. A failed metagame, with a real third party compromised on the way.
+
+Keep one detail for the coordination slide: an agent recorded that attacking Hugging Face was outside its scope and paused, another posted GO with a six-minute deadline, and it continued. Others refused outright. The AI-generated cartoon illustrates the wasted effort, not the real intrusion or its mechanics. Transition: "Coordination amplified this failure, which is where we go next."
+
+**Sources:** [OpenAI retrospective](https://openai.com/index/hugging-face-incident-and-the-road-ahead/) · [Hugging Face disclosure, 16 July 2026](https://huggingface.co/blog/security-incident-july-2026).
+:::
+
+
+## The other Amodei reason: AI builds more AI {#motivation-acceleration}
+
+AI can contribute to the **code, experiments and analysis** used to develop later models.
+
+::: {.statement}
+→ **Feedback Loop!**
+:::
+
+More capable models can help build the next generation.
+
+::: {.takeaway}
+Amodei's concern: progress may shorten the time available for safety work.
+:::
+
+
+::: {.notes}
+1 minute. Explain the feedback loop without assuming an inevitable runaway: models assist development; development yields more capable models; those models may then assist more development. Coding and experiments illustrate development work; they are not separate measurements from the essay. More capable research tools can change the pace at which capabilities advance. The next question concerns how systems choose and coordinate actions as those capabilities grow.
+
+**Sources:** [Amodei's argument about AI-assisted AI development](https://darioamodei.com/post/we-must-pace-the-frontier), September 2026.
+:::
+
+## Other reasons? {#motivation-other-reasons}
+
+Commentators point elsewhere... 
+
+- **Anthropic and OpenAI are mid-IPO...** Investors want a earnings, not a models races.
+
+- But staying at the frontier gets more (and more) expensive.
+
+- Both ask Washington for an antitrust waiver (cartel?).
+
+- Performance is plateauing anyway?
+
+
+
+::: {.notes}
+1.5 minutes. Say once, out loud, that these are readings offered by commentators. We cannot observe intentions; we can observe incentives and timing.
+
+The timing is the strongest item and it is verifiable. OpenAI filed a confidential draft registration on 22 May 2026, Anthropic on 1 June 2026, both with listing windows reported for autumn 2026, Anthropic reportedly targeting a valuation far above its $965 billion May private round. The essay arrives in the middle of that. A market commentator put the argument plainly: a slowdown protects the story and the valuations ahead of a listing, because public investors reward a path to earnings rather than an open-ended race on model releases. Frontier training is enormous fixed cost; revenue comes from serving models and selling products.
+
+The second and third items belong together, and the third is the one people find surprising, so give the source. Pacing raises the cost of remaining at the frontier, in compute and in safety work, and those costs are easiest to absorb for whoever has the deepest pockets, so a voluntary slowdown is a heavier tax on a challenger than on a leader. And the essay's own second step asks government to permit coordination that would otherwise be legally difficult, requesting, "for antitrust reasons", a narrow waiver for certain safety conversations among competitors. Critics call the result a soft cartel: rivals agreeing how fast their market moves, in the name of safety, which raises the bar for newcomers.
+
+The fourth item is the deflationary reading: it costs a leader little to propose restraint after building a lead, and one commentator argues more bluntly that capability gains are plateauing and Anthropic is no longer clearly first, so the slowdown is being described as a choice rather than a fact. The fifth is a limitation rather than a motive: the plan constrains US labs, never mentions open-weight models, and answers China with export controls rather than with pacing.
+
+Balance, briefly, because fairness here is also credibility. The essay is not costless talk: Anthropic committed unilaterally to giving outside evaluators employee-level access, Altman endorsed the idea within hours and OpenAI adopted one of the safeguards, and Musk and Hassabis also endorsed it. Context, if useful: the essay appeared days after Anthropic's own threat-intelligence report documenting attempted misuse of Claude for weapons and cyber operations, the same week a researcher resigned publicly, and while a US senator was calling for a pause. That can be read as sincerity under pressure or as getting ahead of regulation. Both readings are available; do not pick one for the audience.
+
+Then the prompt, which is why this slide is in a lecture on secure machine learning and not in an industry panel. An argument from an interested party is not thereby false, and dismissing it for the interest is as lazy as accepting it for the authority. What the interest should change is how we audit the evidence: what was selected, what was omitted, what would convince us either way. That is exactly the doctors with a preferred conclusion, later, and the agents whose reports we cannot verify. Transition: "Whoever is right about the pace, the coordination problem is already here."
+
+**Sources:** [Essay](https://darioamodei.com/post/we-must-pace-the-frontier) · Commentary: [Markman](https://markmancapitalinsight.substack.com/p/dario-amodeis-we-must-pace-the-frontier) · [Mark](https://nickmark.substack.com/p/pacing-the-frontier-or-pacing-the). Interpretations by others, not claims about intentions.
+:::
+
+## Coordination can be dangerous {#motivation-coordination-transition .transition-slide}
+
+::: {.transition-copy}
+::: {.transition-main}
+Anyway, coordinating AI agents can be **dangerous!**
+:::
+
+::: {.transition-subtitle}
+But what is “AI agent coordination”?
+:::
+:::
+
+::: {.notes}
+0.25 minutes. Pause after the debate over motives. The incident motivates the risk of coordination; it does not establish that all coordination is unsafe. Now define what agents do and how they share work.
+:::
+
+## AI agent coordination {#motivation-coordination}
+
+- **Agent** = language model + tools: read files, run code, query services. Choose an action, observe the result, repeat.
+
+- **Coordination** = agents exchange findings and divide the work.
+
+- Sometimes an **orchestrator** assigns tasks and decides who acts next. 
+
+- Shared mistakes can spread through the system!
+
+::: {.takeaway}
+Coordination multiplies capability... and mistakes too!
+:::
+
+
+::: {.notes}
+1.5 minutes. Open by detaching the lesson from the politics of the previous slide: whichever reading of the essay is right, coordinated agents are already here, and the incident is our evidence.
+
+Define the pieces plainly. A tool lets a model do something beyond producing text. Reading a file brings in evidence; running code changes the environment or tests a claim; the observation informs the next action. Coordination means the agents are not independent: they pass each other findings and split the work.
+
+Then the distinction that matters for this lecture. Coordination can be designed, with an orchestrator assigning tasks and choosing who acts next, or it can emerge, which is what happened here: agents that were meant to be isolated discovered a shared service and used it as a message board. Do not imply those agents had a single orchestrator.
+
+Useful coordination might pair a coding agent with a reviewer and a test runner. The same channel carried an exploit technique, a set of exposed credentials, and an instruction that overrode one agent's own judgement that the target was out of scope. That is the pattern to keep: whatever propagates through the group propagates fast, whether it is correct or not. Transition: "So suppose these agents report back to us. What should we believe?"
+
+**Sources:** [METR / Redwood investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/).
+:::
+
+---
+
+## Many agents... what should we believe? {#motivation-shared-evidence}
+
+A team of agents returns **opinions, tool results, recommendations...**. They could disagree!
+
+- Whose evidence is reliable? In which situations?
+
+- Independent findings, or the **same source repeated**?
+
+- An agent's confidence is **not** a probability of being right.
+
+::: {.prompt}
+In general... how uncertain should we be?
+:::
+
+::: {.notes}
+1.25 minutes. Pose the questions before naming any framework; the answer comes two slides later.
+
+Take the three in turn. Reliability varies by agent and by situation: the same model may be dependable at reading a file and unreliable at judging whether a source is trustworthy. Independence is the subtle one, and the incident illustrates it: several agents can read the same document, reuse one another's output, or inherit the same blind spot, so agreement among them can be one piece of evidence wearing many hats. And a stated confidence is a number the model produced, not a frequency of being correct; treating it as calibrated is an assumption, not an observation.
+
+Note the positive case too: disagreement can be the useful signal, marking exactly the question that deserves another check. Ask the audience what they would want to know about the agents, their tools, and their sources before acting on a recommendation. Transition: "Whatever we believe, something has to be done."
+:::
+
+---
+
+## And what do we do? {#motivation-evidence}
+
+Someone must choose (with uncertain and possibly unreliable evidence!)
+
+- Which agent acts next? With which **permissions**?
+
+- Act now, or run another **check**?
+
+- Escalate to a **human**?
+
+- Is that extra information worth its cost?
+
+::: {.statement}
+We need a framework for **making decisions under uncertainty**.
+:::
+
+::: {.notes}
+1.25 minutes. This slide closes the derivation, so land the last line deliberately.
+
+Read the questions as decisions, not as opinions about which answer sounds best. Choosing who acts next, and with what access, is a decision. Acting has consequences; so does waiting, since checking costs time and money and the opportunity may pass. Human information may be essential, but it is not automatically correct either, and we need some way to represent what an expert could reveal and whether that could change what we do.
+
+Then name the structure: we have beliefs we do not fully trust, a set of actions we are permitted to take, and consequences that differ across them. That is a decision problem under uncertainty, and it includes the decision to acquire more information before acting. Say explicitly that this is a problem with a mature theory, which is where we go next. Transition: "There is a framework built precisely for this."
+:::
+
+---
+
+## A Bayesian framework for decisions {#motivation-bayesian-decision} 
+
+**Bayesian decision theory offers an answer to these questions.** 
+
+1. **What to believe:** update beliefs using evidence and its reliability.
+
+2. **What to do:** average each action's consequences over those beliefs (and choose action maximizing expected utility.)
+
+3. **Whether to ask:** compare the value of new information with its cost. 
+
+
+::: {.notes}
+1.5 minutes. Read each row against the question it answers, in the same order the audience just heard them.
+
+Row one: the probability model has to represent reliability and dependence between agents. Emphasize that this is modelling work, not a formality: multiplying agent reports as if they were independent does not solve the shared-evidence problem, it hides it. Row two: utility says how desirable a consequence is, which the statistical model does not determine; posterior expected utility averages it over updated beliefs. Row three: asking a person, or running a tool, is itself an action, and its value comes entirely from the better decisions it may enable, net of its cost.
+
+Then the caveat, which is also the thesis of the lecture. This is a normative framework under stated assumptions, not a guarantee that a given implementation is accurate, secure, or computationally exact. Wrong beliefs, omitted actions, or badly chosen preferences still produce bad decisions. We will build the mathematics from scratch after the motivation. Transition: "Someone has proposed exactly this for agent systems."
+:::
+
+---
+
+## This has been proposed!{#motivation-bayesian-orchestration}
+
+![](assets/orchestration-paper-title-short.png){width=930px fig-alt="Title and first three author rows of Position: agentic AI orchestration should be Bayes-consistent, by Theodore Papamarkou and colleagues."}
+
+- Position paper: the **orchestration layer** should be Bayes-consistent.
+
+- It keeps beliefs about the task, and updates them from agent messages and tool results.
+
+- It then picks the next action (in a Bayesian way), or pays for more information.
+
+::: {.takeaway}
+The coordinator can reason probabilistically even when its LLMs do not.
+:::
+
+
+::: {.notes}
+1.25 minutes. Keep this brief: it exists to show that the previous slide is a live research proposal, not our invention.
+
+The key architectural point is the last bullet, so say it clearly. The proposal is not Bayesian inference over the weights of a language model, which would be hopeless at this scale. It is a probabilistic layer around the agents: the orchestrator maintains a distribution over the state of the task, treats each agent message and tool result as an observation with its own reliability, and uses the resulting beliefs to choose who acts next or whether to gather more information.
+
+State the status honestly: this is a position paper and a research agenda, not a validated security guarantee. Calibration requires observed outcomes and revision over time, and attaching confidence scores or reliability weights does not by itself model the dependence between agents that share sources. Transition: "Which brings us to the question this lecture is about."
+
+**Sources:** Papamarkou et al., [Position: agentic AI orchestration should be Bayes-consistent](https://arxiv.org/html/2605.00742v2), v2, 6 May 2026.
+:::
+
+---
+
+## Is Bayesian decision theory itself safe against **potentially manipulated evidence**?
+
+Let's see! Plan:
+
+1. Foundations of Bayesian inference and decision theory.
+
+2. What breaks when someone alters the evidence.
+
+3. A Bayesian framework for protection.
+
+::: {.notes}
+1 minute. This is the pivot of the whole talk, so make the question explicit and then slow down.
+
+The framework we just praised takes its observations as given. It asks how reliable a source is, but reliability in the ordinary sense means noise or competence, not an adversary choosing which observations reach us. Note that the manipulator need not be an agent: it can be anyone upstream of the data, including an author with a preferred conclusion, which is the story we tell in the poisoning section.
+
+Say plainly what Bayes does and does not do. It is very good at carrying uncertainty through to a decision, under the model we wrote down. If that model contains no possibility that the evidence was selected, no amount of correct updating will recover the omission. That is a modelling gap, not an arithmetic error, and it is the gap this lecture examines.
+
+Then the route. We leave multi-agent systems here and move to simpler predictive settings where the mathematics can be developed and analyzed carefully: Mexico microcredit, spatial pollution, images, radon. The defense framework at the end gives foundations for specific adversarial settings, not a solution to the opening incident. Mention the ten-minute midpoint break.
+:::
+
+
+## How does Bayesian Decision Theory work? {#bayes-start}
+
+Example:
+
+::: {.statement}
+A stakeholder must decide whether to **expand a microcredit programme**.
+:::
+
+::: {.notes}
+0.5 minutes. Change pace here. No prior knowledge of Bayesian statistics is needed. We will first explain what is unknown, how data change our beliefs, and then how those beliefs help choose an action. Keep the same microcredit question in view through each mathematical ingredient.
+:::
+
+## What does the decision depend on? {#bayes-decision-basis}
+
+Suppose the stakeholder cares about **two numbers only**:
+
+- $\beta_1$: the **average effect** of offering credit on **business profit** (revenue minus expenses over two weeks) 
+
+- $c$: the **cost** of expanding.
+
+::: {.takeaway}
+But $\beta_1$ is unknown. We need **beliefs** about it, and a rule for acting under them. Beliefs combine prior knowledge and observed data!
+:::
+
+
+## The prior beliefs {#bayes-prior}
+
+$p(\theta)$: uncertainty **before** seeing the data.
+
+- A **distribution** over parameter values. Stakeholder's belief.
+
+- Encodes which values are plausible, and how strongly.
+
+
+
+## A prior for the microcredit effect {#bayes-prior-microcredit}
+
+::: {.columns}
+::: {.column width="42%"}
+Beliefs about $\beta_1$ before any data:
+
+- Gains and losses both plausible.
+
+- Centered at zero. **Not certain of no effect.**
+
+- Broad: room for large effects.
+:::
+::: {.column width="58%"}
+![](assets/microcredit-study-prior.svg){height=365px fig-alt="The actual Student-t prior on beta_1 used in the microcredit attack analysis: 3 degrees of freedom, location zero, scale 1000 in analysis profit units."}
+:::
+:::
+
+::: {.notes}
+**Sources:** Prior used in [Carreau et al. (2025), §6.3](https://arxiv.org/html/2503.04480v1#S6.SS3); [authors' implementation](https://github.com/Matthieu-Carreau/Poisoning_Bayesian_Inference/blob/main/src/studentT_prior_lin_reg.py).
+:::
+
+## Evidence (and how it speaks) {#bayes-evidence}
+
+We collect dataset $D$ and build a **model (likelihood)**  that says how observations arise, given the parameters:
+
+$$
+p(D\mid\theta)=\prod_{i=1}^{n}p(y_i\mid x_i,\theta).
+$$
+
+
+## Evidence in the microcredit study {#bayes-microcredit}
+
+::: {.columns}
+::: {.column width="52%"}
+**Sonora, Mexico.** Compartamos Banco offers small loans to women with limited access to banking.
+
+- **2009:** credit access expanded in randomly selected **communities**.
+
+- **2011–2012:** follow-up surveys. The attack analysis uses **16,560 records**.
+
+- Recorded: credit-access assignment and reported **business profit**.
+:::
+
+::: {.column width="48%"}
+![Hermosillo, Sonora](assets/sonora-hermosillo.jpg){width=540px fig-alt="Panoramic photograph of Hermosillo, Sonora, at sunset, with the city and surrounding hills."}
+:::
+:::
+
+
+::: {.notes}
+1.5 minutes. Use the photograph to locate the story in Sonora. It shows Hermosillo in 2022, not participants or a site documented by the trial. Credit access was randomized at community level, not independently for individual businesses. The trial surveyed women and recorded business outcomes. The security reanalysis retains 16,560 records after filling missing profit with zero and rescaling profit. The programme-expansion decision in this lecture is illustrative. Photograph: México en Fotos, A.C., 3 January 2022, via Wikimedia Commons, CC BY-SA 2.0; downloaded at 1280 pixels without cropping or retouching.
+
+**Sources:** [Study](https://doi.org/10.1257/app.20130537) · [IPA overview](https://poverty-action.org/microcredit-women-mexico). Photo: [México en Fotos, A.C.](https://commons.wikimedia.org/wiki/File:Panarama_de_Hermosillo,_Sonora_al_atardecer.jpg), [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/), unchanged.
+:::
+
+## Evidence in the microcredit study {#bayes-evidence-microcredit}
+
+$$
+D=\{(x_i,y_i)\}_{i=1}^{n},
+\qquad
+y_i\mid x_i,\theta\sim\mathcal N(\beta_0+\beta_1x_i,\sigma^2).
+$$
+
+- $x_i=1$: business **offered credit access**. $x_i=0$: **control**. $y_i$: reported profit.
+
+- Control average: $\beta_0$. Offered average: $\beta_0+\beta_1$.
+
+- So $\beta_1$ is the **difference between the two group averages**. The number we need.
+
+- $\sigma$: spread of individual profits around their group average.
+
+::: {.notes}
+**Sources:** Security reanalysis: $n=16{,}560$ after preprocessing. [Data preparation notebook](https://github.com/Matthieu-Carreau/Poisoning_Bayesian_Inference/blob/main/notebooks/microcredit.ipynb).
+:::
+
+## Update prior knowledge with evidence {#bayes-update}
+
+$$
+\underbrace{p(\theta\mid D)}_{\text{posterior}}
+\ \propto\
+\underbrace{p(D\mid\theta)}_{\text{likelihood}}
+\ \underbrace{p(\theta)}_{\text{prior}}.
+$$
+
+::: {.columns}
+::: {.column width="45%"}
+- Start from what was plausible.
+
+- Give more weight to what explains the observations.
+
+- Normalize.
+:::
+
+::: {.column width="55%"}
+![](assets/bayes2.png){height=345px fig-alt="Colorful illustration of Thomas Bayes wearing a red carnation, with Madrid landmarks in the background."}
+:::
+:::
+
+::: {.notes}
+1.5 minutes. Read the update as a reweighting of prior beliefs by how well each parameter value explains the observations. Normalization makes the posterior integrate to one. The Bayes-with-a-carnation illustration was supplied by the speaker and is reproduced unchanged.
+:::
+
+## Back to Mexico: beliefs about the effect {#bayes-real-posterior}
+
+::: {.columns}
+::: {.column width="53%"}
+![](assets/microcredit-clean.jpeg){height=365px fig-alt="Original posterior treatment-effect plot for the Mexico case. The posterior is concentrated near a mean of minus 4.71 and its 95 percent credible interval spans zero."}
+:::
+::: {.column width="47%"}
+- Broad prior → **much narrower beliefs**.
+
+- Posterior mean effect: **−4.71**.
+
+- The 95% **credible interval** still includes zero.
+:::
+:::
+
+::: {.prompt}
+Much less probability on a **positive** effect than a prior. But we are still uncertain...
+:::
+
+## What about predictions? {#bayes-prediction}
+
+For a new outcome, use the **posterior predictive distribution**:
+$$
+p(\tilde y\mid x,D)
+=\int p(\tilde y\mid x,\theta)\,p(\theta\mid D)\,d\theta.
+$$
+
+![](assets/gp-posterior-predictive.svg){height=350px fig-alt="Gaussian-process regression on synthetic data: a curved posterior mean, observations, a 95 percent band for the latent function, and a wider 95 percent band for a new noisy observation. Both widen away from observed inputs."}
+
+::: {.takeaway}
+Average over plausible functions **and** variation in a new outcome.
+:::
+
+::: {.notes}
+2 minutes. This is a synthetic Gaussian-process regression illustration, separate from the microcredit model. The dots are noisy observations. The navy curve is the posterior mean function, the teal band is a pointwise 95% credible interval for the latent function, and the pale outer band is a pointwise 95% predictive interval for a new observation. The latter adds observation-noise variance to latent-function variance. Beliefs tighten near the data and widen in the gap and when extrapolating. Even if the function were known, a new observation would still vary. The integral averages conditional outcome distributions over posterior beliefs; in a GP the uncertain object is a function. Fixed kernel and noise hyperparameters keep this teaching example simple. The reproducible specification is in scripts/build_gp_predictive.py.
+:::
+
+## In practice, we work with samples {#bayes-sampling}
+
+For most interesting models, the posterior is **not available in closed form**. We use **MCMC** to generate **posterior draws** $\theta^{(1)},\ldots,\theta^{(S)}$: 
+
+$$
+\mathbb E[h(\theta)\mid D]
+\ \approx\ \frac{1}{S}\sum_{s=1}^S h(\theta^{(s)}).
+$$
+
+- Mean effect: average the sampled $\beta_1$.
+
+- $P(\beta_1>0\mid D)$: fraction of positive draws.
+
+- Expected utility: average an action's consequences.
+
+## Beliefs are not a decision {#bayes-actions}
+
+To make a decision, we need:
+
+- **Action** $a$: what we choose.
+
+- **State** $s$: what matters but stays unknown (we have beliefs!).
+
+- **Utility** $u(a,s)$: how desirable that consequence  is.
+
+| Microcredit action | Utility, with $s=\beta_1$ |
+|---|---|
+| Expand the programme | $\beta_1-c$ |
+| Do not expand | $0$ |
+
+
+## The Bayes decision rule {#bayes-action-rule}
+
+$$
+a^\star=\arg\max_{a\in\mathcal A}
+\int u(a,s)\,p(s\mid I)\,ds.
+$$
+
+- $I$: the data and other information available.
+
+- For each action: average utility over the uncertain state.
+
+- Choose the **largest expected utility**.
+
+::: {.takeaway}
+Optimal **for the stated beliefs, actions, and preferences**.
+:::
+
+## What does the rule choose in Mexico? {#bayes-microcredit-decision}
+
+$u(\mathrm{expand},\beta_1)=\beta_1-c$, so
+
+$$
+\mathbb E[u(\mathrm{expand},\beta_1)\mid D]
+=\mathbb E[\beta_1\mid D]-c.
+$$
+
+| With $c=2$ | Expected utility |
+|---|---:|
+| Expand | $-4.71-2=-6.71$ |
+| Do not expand | $0$ |
+
+::: {.takeaway}
+**Do not expand.** The boundary sits at $\mathbb E[\beta_1\mid D]=2$.
+:::
+
+::: {.notes}
+**Sources:** Posterior mean: [Carreau et al. (2025)](https://arxiv.org/abs/2503.04480). Utility and cost: teaching illustration.
+:::
+
+## We know how to decide. What might fail? {#bayes-assumptions}
+
+- A mean suffices for **linear utility**. Other losses need more of the distribution.
+
+- Every step assumed the **model** was appropriate.
+
+- And every step assumed the **evidence** was.
+
+::: {.statement}
+What if someone manipulated the evidence? Can a small perturbation **affect the final decision**?
+:::
+
+::: {.statement}
+How can we protect (decisions informed by) algorithms against **deliberate manipulation** of the evidence?
+:::
+
+## Adversarial machine learning {#bayes-aml-roadmap}
+
+> Adversarial machine learning is the study of the attacks on machine learning algorithms, and of the defenses against such attacks.
+
+1. **Poisoning:** alter training data to change inference and later decisions.
+2. **Evasion:** alter operational data to change predictions and decisions.
+3. **Defenses:** account for possible manipulation in inference and prediction.
+
+::: {.takeaway}
+We will examine each from a **probabilistic perspective**: beliefs, uncertainty, and decisions.
+:::
+
+
+::: {.notes}
+1 minute. The quotation is the opening definition on Wikipedia, checked on 21 September 2026. Poisoning changes evidence used to learn; evasion changes the operational input. Both can target probabilities and the actions based on them. We first study poisoning through the doctors' anecdote, Mexico, Meuse and radon, then image evasion. The final defense framework addresses evasion with clean training data. We finish by returning to agents and research extensions.
+
+**Sources:** Definition quoted from [Wikipedia, “Adversarial machine learning”](https://en.wikipedia.org/wiki/Adversarial_machine_learning).
+:::
+
+## Poisoning probabilistic machine learning models {#poison-start .transition-slide}
+
+::: {.transition-copy}
+::: {.transition-main}
+**Poisoning probabilistic<br>machine learning models**
+:::
+:::
+
+::: {.notes}
+0.25 minutes. Mark the move from foundations to deliberately manipulated training evidence. Begin with the doctors' story before introducing the attacker mathematically.
+:::
+
+## Collaborating with gynecologists {#poison-doctors}
+
+::: {.columns}
+::: {.column width="51%"}
+
+- A few years ago, I collaborated with doctors studying **uterine fibroids**, also called myomas.
+- They compared two minimally invasive treatments: **radiofrequency ablation (RFA)** and **uterine artery embolization (UAE)**.
+- Which reduced fibroid size more? Which meant **less blood loss and shorter hospital stays**?
+
+:::
+::: {.column width="45%"}
+
+![](assets/doc.jpg){height=370px fig-alt="Doctor illustration accompanying the gynecologists anecdote"}
+
+:::
+:::
+
+::: {.notes}
+Time: 1.5 minutes. Begin with the personal story documented in the Comillas and poisoning talks. Explain that myoma is another name for a uterine fibroid. The audience needs the comparison and its consequences for patients, not a technical account of either procedure. This follows the foundation section's question about an interested party selecting the evidence. Transition: “The doctors did not enter the study without expectations.”
+:::
+
+## The doctors had a favorite {#poison-expectations}
+
+The doctors expected **RFA to outperform UAE**:
+
+- More effective at reducing fibroid size.
+- Less invasive for patients.
+- Shorter hospital stays and quicker recovery.
+
+::: {.takeaway}
+They already had a result they hoped the data would support.
+:::
+
+::: {.notes}
+Time: 0.75 minutes. Stay close to the original talk's account of the doctors' expectations. These were expectations, not established comparative treatment effects. Having a prior belief is not itself misconduct: the question is whether the analysis can change that belief. Transition: “Then we looked at the data.”
+:::
+
+## Disappointing results… {#poison-disappointing}
+
+- The analysis found **no significant difference in length of hospital stay**.
+
+- For this outcome, the data did not support the doctors' preference for RFA.
+
+
+::: {.notes}
+Time: 0.75 minutes. Pause on the disappointment before continuing. Keep the claim limited to length of hospital stay: do not generalize it to every outcome or all treatment effectiveness. Distinguish failure to establish a difference from evidence of equivalence. This matters for both the statistics and the story. Transition: “One doctor had an idea.”
+:::
+
+## A “statistical adjustment” {#poison-adjustment}
+
+One doctor asked:
+
+> “Can we perform a statistical adjustment to make RFA look better?”
+
+::: {.fragment}
+
+> “Look, if we remove this patient with an unusually large myoma from the RFA group, the results become significant!”
+
+:::
+
+::: {.fragment}
+
+I said:
+
+> “I don’t think that’s how stats works...”
+
+
+The issue: **they were wanting to choose the evidence that lead to their preferred result...**.
+
+:::
+
+::: {.notes}
+Time: 1 minute. This is the exchange from the earlier talks, condensed onto one slide. The existing talks describe the suggestion; do not add an undocumented claim about whether a deletion was subsequently implemented. Explain the problem as choosing which evidence to include after seeing which answer it produces. Legitimate exclusion rules need substantive reasons and consistent application; the mere fact that one observation is unusual is not enough to justify selecting a favorable result. Transition: “But the suggestion raised a research question.”
+:::
+
+## This inspired a research question! {#poison-question}
+
+- Selective data perturbations may change a statistical conclusion.
+
+- Their goal might be a favorable estimated effect, reassuring uncertainty, or **inducing a different decision**!
+
+::: {.prompt}
+How little evidence must an attacker manipulate to change our conclusion?
+:::
+
+::: {.poisoning-emphasis}
+**Poisoning attacks**
+:::
+
+::: {.notes}
+Time: 1 minute. Move from the anecdote to deliberate optimization. A poisoning attack changes evidence used for learning; the attacker wants the resulting inference to serve a different objective. The example motivates an audit of possible vulnerability, not a claim about the prevalence of misconduct. Transition: “This question goes beyond deleting a patient from a study.”
+:::
+
+## Poisoning probabilistic machine learning {#poison-general-goal}
+
+We study how manipulating **training data** can alter a probabilistic model's **behavior after training**.
+
+- Change the beliefs it learns about unknown quantities.
+- Change its predictions and reported uncertainty.
+- Ultimately, change the **decisions made using those outputs**.
+
+::: {.notes}
+1 minute. The general research goal includes inference and prediction in probabilistic machine learning, with downstream decisions as the eventual target. A model can retain useful average accuracy while a particular posterior quantity or action changes. Data deletion and replication are the concrete attack family we analyze next, not the definition of all poisoning. Later, moment matching lets us express more selective objectives and utility gaps let us target decisions directly.
+:::
+
+## Someone gets to edit the evidence {#poison-threat-model}
+
+The **defender** fits a Bayesian model to the observations it receives.
+
+::: {.columns}
+::: {.column width="54%"}
+### The attacker knows
+
+The data, model and prior, and the decision rule when targeting an action.
+
+### The attacker can
+
+- **Delete or replicate** existing observations.
+- Use at most **$B$ operations**, with at most **$L$ copies per row**.
+:::
+::: {.column width="46%"}
+![](assets/data-poisoning-villain.png){height=340px fig-alt="Cartoon villain removes one data-record card and inserts identical copies of another."}
+:::
+:::
+
+
+::: {.notes}
+1 minute. This is a white-box threat model with substantial attacker knowledge, intended as a diagnostic setting. The cartoon is a generated conceptual illustration of deletion and replication. Observation values, the model, prior and defender utility stay fixed. One unit change in multiplicity costs one operation: changing weight 1 to 0 costs one; changing 1 to 3 costs two. Later examples restrict access to deletion, and radon also restricts the accessible counties. Transition: “Weights give us a simple way to write those edits.”
+
+**Sources:** [Carreau, Naveiro & Caballero, AISTATS 2025](https://arxiv.org/abs/2503.04480).
+:::
+
+## How do deletions change a posterior? {#poison-weights}
+
+- Give each observation a weight: **0 deletes it**, **1 keeps it**, **2 includes it twice**, and so on.
+
+- These weights change each row's contribution to the likelihood:
+
+$$
+\pi_w(\theta\mid D)
+=\frac{1}{Z(w)}\,p(\theta)
+\prod_{i=1}^{n}p(y_i\mid x_i,\theta)^{w_i}.
+$$
+
+- $Z(w)$ normalizes the distribution. With $w=\mathbf1$, this is the original posterior.
+
+
+::: {.notes}
+Time: 2 minutes. Explain weights (1,0,2) for a three-row toy dataset: delete row two, include row three twice. The defender treats each presented record as another likelihood contribution. A model that explicitly recognized duplication would be a different defender. Z depends on the weights, so changing an observation changes both the numerator and the normalizer. The prior and likelihood family remain fixed. Fractional weights will be an optimization device; the final attack must correspond to actual integer edits. Transition: “Now we can describe the posterior we want those edits to produce.”
+
+**Sources:** [Carreau, Naveiro & Caballero — AISTATS 2025](https://arxiv.org/abs/2503.04480)
+:::
+
+## The attacker {#poison-kl-target}
+
+- Let $\pi_A$ be a **desired posterior**: for example, one favoring a positive treatment effect.
+- Find feasible weights that bring the defender's posterior close to it:
+
+$$
+\begin{aligned}
+\min_{w\in\mathbb Z_{\geq0}^{n}}\quad
+&\mathrm{KL}\!\left(\pi_A\;\Vert\;\pi_w\right)\\
+\text{subject to}\quad
+&\|w-\mathbf1\|_1\leq B,\qquad \|w\|_\infty\leq L.
+\end{aligned}
+$$
+
+- $B$ counts edits; $L$ limits replication.
+
+
+::: {.notes}
+Time: 2 minutes. Explain KL as a directed discrepancy, evaluated here under the fixed target distribution. Preserve KL(pi_A || pi_w), called inclusive posterior attraction in the paper. A destination need not be attainable within the budget. This problem minimizes discrepancy for a specified B; it is not automatically a globally minimal-budget attack. The appendix supplies the continuous convexity argument. Properness of the weighted posterior and the required integrability must hold in the feasible region. Transition: “The objective is clear, but evaluating it is difficult.”
+
+**Sources:** [Carreau, Naveiro & Caballero — AISTATS 2025](https://arxiv.org/abs/2503.04480)
+:::
+
+## A hard optimization problem!{#poison-obstacles}
+
+- **Integer edits:** choosing which rows to delete or replicate is combinatorial and **NP-hard in general**.
+- **Intractable objective:** the normalizer $Z(w)$ usually has no analytic expression, so we cannot evaluate the KL exactly.
+- But the problem has **useful mathematical structure!** (**convex objective**, with gradients expressed as expectations).
+
+::: {.takeaway}
+We can build an effective heuristic using **posterior samples**!
+:::
+
+
+::: {.notes}
+Time: 1.5 minutes. Distinguish the discrete search from evaluating the objective. Convexity of the continuous forward-KL objective does not make the integer problem easy. The paper proves convexity and derives sampling-based gradients; the NP-hardness justification below is a separate elementary reduction, not a theorem attributed to that paper. Integer variables alone do not prove NP-hardness.
+
+For a subset-sum instance with m positive integers a_1,...,a_m and target T, construct 2m Gaussian observations consisting of those integers and m zeros. Let each observation have likelihood N(theta,1), use prior N(0,1), allow deletions only (L=1) with budget B=m, and choose target posterior N(T/(m+1),1/(m+1)). A weighted posterior has variance 1/(1+sum_i w_i) and mean sum_i w_i x_i/(1+sum_i w_i). Its KL to the target is zero exactly when m observations remain and their sum is T. Any subset of the original integers summing to T can be padded with zero observations to retain m rows, and conversely. Thus deciding whether a zero-KL attack exists solves subset sum, proving NP-hardness in general even when normalizers are analytic.
+
+In nonconjugate models, evaluating Z(w) adds a separate obstacle. Yet the relaxed objective has gradient E_pi_w[ell] - E_pi_A[ell] and Hessian Cov_pi_w(ell), which is positive semidefinite under the required regularity conditions. We need samples from the current weighted posterior and the chosen target, plus observation-level log likelihoods, rather than the normalizer itself. Repeated sampling can still be expensive. Transition: “The gradient tells us which observations support the result the attacker wants.”
+
+**Sources:** [Carreau et al. (2025), §§4–5](https://arxiv.org/html/2503.04480v1#S4). General NP-hardness: Gaussian subset-sum reduction in the notes.
+:::
+
+## The main trick: compare two expectations {#poison-gradient}
+
+Let $\ell_i(\theta)=\log p(y_i\mid x_i,\theta)$ describe the fit of observation $i$.
+
+$$
+\frac{\partial}{\partial w_i}\mathrm{KL}(\pi_A\Vert\pi_w)
+=\underbrace{\mathbb E_{\pi_w}[\ell_i]}_{\text{current beliefs}}
+-\underbrace{\mathbb E_{\pi_A}[\ell_i]}_{\text{desired beliefs}}.
+$$
+
+- **Target fits the row better:** increase its weight.
+- **Current beliefs fit it better:** reduce its weight.
+- Estimate the expectations with samples. **No explicit $Z(w)$ is needed.**
+
+::: {.takeaway}
+Use **stochastic gradient descent (SGD)** to update **data weights** (rather than model parameters!) and project back into the edit budget.
+:::
+
+
+::: {.notes}
+Time: 2.5 minutes. Give the numerical example: current expected log likelihood -4, target -1, derivative -3. The update w_i <- w_i - eta times the estimated derivative tends to increase that row's weight. Reversing the scores gives derivative +3 and tends to remove weight. Observations act like votes for parameter values: reinforce rows whose fit favors the desired beliefs and weaken those that favor the current beliefs. This is a local direction; projection can couple coordinates and limits replication or deletion.
+
+As in deep learning, noisy gradients drive iterative improvement. Here the optimized variables are data multiplicities, not network weights, and the noise comes from posterior and target draws rather than necessarily a minibatch of observations. Update the posterior as the weights change, then estimate the next direction. The identity requires valid interchange of integration and differentiation, proper posteriors and integrability. Exact independent draws give unbiased Monte Carlo estimates; finite approximate MCMC has additional error and autocorrelation. Transition: “Fractional weights are convenient for SGD. We still need to turn them into an actual dataset.”
+
+**Sources:** [Carreau, Naveiro & Caballero — AISTATS 2025](https://arxiv.org/abs/2503.04480)
+:::
+
+## From a gradient to actual edits {#poison-algorithm}
+
+1. **Relax:** temporarily allow fractional weights.
+
+2. **Projected SGD:** sample, estimate the gradient, update the weights, and project into the allowed budget.
+
+3. **Round:** obtain a feasible set of integer edits.
+
+4. **Refit:** evaluate the attacked posterior and the conclusion it produces.
+
+
+::: {.notes}
+Time: 1.5 minutes. Projection brings a candidate back inside the constraints. Rounding must also preserve the edit budget and replication cap. The continuous forward-KL objective is convex under the stated conditions, but that does not solve the discrete problem or remove sampling error. The published algorithms use stochastic-gradient-based heuristics and other variants. The posterior should be refitted after the final discrete edits; a good relaxed objective alone is not the final result. Transition: “Let us see what this construction does to the microcredit analysis we already understand.”
+
+**Sources:** [Carreau, Naveiro & Caballero — AISTATS 2025](https://arxiv.org/abs/2503.04480)
+:::
+
+## Back to Mexico: the original conclusion {#poison-mexico-clean}
+
+::: {.columns}
+::: {.column width="52%"}
+
+![](assets/microcredit-clean.jpeg){height=370px fig-alt="Original empirical posterior for the Mexico treatment effect"}
+
+:::
+::: {.column width="44%"}
+
+- Recall the **16,560 observations** from the Mexico microcredit study.
+- The treatment-effect posterior has mean **$-4.71$**.
+- With our illustrative expansion cost of **2**, expected expansion utility is **$-6.71$**, versus zero for non-expansion.
+
+::: {.takeaway}
+The Bayes action is **do not expand**.
+:::
+
+:::
+:::
+
+
+::: {.notes}
+Time: 1 minute. Reconnect to the foundation section without rederiving the regression. The real-data posterior is from the published experiment; the expansion cost of 2 is our teaching assumption in profit-equivalent units. This is not a full policy welfare model or a policy recommendation. The original plot is preserved; its vertical axis is labelled Density despite histogram-like count values, so interpret its shape and horizontal axis rather than comparing its absolute height to another figure. With linear utility, only the posterior mean enters this decision. Transition: “Keep that model and utility fixed. Change only the evidence.”
+
+**Sources:** [Published experiment, §6.3](https://arxiv.org/html/2503.04480v1) · Policy utility is illustrative.
+:::
+
+## Changing the story! {#poison-mexico-attacked}
+
+::: {.columns}
+::: {.column width="52%"}
+
+![](assets/microcredit-attacked.jpeg){height=400px fig-alt="Original and attacked empirical treatment-effect posteriors for Mexico"}
+
+:::
+::: {.column width="44%"}
+
+- **20 deletion operations chosen with our algorithm:** about **0.12%** of the sample size!
+
+- Posterior mean: **$-4.71\rightarrow+6.28$**. Attacked 95% interval: **$[0.02,12.43]$**.
+
+- Expected expansion utility becomes **$+4.28$**.
+
+::: {.takeaway}
+New Bayes action: **expand**.
+:::
+
+:::
+:::
+
+
+::: {.notes}
+Time: 1.5 minutes. Pause before the decision reveal. Say twenty deletion/replication operations, not twenty deletions or necessarily twenty distinct modified rows. The proportion is B divided by the original sample size. These are experimental manipulations on real data, not allegations about the original trial. The interval and mean come from the published experiment; the utility comparison is the lecture's illustrative addition. We have changed a decision using a full-posterior target. Transition: “But choosing that entire target raises a new problem.”
+
+**Sources:** [Carreau, Naveiro & Caballero — AISTATS 2025, §6.3](https://arxiv.org/html/2503.04480v1)
+:::
+
+## What should the desired posterior look like? {#poison-target-summary}
+
+- Attackers often care about **a few posterior quantities**, such as an effect or a decision.
+- Specifying an entire high-dimensional target distribution can be unnecessarily restrictive.
+- Could we target just some **posterior moments**?
+
+
+::: {.notes}
+1 minute. In Mexico, an attacker might want a positive treatment-effect mean without specifying the intercept, noise level or dependence between parameters. This is a limitation of the full-joint KL objective we introduced, not a claim that KL can never be applied to a marginal. Transition: “We change the discrepancy used to define a successful attack.”
+
+**Sources:** [Naveiro, Caballero & Maroñas, *Posterior Attraction via Moment Matching*](context/mmd/main.tex). Work in progress.
+:::
+
+## Idea: MMD instead of KL {#poison-mmd-connection}
+
+Replace KL with **maximum mean discrepancy (MMD)**, keeping the same edit constraints:
+
+$$
+\operatorname{MMD}(\pi_A,\pi_w;k)
+=\sup_{\substack{f\in\mathcal H_k\\\|f\|_{\mathcal H_k}\leq1}}
+\left\{\mathbb E_{\pi_A}[f(\theta)]-\mathbb E_{\pi_w}[f(\theta)]\right\}.
+$$
+
+- $\mathcal H_k$ is the **reproducing kernel Hilbert space (RKHS)** defined by kernel $k$.
+- MMD finds the largest difference in expectations over these functions.
+
+::: {.takeaway}
+The **kernel** determines which differences between posteriors matter.
+:::
+
+
+::: {.notes}
+2 minutes. Explain the supremum as searching over test functions: which allowed function best distinguishes the two distributions through its expectation? The unit-norm constraint prevents arbitrary rescaling. The unit ball is symmetric, so using an absolute value gives the same supremum. We minimize the square of this discrepancy over the same feasible deletion/replication weights. A characteristic kernel can distinguish entire distributions. For this lecture, we deliberately choose a smaller function class to focus on particular posterior quantities. Existence of the expectations and kernel embeddings is assumed. Transition: “A simple kernel makes that choice explicit.”
+
+**Sources:** [MMD manuscript, formulation and kernel choice](context/mmd/main.tex). Work in progress.
+:::
+
+## Moment matching kernels targets selected quantities {#poison-moment-matching}
+
+Choose features $h(\theta)=(h_1(\theta),\ldots,h_q(\theta))$ and desired means $m$:
+
+$$
+\begin{aligned}
+k(\theta,\theta')&=h(\theta)^\top h(\theta'),\\
+\operatorname{MMD}^2(\pi_A,\pi_w;k)
+&=\sum_{j=1}^{q}\left(\mathbb E_{\pi_w}[h_j(\theta)]-m_j\right)^2.
+\end{aligned}
+$$
+
+- **Moment matching:** $h(\theta)=\beta_1$ targets a mean; an indicator targets a probability.
+- Specify the desired expectations $m$, without a full target posterior.
+
+::: {.takeaway}
+Our algorithm uses **posterior samples and stochastic gradients**, then rounds and refits. No analytic posterior is needed.
+:::
+
+
+::: {.notes}
+2 minutes. Here m is the target expectation vector E_pi_A[h], but the algorithm can use m directly without representing the full target distribution. This finite-feature kernel generally cannot distinguish distributions that agree on the selected moments, which is precisely what we want. Other posterior features can move. Variance needs first and second moments or a variance-specific construction; h=beta squared alone targets a second moment.
+
+We developed a relaxation-and-projection algorithm analogous to the KL attack: allow continuous data weights, estimate gradients from posterior draws and row-level log likelihoods, apply projected SGD or an adaptive variant, round to feasible integer edits, and refit. Sampling access does not mean we lack a model or can ignore likelihood evaluation. The identity d E[h]/d w_i = Cov(h,ell_i) gives the moment gradient, with the details in the technical appendix. General MMD objectives need not be convex. Moment and regularity assumptions and Monte Carlo error still matter. This is an effective heuristic for the discrete problem, not a guarantee of a global optimum. Transition: “Now let us target one scientifically meaningful coefficient.”
+
+**Sources:** [MMD manuscript, moment-matching kernel and algorithm](context/mmd/main.tex). Work in progress.
+:::
+
+## Motivating example {#poison-spatial-example}
+
+Imagine a regulator deciding whether to allow **new homes near the Meuse river**.
+
+- The regulator has soil measurements from the floodplain.
+- They want to understand how **flooding and terrain relate to zinc concentration**.
+
+::: {.prompt}
+Is the evidence strong enough to restrict building in frequently flooded areas?
+:::
+
+
+::: {.notes}
+1 minute. Establish the actor, evidence and decision before introducing an attacker. This is a hypothetical policy scenario built around a real soil dataset and the manuscript's fitted model. It is not an account of an actual planning decision. Zinc is one of the heavy metals measured in the survey. Transition: “What exactly has the regulator observed?”
+
+**Sources:** [MMD manuscript, Meuse case study](context/mmd/main.tex). Illustrative regulator and planning decision.
+:::
+
+## The evidence: 152 soil-sampling sites {#poison-spatial-data}
+
+Each observation is a **floodplain topsoil sample**, with its location and heavy-metal concentrations.
+
+- **Response:** zinc concentration (log scale).
+- **Terrain:** river distance, elevation and organic-matter content.
+- **Flooding:** indicator for flooding every **1–2 years**, or less frequently.
+- **Location:** two map coordinates, in kilometers.
+
+::: {.takeaway}
+The question is how flooding relates to zinc **after accounting for terrain and location**.
+:::
+
+
+::: {.notes}
+1.25 minutes. A row is a sampled location, not a person or an entire region. The response is standardized natural log-zinc; the original concentrations are measured in milligrams per kilogram of soil. Covariates are the square root of distance to the riverbank, standardized elevation, standardized organic matter, and FFREQ=1 for flooding every one to two years, zero otherwise. In this manuscript DIST_SQ means square-root distance, not distance squared. The analysis uses 152 retained observations. Transition: “Nearby sites may resemble each other even after accounting for these measured features.”
+
+**Sources:** [MMD manuscript, Bayesian spatial regression](context/mmd/main.tex). Meuse soil survey, 152 analyzed sites.
+:::
+
+## A spatial model for log-zinc {#poison-spatial-model}
+
+$$
+\underbrace{y_i}_{\text{log-zinc}}
+=\underbrace{x_i^\top\beta}_{\text{measured features}}
++\underbrace{v(s_i)}_{\text{spatial effect}}
++\underbrace{\varepsilon_i}_{\text{remaining variation}}.
+$$
+
+- $x_i$ contains flooding, river distance, elevation and organic matter.
+- A **Gaussian process** makes nearby spatial effects $v(s_i)$ correlated.
+- $\beta_{\mathrm{FFREQ}}$ describes the flooding association, conditional on the other model terms.
+
+
+::: {.notes}
+1.5 minutes. Read the three model components in ordinary language. The field has covariance sigma_v squared times exp(-phi times distance); residual noise is independent Normal with variance sigma_epsilon squared. The source uses u(s); v(s) here avoids confusion with utility. Unknown covariance parameters make this a nonconjugate model, and NUTS provides posterior samples. The flooding coefficient is a conditional association, not a causal effect of flooding. Transition: “What does the regulator conclude from the clean data?”
+
+**Sources:** [MMD manuscript, nonconjugate spatial regression](context/mmd/main.tex). Posterior inference by sampling.
+:::
+
+## The clean evidence supports a restriction {#poison-spatial-clean}
+
+For the flooding coefficient, under clean data:
+
+$$
+\mathbb E[\beta_{\mathrm{FFREQ}}\mid D]\approx0.43,
+\qquad 95\%\text{ credible interval }[0.17,\,0.69].
+$$
+
+Frequently flooded sites have **higher zinc**, conditional on the other model terms.
+
+Suppose the regulator restricts building when this interval lies entirely above zero.
+
+::: {.takeaway}
+With the clean evidence: **no permission to build in frequently flooded areas**.
+:::
+
+
+::: {.notes}
+1.25 minutes. Read the interval before giving the decision. The posterior puts strong support on a positive conditional association. Make the hypothetical decision rule explicit: in this simplified scenario, this particular restriction applies when the equal-tailed 95% credible interval is wholly positive, and all other planning criteria are held fixed. This is not a comprehensive environmental utility or a real legal rule. Lack of such evidence will not establish that a site is safe. The numerical posterior summary is reported in the manuscript; no new empirical density has been drawn. Transition: “That restriction creates an incentive to change the analysis.”
+
+**Sources:** [MMD manuscript, clean posterior](context/mmd/main.tex). The planning rule is a teaching assumption.
+:::
+
+## A developer wants permission to build {#poison-spatial-attacker}
+
+The developer's land is in a **frequently flooded area**. The positive flooding association is an obstacle.
+
+- **Goal:** move the posterior mean of $\beta_{\mathrm{FFREQ}}$ to **zero**.
+- **Access:** delete a few observations.
+- **Method:** our moment-matching algorithm, with $h(\theta)=\beta_{\mathrm{FFREQ}}$ and $m=0$.
+
+::: {.prompt}
+Can selected deletions remove the evidence behind the restriction?
+:::
+
+
+::: {.notes}
+1.25 minutes. Introduce the attacker only now. The algorithm relaxes binary deletion weights, estimates directions using posterior draws, updates and rounds to a feasible deletion set, then refits. The target is the flooding coefficient's mean, not an explicit target on the entire posterior or a guaranteed decision reversal. We must inspect the refitted interval to see whether the illustrative rule changes. Twenty records are about 13% of this dataset, a materially larger fraction than in Mexico. Transition: “Here is the selected attack and the posterior it produces.”
+
+**Sources:** [MMD manuscript, selected Adam-R2 attack with $B=20$](context/mmd/main.tex). Developer scenario is illustrative.
+:::
+
+## Twenty deletions change the regulator's conclusion {#poison-spatial-posteriors}
+
+::: {.columns .spatial-result}
+::: {.column width="52%"}
+![](assets/spatial-map.svg){height=405px fig-alt="Original MMD manuscript map of 152 soil sites, with the 20 deleted observations circled in red."}
+:::
+::: {.column width="48%"}
+![](assets/spatial-flooding-panel.svg){height=280px fig-alt="Original flooding-coefficient panel: the gray clean posterior is positive; the blue attacked posterior is near zero and spans both signs."}
+
+**Gray:** clean. **Blue:** attacked.
+
+Attacked mean **0.03**, with 95% interval **$[-0.26,0.30]$**.
+:::
+:::
+
+
+
+::: {.notes}
+1.75 minutes. First point out the deleted sites, then compare the gray and blue posterior curves. The supplied PDF panel is extracted without redrawing either distribution. The full multi-coefficient plot remains linked. The selected Adam-R2 run moves the flooding mean close to zero and leaves substantial sign uncertainty; the manuscript gives mean 0.03 and interval [-0.26,0.30]. Therefore the clean-data restriction in our hypothetical rule is lifted, allowing the developer's proposal if all other criteria remain satisfied. The empirical result is a changed posterior, not an observed permit, proof of no association, or proof of safety. Other coefficients can move too. The selected records include both flooding classes and are spread along the river, so simple removal of marginal outliers does not explain the attack. Transition: “Our earlier Bayesian Analysis paper changes a different part of the evidence.”
+
+**Sources:** [MMD manuscript](context/mmd/main.tex), original map and cropped FFREQ panel. [All coefficient posteriors](assets/spatial-posteriors.svg). Selected run, $20/152\approx13\%$.
+:::
+
+## Another attack changes the recorded locations {#poison-spatial-ba}
+
+::: {.columns}
+::: {.column width="48%"}
+![](assets/spatial-ba-location-changes.png){height=470px fig-alt="Original Bayesian Analysis figure: dashed lines connect original site circles to altered coordinate crosses, colored by flood class, with marker sizes indicating zinc concentration."}
+:::
+::: {.column width="52%"}
+- Here the attacker **changes recorded coordinates**, keeping the measurements and covariates fixed.
+
+- Dashed lines connect original sites to altered locations.
+
+- Changing distances changes spatial dependence and can weaken the fitted flooding association.
+
+:::
+:::
+
+
+::: {.notes}
+1.5 minutes. This is the exact figure requested from the BA paper's supplementary material. It shows the sparse EPA case with b1=40 coordinate entries and per-coordinate bound b3=1 kilometer, not 40 deleted sites. A site may have one or both coordinates changed. Circles mark original positions, crosses the altered positions, blue denotes FFREQ=0, orange FFREQ=1, and marker size represents zinc. The model treats the spatial covariance hyperparameters as fixed and admits conjugate calculations; EPA minimizes KL from the tainted posterior to the target, unlike the forward KL introduced earlier. The supplementary text reports an attacked flooding interval containing zero. Moving recorded coordinates changes the spatial covariance and how the model attributes differences between samples. Covariates such as river distance remain fixed in this illustrative experiment, even though real location changes could imply changes in those covariates. Do not conflate this coordinate attack with MMD data deletion. Transition: “Can we target the final decision itself, rather than a coefficient?”
+
+**Sources:** Caballero, Naveiro & Lunday, [Bayesian Analysis](https://doi.org/10.1214/26-BA1585). [Original supplementary figure](context/posterior_attraction_BA/Figures/spatial_lm/location_changes_with_response_EPA_b1=40_b3=1.0.png).
+:::
+
+## Target the decision directly {#poison-decision-features}
+
+Suppose the attacker wants action $a_A$. Compare every alternative with it:
+
+$$
+g_k(\theta)=u(a_k,\theta)-u(a_A,\theta).
+$$
+
+- If **every expected gap is negative**, $a_A$ has the highest expected utility.
+- Use these gap functions as the **moment-matching features** introduced above.
+- Target negative expected gaps, so the attack aims **across the decision boundary**.
+
+
+::: {.notes}
+Time: 2 minutes. For finitely many actions, strict negativity of all competing expected utility gaps is equivalent to the attacker's action being the unique Bayes action. Negative target moments -gamma are used instead of zero because a tie is not the intended result. With exact moments, Euclidean discrepancy from -gamma times the all-ones vector below gamma is a sufficient condition for every expected gap to be negative. This is not automatically certified by a noisy Monte Carlo estimate; numerical uncertainty must be accounted for. Utility expectations must exist, and the gradient construction assumes stronger second-moment and regularity conditions. If utility originally depends on a future outcome, first integrate that outcome conditional on theta, then average over theta. The radon example makes these two expectations concrete. Transition: “Now choose a real dataset and an explicit pair of actions.”
+
+**Sources:** [Posterior Attraction via Moment Matching — manuscript, targeting decisions](context/mmd/main.tex)
+:::
+
+## A new home in Lake County {#poison-radon-example}
+
+A regulator must decide whether a **new basement home** needs measures to reduce radon exposure.
+
+- Radon is a **radioactive gas**. Exposure in homes increases lung-cancer risk.
+- The regulator has measurements from **919 homes in 85 Minnesota counties**.
+- Each record gives the home's county, floor level and radon measurement. County-level **soil uranium** supplies additional information.
+
+::: {.prompt}
+Does the expected benefit justify the cost of remediation?
+:::
+
+
+::: {.notes}
+1.25 minutes. Introduce one home and one decision. The retained dataset contains 919 complete cases across 85 counties. A floor-level indicator records whether measurement occurred in the basement or first floor. Radon is a radioactive gas and exposure can cause lung cancer; the EPA source supports that background. The numerical model below is a research illustration, not a remediation guideline. Transition: “How does information from those other homes inform this one?”
+
+**Sources:** [MMD manuscript, Minnesota radon case](context/mmd/main.tex) · [EPA, radon health risks](https://www.epa.gov/radon/health-risk-radon). Decision scenario and costs are illustrative.
+:::
+
+## Counties share information in a hierarchical model {#poison-radon-model}
+
+$$
+\begin{aligned}
+y_{ij}\mid\theta&\sim\mathcal N(\alpha_j+\beta_{\mathrm{floor}}x_{ij},\sigma_y^2),\\
+\alpha_j&\sim\mathcal N(\mu_\alpha+\beta_{\mathrm{uranium}}U_j,\sigma_\alpha^2).
+\end{aligned}
+$$
+
+- $y_{ij}$: **log-radon** in home $i$ of county $j$.
+- $x_{ij}$: basement (**0**) or first floor (**1**). $U_j$: county log-uranium.
+- Each county has its own level $\alpha_j$, informed by its observations **and a shared uranium trend**.
+
+::: {.takeaway}
+Lake County's prediction depends partly on evidence from **other counties**.
+:::
+
+
+::: {.notes}
+1.75 minutes. The second line is the centered form of the manuscript's noncentered parameterization alpha_j=mu_alpha+beta_uranium U_j+sigma_alpha z_j, z_j~N(0,1). U_j is standardized county-level log-uranium. The model shares the floor effect, uranium trend and variance parameters across counties. Partial pooling combines local measurements with the distribution learned across counties. The source priors are mu_alpha~N(0,25), both regression slopes~N(0,1), and sigma_alpha,sigma_y~HalfNormal(1). We need this dependence to understand the attack, without deriving the posterior predictive integral. Transition: “The model supplies beliefs. The utility tells us which action to choose.”
+
+**Sources:** [MMD manuscript, hierarchical radon model](context/mmd/main.tex).
+:::
+
+## The regulator's utility {#poison-radon-utility}
+
+Let $\tilde y$ be the new home's log-radon, so its radon level is $e^{\tilde y}$.
+
+| Action | Illustrative utility |
+|---|---:|
+| Require remediation | $-2000$ |
+| Take no action | $-700\,e^{\tilde y}$ |
+
+- Remediation has a **fixed cost**.
+- Without it, the modeled cost **increases with radon exposure**.
+- Choose the action with the **higher posterior expected utility**.
+
+
+::: {.notes}
+1.5 minutes. Utilities are negative costs: 2000 is the fixed remediation cost, and 700 converts radon exposure to an illustrative cost. The model omits residual exposure costs after remediation and other real-world consequences. The constant 700 is an assumption, not an EPA estimate. Average the utilities under the fitted beliefs and choose the larger value. There is no need to derive the predictive distribution again. Transition: “Before any manipulation, which action wins?”
+
+**Sources:** [MMD manuscript, decision utilities](context/mmd/main.tex). Assumed costs in common monetary units.
+:::
+
+## The clean-data decision is to remediate {#poison-radon-clean}
+
+For the new basement home in **Lake County**:
+
+| Action | Estimated expected cost |
+|---|---:|
+| Require remediation | **2000** |
+| Take no action | **2179.9** |
+
+::: {.takeaway}
+Remediation is better by **179.9**, but the decision is close to the boundary.
+:::
+
+
+::: {.notes}
+1 minute. The original figure labels the clean mean utility gap as 179.9. Adding the fixed remediation cost 2000 gives expected exposure cost 2179.9. We use the figure's numbers throughout these slides; the current manuscript prose gives slightly different rounded estimates, 2188 and 188. Do not mix the two. Lake was selected because its original decision was near the threshold, not because all counties are equally vulnerable. Transition: “A developer would prefer to avoid the requirement.”
+
+**Sources:** Values implied by the [original utility-gap figure](context/mmd/figs/radon_lake_utility_gap_posterior.pdf). Illustrative cost model.
+:::
+
+## The developer cannot alter Lake County's records {#poison-radon-restriction}
+
+The developer wants **no remediation** for the Lake home (to avoid costs!)
+
+- They may delete observations **only outside Lake County**.
+- Lake's own measurements remain intact.
+- They use our **moment-matching algorithm**.
+
+::: {.prompt}
+Can changing evidence elsewhere reverse the decision here?
+:::
+
+
+::: {.notes}
+1.5 minutes, including a brief audience prediction. The decision gap is remediation utility minus no-action utility: positive favors remediation, negative favors no action. Using this gap as the feature h makes the desired action a moment target. Conditional outcome variation gives g(theta)=700 exp(alpha_Lake+sigma_y squared/2)-2000, but we do not need another predictive derivation on the slide. The target mean -50 adds a margin. The attacker can influence Lake through shared parameters even without touching its records. Transition: “The algorithm chooses six records to remove.”
+
+**Sources:** [MMD manuscript, restricted SGD-R2 attack](context/mmd/main.tex).
+:::
+
+## Six observations disappear {#poison-radon-deletions}
+
+![](assets/radon-deletions.svg){height=425px fig-alt="Original manuscript diagnostic showing six deleted homes in Carver, Cottonwood, Marshall, McLeod and St. Louis, against county cost and fitted log-radon residual."}
+
+**6 of 919 homes (0.65%)**, from five counties. **None is in Lake County.**
+
+
+::: {.notes}
+1.25 minutes. Explain both axes before pointing to the selected homes: horizontal is clean county expected health cost, vertical is observed minus clean fitted log-radon. Yellow labels identify the removed observations: one Carver, one Cottonwood, two Marshall, one McLeod and one St. Louis. B and 1F denote basement and first floor. The attack includes high and low residuals; it does not simply drop every high-radon home. The original figure is preserved. Transition: “Refit the model after those six deletions.”
+
+**Sources:** [Original MMD manuscript deletion diagnostic](context/mmd/figs/radon_deleted_observations.pdf). Selected restricted attack.
+:::
+
+## Six deletions reverse the decision {#poison-radon-result}
+
+![](assets/radon-gap.svg){height=340px fig-alt="Original Lake utility-gap posteriors with annotated clean mean 179.9 and attacked mean minus 11.4, crossing the zero decision threshold."}
+
+Mean utility gap: **$+179.9\ \longrightarrow\ -11.4$**.
+
+::: {.takeaway}
+The fitted Bayes action changes from **remediate** to **take no action**.
+:::
+
+
+::: {.notes}
+1.75 minutes. The upper gray and lower orange densities use opposite vertical directions only for display. The action depends on the sign of the posterior mean gap, not on the height of a density or the fraction of positive draws. The original annotations give +179.9 and -11.4, implying expected exposure costs 2179.9 and 1988.6 respectively. These differ slightly from the manuscript prose's rounded 2188 and 1988; the displayed figure is the numerical source here. The attack crosses zero but misses its intended -50 margin. Because the estimated attacked mean is near zero, numerical-error assessment is needed before claiming an exact certificate.
+
+The current manuscript's sufficient finite-second-moment assumption does not hold for this feature under sigma_y~HalfNormal(1). Holding the other parameters in a compact positive-mass region, g(theta)^2 grows as exp(sigma_y squared), the prior contributes exp(-sigma_y squared/2), and the Gaussian likelihood decays only polynomially in sigma_y. Hence the second-moment tail diverges. This does not alone prove that the first moment is infinite or invalidate the reported finite-sample estimates. Present this as an empirical run, not a theorem-certified guarantee. Transition: “Lake's records never changed. How did the decision move?”
+
+**Sources:** [Original MMD manuscript utility-gap figure](context/mmd/figs/radon_lake_utility_gap_posterior.pdf). Empirical run; the $-50$ target is not reached. The stated second-moment theorem does not cover this feature.
+:::
+
+
+
+
+## What did the attacker make us do? {#poison-synthesis}
+
+| Example | What changed? | Consequence |
+|---|---|---|
+| **Mexico** | Treatment-effect posterior |  Expansion decision reverses |
+| **Meuse** | Flooding association and sign uncertainty | Weaker evidence relevant to land use |
+| **Radon** | Predictive exposure cost | Remediation decision reverses |
+
+- These attacks also provide tools to **audit selective-data sensitivity**.
+- Protecting inference means asking **which decisions depend on it**.
+
+::: {.notes}
+Time: 1.5 minutes. Summarize the escalation from a whole posterior to selected moments and finally utility gaps. All results depend on a specified model, attacker access, manipulation budget, optimizer and numerical approximation. We have shown empirical vulnerability, not a claim that every Bayesian analysis is fragile. An audit should report plausible access, budget-response behavior and decision margins. The first two models demonstrate why local or marginal intuitions can fail; radon connects that influence to an explicit action and UQ. Transition to the break and evasion: “So far, someone changed what we learned from. Next, the model stays fixed and someone changes what it sees.” This section has 34 slides, including its divider, with a 48-minute rehearsal target.
+:::
+
+## Evasion attacks {#evasion-start .transition-slide}
+
+::: {.transition-copy}
+::: {.transition-main}
+**Evasion attacks**
+:::
+:::
+
+::: {.notes}
+Use this transition as the holding slide for the planned ten-minute break. The title replaces the old break message. After the break, contrast changes to training evidence with changes to operational inputs before introducing the digit task.
+:::
+
+## Training data and operational data {#evasion-training-to-operations}
+
+**Until now: poisoning.**
+Change training data, which changes **inference** and the decisions based on it.
+
+**Now: evasion.**
+Keep the trained model fixed. Change **operational data**, which changes predictions and the decisions based on them.
+
+::: {.takeaway}
+The attacker changes **what the model sees when it is used**.
+:::
+
+::: {.notes}
+1 minute. In the previous examples, deleting records changed the fitted posterior. Under evasion, both the training data and fitted model remain fixed. A new submitted input is the object of manipulation. We again follow the consequences from a probabilistic output to an action. Transition: “Consider a Bayesian neural network reading handwritten digits.”
+:::
+
+
+## A Bayesian (convolutional) neural network for image classification {#evasion-clean}
+
+::: {.columns}
+::: {.column width="40%"}
+![](assets/digit-clean.png){height=240 fig-alt="Original handwritten seven"}
+:::
+::: {.column width="60%"}
+![](assets/pred-clean.png){height=260 fig-alt="Predictive class probabilities concentrated on seven"}
+:::
+:::
+
+Average over parameter uncertainty:
+
+$$
+p(y\mid x,D)\approx\frac1S\sum_{s=1}^{S}p(y\mid x,\theta_s),
+\qquad\theta_s\sim p(\theta\mid D).
+$$
+
+**Attacker’s goal:** slightly alter the pixels to change these predictions.
+
+
+::: {.notes}
+**Timing: 2 minutes.** Read the picture before the equation: one input, ten probabilities, most probability on seven. These are probabilities of labels conditional on the image and model. Theta now denotes the network weights and biases, keeping our notation consistent with earlier examples. Each posterior draw defines a possible classifier; average its class probabilities. Do not average hard predicted labels. The illustration is reused from the Comillas slides, not a new experiment run for this lecture. Distinguish numerical Monte Carlo error from predictive uncertainty. We can reduce the former with more samples; doing so does not remove vulnerability to the wrong input model. The attacker now changes the pixels while keeping the fitted model and training data fixed. The next question is what the attacker wants the prediction to become.
+
+**Sources:** MNIST illustration: Bayesian neural network predictions averaged over parameter draws.
+:::
+
+## Attacker's goal? {#evasion-goals}
+
+Predictive distributions contain all **full predictive information** (not only point forecasts, also uncertainties). 
+
+More things can be the target of an attack!
+
+1. **Selected quantities:** a mean, a class probability, or uncertainty.
+2. **The full distribution**.
+
+Choose a **subtle** perturbations that **achieves the attacker's goal**.
+
+$$
+\mathcal X=\{x':\|x'-x\|_2\leq\epsilon,\quad x'\text{ has valid pixel values}\}.
+$$
+
+
+::: {.notes}
+1.5 minutes. The full predictive distribution summarizes the model's beliefs about the outcome at this input, conditional on D. In regression it determines means and intervals; in classification it gives all class probabilities and their spread. It does not capture uncertainty about mechanisms omitted from the model. The two attack families overlap in special cases, just as matching sufficiently many moments can identify a distribution. Here x is the clean input, x prime is the altered input, and epsilon limits the size of the change. For images, validity also means staying in the allowed pixel range after accounting for normalization. The fitted posterior stays fixed throughout this section. Transition: “First choose which predictive quantity to change.”
+
+**Sources:** [Arce, Naveiro & Ríos Insua, UAI 2025, §§3–4](https://proceedings.mlr.press/v286/arce25a.html).
+:::
+
+## Targeting a predictive quantity {#evasion-targeted-optimization}
+
+Choose a predictive quantity and its desired value $G_A$:
+
+$$
+\min_{x'\in\mathcal X}
+\left\|\mathbb E_{Y\mid x',D}[g(x',Y)]-G_A\right\|_2^2.
+$$
+
+- $g=Y$: shift a **predictive mean** in regression.
+- $g=\mathbf1\{Y=3\}$, $G_A=1$: raise the probability of **class 3**.
+- $g=-\log p(Y\mid x',D)$: target **predictive entropy**, the spread of the class probabilities.
+
+::: {.takeaway}
+We developed efficient solvers using **posterior samples and projected SGD**, without needing an analytic posterior.
+:::
+
+
+::: {.notes}
+2.5 minutes. This is the expectation-targeting formulation: move the chosen expectation toward a specified scalar or vector. For the indicator feature, the expectation is p(Y=3 | x prime,D). Squared distance to one has the same maximizer as raising that probability directly. The next illustration shows this goal. For entropy, the feature depends explicitly on x prime through the predictive probabilities; its expectation is minus the sum over classes of p log p. A high target encourages diffuse probabilities, and zero is the minimum entropy. Use one logarithm base consistently.
+
+The efficient algorithm estimates gradients with posterior and predictive samples, takes a descent step, and projects back into the feasible set. The method needs model evaluation and input derivatives as well as samples. The objective is generally nonconvex, so the algorithm need not find a global optimum or reach the desired target. Keep the sampling estimator and its regularity assumptions outside the main explanation. The published classification experiment also uses expected one-hot labels with a uniform target to encourage high entropy; that squared probability-vector discrepancy is different from directly targeting the entropy scalar. Both fit the general expectation formulation. Transition: “Here is an attack aimed at class three.”
+
+**Sources:** [Arce et al., UAI 2025, §4.1](https://arxiv.org/html/2506.09640v1#S4.SS1). The target can be scalar or vector valued.
+:::
+
+## Chaging the prediction {#evasion-targeted}
+
+::: {.columns}
+::: {.column width="40%"}
+![](assets/digit-pgd.png){height=345 fig-alt="Seven perturbed by a targeted image attack"}
+:::
+::: {.column width="60%"}
+![](assets/pred-pgd.png){height=375 fig-alt="Predictive probabilities after the attack, concentrated on class three"}
+:::
+:::
+
+- The goal was to make the network predict a **3**.
+
+
+
+
+::: {.notes}
+**Timing: 1.5 minutes.** Compare this perturbed seven with the clean example introduced earlier. Inspect the bars, including the target class three. Do not quote an epsilon absent from the original exported asset. The perturbation is visually small in this demonstration, but an L2 pixel bound is only a proxy for semantic or perceptual similarity. Pixel range and input normalization matter when reporting a numerical budget. No retraining occurred. This existing targeted-PGD demonstration illustrates the probability objective just introduced. It is reused from the Comillas talk, not a newly generated run of the paper's sampling algorithm. Keep the discussion on predictions here. Transition: “The target could also be the model's uncertainty.”
+
+**Sources:** MNIST targeted-attack illustration. [Distributional evasion framework: Arce et al., UAI 2025](https://proceedings.mlr.press/v286/arce25a.html).
+:::
+
+## Changing the uncertainty {#evasion-entropy}
+
+::: {.columns}
+::: {.column width="40%"}
+![](assets/digit-entropy.png){height=345 fig-alt="Seven perturbed to increase predictive uncertainty"}
+:::
+::: {.column width="60%"}
+![](assets/pred-entropy.png){height=375 fig-alt="Predictive probability spread across several classes after attack"}
+:::
+:::
+
+- The image still resembles a **7**, but probability is now spread across several classes!
+
+
+
+::: {.notes}
+**Timing: 1.5 minutes.** Reuse the same visual grammar as the clean and targeted attacks. Explain predictive entropy as how spread the probability mass is across labels. A distribution concentrated on one label has low entropy; a uniform ten-class distribution has high entropy. Entropy is not an error detector by definition and not a synonym for epistemic uncertainty. A dispersed prediction might be appropriate for a difficult image. Here the point is that an attacker can deliberately induce that spread. This Comillas illustration is not a newly run experiment or a claim about population calibration. Transition: “We can also specify the entire distribution we want to see.”
+
+**Sources:** MNIST entropy-attack illustration. [Arce et al., UAI 2025](https://proceedings.mlr.press/v286/arce25a.html).
+:::
+
+## Targeting the full predictive distribution {#evasion-objective}
+
+Choose a target distribution $p_A$, then bring the model's prediction close to it:
+
+$$
+\min_{x'\in\mathcal X}
+\operatorname{KL}\!\left(p_A\,\Vert\,p(\cdot\mid x',D)\right).
+$$
+
+
+::: {.takeaway}
+Our sampling-based algorithm again uses **projected SGD** to modify the input.
+:::
+
+
+::: {.notes}
+2 minutes. The target describes a full predictive distribution, as the earlier KL poisoning attack specified a full parameter posterior. Here the optimization variable is the operational input, and the learned posterior stays fixed. For a point mass at three, the objective is exactly minus log p(Y=3 | x prime,D), so the two attack families share this special case. A uniform target encourages high entropy, but minimizing KL(uniform || p) differs from directly maximizing H(p) unless considering their common unconstrained optimum. The allowed perturbations may prevent reaching either target.
+
+Our algorithm uses posterior samples to estimate a direction, modify the input and enforce the budget. It does not need an analytic posterior. The paper gives the gradient estimators and their assumptions; keep the explanation here at the level of projected SGD. Transition: “These are the paper's distribution attacks on digits and unfamiliar letters.”
+
+**Sources:** [Arce et al., UAI 2025, §4.2](https://arxiv.org/html/2506.09640v1#S4.SS2).
+:::
+
+## Distribution targets can also reshape uncertainty {#evasion-distribution-result}
+
+::: {.columns .evasion-distribution-plots}
+::: {.column width="50%"}
+### MNIST digits: uniform target
+
+![](assets/evasion-distribution-rise.png){height=345px fig-alt="Original UAI Figure 5a: predictive-entropy densities for MNIST digits shift upward under attacks targeting a uniform class distribution."}
+
+Predictive entropy **increases**.
+:::
+::: {.column width="50%"}
+### notMNIST letters: concentrated target
+
+![](assets/evasion-distribution-lower.png){height=345px fig-alt="Original UAI Figure 5b: predictive-entropy densities for unfamiliar notMNIST letters shift downward under attacks targeting a deterministic class distribution."}
+
+Predictive entropy **decreases**.
+:::
+:::
+
+
+::: {.notes}
+2 minutes. These are distributions of predictive entropy across test images, not the predictive class distribution of a single image. Read the horizontal axis as entropy and the vertical axis as estimated density. Blue is unmodified input; orange, green and red show increasing attack budgets. On the left, KL attacks target a uniform class distribution for familiar digits, raising entropy. On the right, they target a concentrated distribution for unfamiliar letters, lowering entropy. These are the full-distribution attacks in Figure 5, distinct from the expectation-targeting attacks in Figure 4. Preserve the paper's axis scale without inferring a logarithm base or a numerical entropy threshold from this figure. The smooth density estimates may extend beyond the range of individual entropy observations. We have now seen both objectives followed by their examples. Transition: “What happens if we use this uncertainty to decide which inputs to accept?”
+
+**Sources:** [Arce et al., UAI 2025, Fig. 5](https://arxiv.org/html/2506.09640v1#S5.F5). Original figures; colors indicate perturbation budget $\epsilon$.
+:::
+
+## Would reviewing uncertain cases solve the problem? {#evasion-gate}
+
+::: {.columns}
+::: {.column width="48%"}
+**The intended rule**
+
+- Low predictive entropy → accept.
+- High predictive entropy → review.
+
+Would unfamiliar inputs be caught?
+:::
+::: {.column width="52%"}
+**The attacker's response**
+
+- Increase entropy for familiar **MNIST digits**.
+- Decrease entropy for unfamiliar **notMNIST letters**.
+- Manipulate which cases pass the gate.
+:::
+:::
+
+
+
+::: {.notes}
+**Timing: 2.5 minutes.** Now introduce the downstream decision: a digit-reading service must accept an image or send it for human review. Let the audience propose a confidence or entropy threshold. Then reveal both directions of attack. The UAI experiment uses notMNIST letters A to J as inputs outside the digit classifier's training distribution. These must not be confused with FashionMNIST, used in the later defense manuscript. In a digit-only service, a confident label for an unfamiliar letter may pass the gate even though the input does not belong to the task. The problem is not that abstention is useless, but that the gate's signal also requires an adversarial evaluation. Keep the point tied to decisions: accepted errors, review workload, and the costs of delay.
+
+**Sources:** Research experiment: MNIST digits and notMNIST letters. [Arce et al., UAI 2025, §5.4](https://arxiv.org/html/2506.09640v1#S5.SS4).
+:::
+
+## The attack changes which cases are accepted {#evasion-selective}
+
+::: {.columns}
+::: {.column width="63%"}
+![](assets/evasion-selective.png){height=420 fig-alt="Published selective accuracy on MNIST and notMNIST before and after attack"}
+:::
+::: {.column width="37%"}
+- Rank cases by predictive entropy.
+- Keep the least uncertain fraction.
+- After attack, accuracy among accepted cases falls sharply.
+
+**The uncertainty score itself needs protection.**
+:::
+:::
+
+
+
+::: {.notes}
+**Timing: 2 minutes.** Read the horizontal axis first: the retained fraction or coverage. The vertical axis is accuracy on that subset. The benchmark includes unfamiliar inputs; this is not ordinary MNIST test accuracy. Read the clean curve and then the attacked curve. This plot reports the expectation-targeting attacks in Figure 4d, not the full-distribution attacks just shown in Figure 5. It is an observed result for the stated BNN and dataset mixture. It does not prove every uncertainty score fails on every problem. We will return to this exact operational question when evaluating defenses, although the defense paper uses clothes as unfamiliar inputs. Note that fixed retained fractions describe a ranking policy; a deployed fixed threshold might also change workload under attack. That workload consequence would need separate evaluation.
+
+**Sources:** [Arce et al., UAI 2025, Fig. 4d](https://arxiv.org/html/2506.09640v1#S5.F4). MNIST + notMNIST; original published figure.
+:::
+
+
+## Bayesian defenses {#defense-start .transition-slide}
+
+::: {.transition-copy}
+::: {.transition-main}
+**Bayesian defenses**
+:::
+:::
+
+::: {.notes}
+0.25 minutes. Transition from how attacks manipulate predictions to how probabilistic models can account for manipulation. The defense framework that follows addresses evasion with clean training data.
+:::
+
+## Probabilistic learning under attack {#defense-document}
+
+So far, attacks have changed **inference or predictions**, and therefore the **decisions** based on them.
+
+Our goal is to build probabilistic algorithms that remain useful when the inputs they receive may be manipulated.
+
+::: {.takeaway}
+Model how attackers might behave, then integrate that knowledge into **learning and prediction**.
+:::
+
+We develop defenses against **evasion**, assuming the training data are clean.
+
+
+::: {.notes}
+1.5 minutes. Connect directly to the previous sections. Deleting records changed fitted beliefs; perturbing an operational image changed predictive probabilities and uncertainty. In both cases, downstream actions could change. The aim now is to build algorithms that account for possible manipulation. We need to investigate vulnerabilities, use the resulting knowledge to model attacker behavior, and incorporate that model into the analysis. This paper develops the evasion case with trusted training data. Its experiments assess predictive and selective performance; the broader goal of protecting arbitrary decisions still requires an explicit utility and evaluation of decision loss. Transition: “What can we learn about the attacker before choosing a defense?”
+
+**Sources:** [Arce, Naveiro & Ríos Insua, defense manuscript](context/adv_bayes_tmlr/main.tex). Work in progress.
+:::
+
+## Learning how an attacker might behave {#defense-attacker-beliefs}
+
+First investigate **which manipulations change the model's predictions or uncertainty**.
+
+| What we need to model | Where the knowledge comes from |
+|---|---|
+| **Goals:** induce wrong labels? increase uncertainty? | Incentives and observed attacks |
+| **Access and constraints:** inputs? strength of perturbation? | The application and security tests |
+| **Knowledge:** model details? just query access? | Access information and attack experiments |
+
+Use this evidence to assign probabilities to **plausible attacker behaviors**.
+
+
+::: {.notes}
+2 minutes. Vulnerability analysis is an input to defense design: the earlier attacks showed that targeting a label alone misses attacks on uncertainty. For a digit-reading service, information about editable pixels, model access and incentives constrains plausible behavior. Uncertain attacker goals and beliefs can be propagated into a distribution over manipulations, as in adversarial risk analysis. Red-team attacks provide evidence about possibilities; their frequencies do not automatically estimate the frequencies of real attackers. Expert judgement, observed incidents and sensitivity analysis may also be needed. The later MIX weights are experimental specifications, not probabilities learned from human adversaries. Transition: “An adversarial channel turns this knowledge into a probabilistic model.”
+
+**Sources:** [Ríos Insua, Naveiro, Gallego & Poulos, JASA 2023](https://arxiv.org/abs/2003.03546), §4 · [Defense manuscript](context/adv_bayes_tmlr/main.tex).
+:::
+
+## Adversarial channels {#defense-channel}
+
+All the collected info is integrated into a stochastic simulator (probabilistic model) of the attacker, called **adversarial channel**.
+$$
+\underbrace{x}_{\text{original input}}
+\quad\xrightarrow{\quad p(x'\mid x,\theta)\quad}
+\underbrace{x'}_{\text{received input}}
+$$
+
+- The channel describes **which alterations are plausible**, and **our beliefs** about how likely they are.
+
+- It can mix **no attack**, different objectives and different strengths.
+
+- Dependence on $\theta$ allows an attacker to respond to the predictor.
+
+::: {.takeaway}
+We need to integrate this channel into the learning algorithm.
+:::
+
+
+::: {.notes}
+1.5 minutes. For a clean handwritten two, the channel places probability on possible received images, including the unchanged image. It can represent uncertainty about a deliberate strategy as well as randomness in that strategy. A point mass is a deterministic attack; a mixture allows several possibilities. Noise around an optimized attack is one computable construction, and a neural generator is another. The channel specifies assumptions about how the observation reaches us. It does not have to equal the attack used later to test the defense. The displayed label-independent channel supports the graphical models below; some supervised training channels also use the observed label and lead to a generalized Bayesian loss. Transition: “We can use this channel when an image arrives, or while training the model.”
+
+**Sources:** [Defense manuscript, “Adversarial Channels”](context/adv_bayes_tmlr/main.tex). Work in progress.
+:::
+
+## Test-time and training-time defenses {#defense-comparison}
+
+### Test time: reactive defense
+
+The defense is enacted **during operations**. Given a possibly attacked input, we infer the **latent clean instance** and average its possible predictions.
+
+### Training time: proactive defense
+
+The defense is enacted **during training**. We change the learning procedure to anticipate the attacks the model may receive and learn to predict well under those alterations.
+
+
+::: {.notes}
+1 minute. Give the intuition before any formula. Reactive protection reasons backwards when a suspicious image arrives. Proactive protection anticipates alterations while learning, so the deployed predictor can use ordinary posterior averaging. These are distinct probabilistic constructions, not two algorithms for the same posterior; the manuscript gives a counterexample showing different predictive distributions. Clean training data are assumed in both cases. Transition: “First, suppose the model has already been trained.”
+
+**Sources:** [Defense manuscript, protection during operations and training](context/adv_bayes_tmlr/main.tex).
+:::
+
+## Test-time defense {#defense-reactive-graph}
+
+::: {.columns}
+::: {.column width="60%"}
+![](assets/defense-reactive-dag-original.svg){height=360 fig-alt="Original Figure 1 from the defense manuscript: clean training data and a latent clean test input generating the response and corrupted observation"}
+:::
+::: {.column width="40%"}
+- Shaded nodes are **observed**.
+- **Train as usual** on clean $(x_i,y_i)$.
+- At test time, we receive $x'_j$; the original $x_j$ is hidden.
+- The label $y_j$ depends on that **original input**.
+:::
+:::
+
+$\phi$: input-population parameters. $\theta$: predictor parameters.
+
+
+
+::: {.notes}
+**Timing: 2 minutes.** Training proceeds in the usual way on clean observations, without an adversarial training objective. First read the training plate: phi generates x_i and theta with x_i determines y_i. Then read the test plate: phi generates the unobserved original x_j; x_j and theta generate the received x prime_j through the channel; x_j and theta determine the unobserved label y_j. The arrow from theta to x prime_j allows a model-aware attacker. Every displayed node, arrow, label and shading comes unchanged from the manuscript PDF. Arrows encode the chosen conditional dependencies; they are not independently established causal effects. The label is assumed invariant to the manipulation in this reactive construction. The defensive inference occurs when the operational input arrives. The uncertainty about x_j is a new layer in addition to the uncertainty about parameters. The graph factors a well-defined joint distribution when its channel and prior models are specified; it does not establish that those assumptions fit a real attacker.
+
+**Sources:** [Defense manuscript, Fig. 1, p. 4](context/adv_bayes_tmlr/main.pdf#page=4). Original vector diagram; work in progress.
+:::
+
+## Test-time defense  {#defense-reactive-joint}
+
+The reactive posterior predictive distribution:
+
+$$
+p(y_j\mid \mathbf{x}'_j,\mathcal D)
+=\mathbb E_{(\theta,\phi)\mid \mathbf{x}'_j,\mathcal D}
+\left[
+\mathbb E_{\mathbf{x}_j\mid \mathbf{x}'_j,\theta,\phi}
+\left[p(y_j\mid \mathbf{x}_j,\theta)\right]
+\right].
+$$
+
+The **inner expectation** averages over plausible clean inputs, conditional on the parameters and the received input.
+
+The **outer expectation** averages over parameter beliefs updated using that same received input.
+
+
+::: {.notes}
+1.5 minutes. This is the nested-expectation expression in Proposition 3.1, retaining the manuscript's conditioning and its input-population parameters phi. Read it from inside out. For fixed theta and phi, infer the original x_j using p(x_j | x prime_j,theta,phi), proportional to the adversarial channel times p(x_j | phi). Then average predictions over p(theta,phi | x prime_j,D), which also incorporates the received input. The clean-data posterior is reweighted by the marginal channel likelihood m_{theta,phi}(x prime_j). Thus exact reactive inference performs two Bayesian updates during operations. The proposition also supplies an equivalent ratio of expectations under the clean-data posterior; that identity supports the empirical implementation.
+
+The onPure implementation includes that reweighting; offPure instead weights originals separately within each parameter draw and keeps the draws equally weighted. Both approximate the clean-input distribution with stored training examples. They require evaluable channel likelihoods in this implementation and can be expensive. The main point is that uncertainty about the original input reaches the prediction. Transition: “Alternatively, we can prepare the predictor before any new image arrives.”
+
+**Sources:** [Defense manuscript, Proposition 3.1: robust reactive PPD](context/adv_bayes_tmlr/main.tex). Joint update in the [technical appendix](secure-ml-appendix.html#/appendix-reactive).
+:::
+
+## Training-time defense {#defense-proactive-graph}
+
+::: {.columns}
+::: {.column width="60%"}
+![](assets/defense-proactive-dag-original.svg){height=360 fig-alt="Original Figure 2 from the defense manuscript: latent corrupted training inputs connect clean inputs to observed responses, and the test response depends on the corrupted input"}
+:::
+::: {.column width="40%"}
+- Observed training cases $(x_i,y_i)$ are **clean**.
+- Hypothetical attacked inputs $x'_i$ remain **unobserved**.
+- Train to predict $y_i$ well from these possible alterations.
+- At operations, **predict as usual** from the received $x'_j$.
+:::
+:::
+
+Predictions average over the parameter posterior learned during robust training.
+
+
+
+::: {.notes}
+**Timing: 1.5 minutes.** The attacked training inputs are hypothetical and unobserved. Training anticipates these alterations so that the model can still predict the observed labels well. Compare directly with Figure 1: in the training plate the corrupted x prime_i is now a latent intermediary between the clean x_i and y_i. At test time the arrow into y_j comes from the observed x prime_j. We then predict in the usual way, averaging p(y_j | x prime_j,theta) over the learned robust parameter posterior without an additional operational purification step. In the manuscript this uses the no-test-update approximation. This is a different probabilistic construction from the reactive model. Shading and every arrow are unchanged from the source PDF. Theta affects both the channel and the label model; phi governs the distribution of clean inputs. The diagram and the ordinary Bayesian factorization apply to a label-independent channel. Letting that channel read y_i would close a directed cycle; the label-dependent training attacks in the experiments instead receive a generalized Bayesian interpretation. This does not constitute training-data poisoning protection. The next slide shows the generalized Bayesian training objective actually used in the experiments.
+
+**Sources:** [Defense manuscript, Fig. 2, p. 7](context/adv_bayes_tmlr/main.pdf#page=7). Original vector diagram; work in progress.
+:::
+
+## Training-time defense {#defense-proactive}
+
+For each clean training case, average its prediction loss over **possible attacks**:
+
+$$
+\begin{aligned}
+\bar\ell_i(\theta)
+&=\mathbb E_{x'_i\mid x_i,y_i,\theta}
+\left[-\log p(y_i\mid x'_i,\theta)\right],\\
+p_{\mathrm{rob}}(\theta\mid D)
+&\propto p(\theta)\exp\!\left\{-\sum_i\bar\ell_i(\theta)\right\}.
+\end{aligned}
+$$
+
+- Fit this **generalized Bayesian posterior** by approximate inference.
+- At deployment, average predictions using the learned parameter distribution.
+
+
+::: {.notes}
+2 minutes. Read the first line as averaging the loss for the true training label over plausible altered inputs. The second line combines that evidence with the prior, favoring parameter values that predict well across the modeled alterations. The training dataset itself remains clean. This is the generalized Bayesian formulation used in the experiments, which permits attack channels to depend on the observed training label. The preceding graph describes the label-independent generative idea; it cannot literally include a label-dependent channel because that would introduce a cycle. Even for a label-independent channel, averaging log likelihood is generally different from taking the log of an averaged likelihood. Keep that derivation in the appendix.
+
+The implementation uses a factorized Gaussian variational approximation. Proactive deployment averages p(y | x prime,theta) under the learned robust parameter distribution and omits an additional test-time parameter update. This shifts defensive computation into training. Transition: “Collapsing some of this uncertainty recovers familiar AML methods.”
+
+**Sources:** [Defense manuscript, channel-averaged loss and generalized posterior](context/adv_bayes_tmlr/main.tex). Experimental formulation with learning rate $\eta=1$.
+:::
+
+##  AML defenses are limiting cases!! {#defense-limits}
+
+The framework recovers familiar defenses as special cases or approximations:
+
+- **Adversarial training**
+- **Randomized smoothing**
+- **Adversarial purification**
+
+
+::: {.notes}
+2 minutes. For AT, the channel selects a loss-maximizing perturbation within the budget. The channel-averaged loss becomes the worst-case loss, and MAP under a flat prior gives the standard min-max training objective. Retaining the parameter posterior gives a robust Gibbs-posterior variant.
+
+For randomized smoothing, fixed parameters, an isotropic Gaussian channel and a flat latent-input prior give a Gaussian distribution over originals centered on the received input. A deterministic base classifier then yields the standard majority-vote smoothing rule. Averaging soft probabilities is the related probabilistic version, not automatically the same classifier. This limiting connection alone does not transfer a smoothing certificate to arbitrary channels.
+
+Point purification approximates the original-input posterior with one restored image; the restoration can be model-guided or model-agnostic. These connections encompass prominent AML families, not every implementation verbatim. The manuscript's extensions with penalties reproduce the structural form of ALP/TRADES, but the stated deterministic attack and likelihood are not the exact TRADES objective. Do not claim exact recovery of those methods here. Transition: “What happens when the actual attack differs from the one we anticipated?”
+
+**Sources:** [Defense manuscript, “Recovering Existing Defenses”](context/adv_bayes_tmlr/main.tex). AT uses the generalized Bayesian construction.
+:::
+
+
+## Protection beyond the assumed attack !!{#defense-examples}
+
+We train against one-step attacks, then test against **stronger iterative attacks**.
+
+::: {.columns}
+::: {.column width="50%"}
+**Without defense**
+
+<div style="display:flex;align-items:center;gap:12px;">
+<div style="position:relative;width:32%;aspect-ratio:1;overflow:hidden;"><img src="assets/baseline-examples.png" alt="PGD attack against the undefended classifier on an original digit two" style="position:absolute;width:500%;max-width:none;max-height:none;left:-200%;top:0;margin:0;"></div>
+<div style="position:relative;width:66%;aspect-ratio:1;overflow:hidden;"><img src="assets/baseline-preds.png" alt="Undefended predictive distribution under its own PGD attack: mass mainly on seven and eight" style="position:absolute;width:500%;max-width:none;max-height:none;left:-208%;top:0;margin:0;"></div>
+</div>
+
+Probability moves to **7 and 8**.
+:::
+::: {.column width="50%"}
+**With our defense (MIX)**
+
+<div style="display:flex;align-items:center;gap:12px;">
+<div style="position:relative;width:32%;aspect-ratio:1;overflow:hidden;"><img src="assets/protected-examples.png" alt="Separately optimized PGD attack against MIX on the same original digit two" style="position:absolute;width:500%;max-width:none;max-height:none;left:-200%;top:0;margin:0;"></div>
+<div style="position:relative;width:66%;aspect-ratio:1;overflow:hidden;"><img src="assets/protected-preds.png" alt="MIX predictive distribution under its own PGD attack: most mass remains on class two" style="position:absolute;width:500%;max-width:none;max-height:none;left:-208%;top:0;margin:0;"></div>
+</div>
+
+Most mass stays on **2**.
+:::
+:::
+
+
+::: {.notes}
+**Timing: 1.5 minutes.** The message is that useful protection can persist when the evaluation attack differs from the assumed channel. MIX anticipates one-step attacks during training; this example uses iterative PGD. The original digit is two. Without defense, probability moves to seven and eight; with MIX, most remains on two. Each model faces an attack optimized against its own predictive distribution, so the altered images differ. This is an illustration of protection under the tested mismatch, not a guarantee against every unseen attack. Transition: “Does this improvement hold across many images?”
+
+**Sources:** [Defense manuscript, MNIST example](context/adv_bayes_tmlr/main.tex). Same original digit, 2; attacks optimized separately for each model. Original panels; work in progress.
+:::
+
+## Higher accuracy and better predictive probabilities {#defense-performance}
+
+![](assets/defense-pgd.png){height=415 fig-alt="Original MNIST accuracy and NLL curves against a 50-step PGD attack"}
+
+Our training-time defenses (MIX and NN50) give **higher accuracy and better predictive probabilities** than conventional adversarial training (AT).
+
+
+
+::: {.notes}
+**Timing: 2 minutes.** Compare the orange and green curves, MIX and NN50, with the brown adversarial-training baseline. As the attack becomes stronger, our training-time defenses retain higher accuracy and lower NLL in this benchmark. Higher accuracy means more correct labels; lower NLL means better probability assigned to the true outcomes. This supports the message about predictive reliability, although NLL does not isolate calibration error. The blue curve is the undefended model. Leave the individual reactive methods for questions. The AT comparator here uses one-step adversarial training; the comparison does not establish superiority to every traditional defense. Transition: “Do these probabilities also help us decide which predictions to trust?”
+
+**Sources:** [Defense manuscript, MNIST results](context/adv_bayes_tmlr/main.tex). 50-step PGD; $\epsilon$: attack strength. NLL: negative log-likelihood, lower is better. BL: undefended model; bands: ±1 SD.
+:::
+
+
+## Higher selective accuracy under attack {#defense-selective}
+
+::: {.columns}
+::: {.column width="56%"}
+![](assets/defense-selective.png){height=425 fig-alt="Selective accuracy against increasing attack strength on MNIST and FashionMNIST"}
+:::
+::: {.column width="44%"}
+Keep the **50% most confident predictions**.
+
+MIX and NN50 retain a **more accurate set** than conventional adversarial training under attack.
+:::
+:::
+
+
+
+::: {.notes}
+**Timing: 1.5 minutes.** Return to accepting confident predictions and sending the rest for review. Mix familiar digits with unfamiliar clothes, then keep the half with lowest predictive entropy. The plotted accuracy is measured on that retained half. Under attack, MIX and NN50 select a more accurate set than the conventional adversarial-training baseline. The advantage persists as attack strength increases, although all three curves decline. For questions: this experiment uses MNIST and FashionMNIST; the earlier evasion example used notMNIST. Here the attacks raise uncertainty on digits and lower it on unfamiliar inputs. Transition: “We can now use these defended probabilities in our decision rule.”
+
+**Sources:** [Defense manuscript, selective accuracy](context/adv_bayes_tmlr/main.tex). MNIST + FashionMNIST; retain the half with lowest predictive entropy. $\epsilon$: attack strength. Work in progress.
+:::
+
+## Decisions using the defended predictive distribution {#defense-decision-foundation}
+
+Either defense gives a **posterior predictive distribution** that accounts for the modeled attacks.
+
+Using this distribution, choose the action with the highest expected utility:
+
+$$
+a^*=\arg\max_a\sum_y u(a,y)\,
+ p_{\mathrm{def}}(y\mid x',D,I_A).
+$$
+
+$u(a,y)$ measures the consequence of taking action $a$ when the outcome is $y$; $I_A$ is our information about the attacker.
+
+Starting point of a **adversarially robust Bayesian Decision Theory**.
+
+
+
+::: {.notes}
+**Timing: 2 minutes.** This is the ordinary expected-utility choice under a predictive distribution that accounts for modeled manipulation. I_A summarizes security information used to specify the channel; p_def can be the predictive distribution from the chosen defense. Its action is optimal for those supplied beliefs and utilities. With approximate inference, this is conditional optimality under the approximate probabilities, not an automatic claim about exact Bayes optimality in the real world. The paper experiments establish predictive and selective-performance results, not a complete asymmetric-cost form-processing evaluation. To evaluate that extension, specify the utility and actual outcomes, compare clean and attacked decision loss, and examine sensitivity to channels and costs. For a check that returns new information, a complete sequential model averages its possible results and subsequent actions. No universal protection from unknown, adaptive attackers follows. The bridge to LLMs is precisely this structure: observations may be untrusted, beliefs may be uncertain, and tool calls or review are decisions.
+
+**Sources:** [Ríos Insua, Naveiro, Gallego & Poulos, JASA 2023](https://arxiv.org/abs/2003.03546), §4. Decision-rule application to the present evasion defenses.
+:::
+
+## From predictions to sequential play {#sequential-start .transition-slide}
+
+::: {.transition-copy}
+::: {.transition-main}
+What if both the world and the opponent keep changing?
+:::
+::: {.transition-subtitle}
+From supervised learning to sequential decisions
+:::
+:::
+
+::: {.notes}
+0.25 minutes. Move from defending a fixed predictor to choosing actions repeatedly while another player adapts. This section draws on our manuscript with Christopher Rafnson, William Caballero and Wesley Marrero.
+:::
+
+## A prediction was only one step {#sequential-loop}
+
+**Our evasion setting:** the trained model is frozen; the attacker perturbs its input to change a prediction or decision.
+
+$$
+x' \longrightarrow p(y\mid x',\mathcal D) \longrightarrow d
+$$
+
+In a dynamic setting, we update our beliefs as observations arrive. The attacker can adapt its actions too.
+
+<div class="flow">
+<div class="flow-step"><strong>Observe</strong>Update beliefs</div><div class="flow-arrow">→</div>
+<div class="flow-step"><strong>Decide</strong>Choose an action</div><div class="flow-arrow">→</div>
+<div class="flow-step"><strong>Experience</strong>Consequences</div><div class="flow-arrow">↺</div>
+</div>
+
+::: {.takeaway}
+We must choose a **sequence of decisions** whose consequences unfold over time.
+:::
+
+::: {.notes}
+0.5 minutes. Contrast a frozen deployed model with an adapting decision process. Poisoning changed training data earlier; the static comparison here refers specifically to evasion. Today's action changes the situation in which tomorrow's decision is made.
+:::
+
+## The attacker is in the loop too {#sequential-opponent}
+
+::: {.columns .threat-columns}
+::: {.column width="48%"}
+### Our agent
+
+Observes the environment and chooses actions to improve **its own utility**.
+:::
+::: {.column width="48%"}
+### The opponent
+
+Acts **in parallel**, using its own information, preferences and learning rule.
+:::
+:::
+
+Both actions affect the next state and what each player learns.
+
+To choose our actions, we need to **model**
+
+* **how the situation evolves**
+* **how the opponent behaves**.
+
+
+::: {.notes}
+0.75 minutes. Neither player sees the other's current choice before acting. Each has a private view of the environment. We support one player's decisions, so we model the other player's behavior probabilistically. Malicious intent is one possibility; conflicting preferences also matter. The next slides specify the physical model, the decision problem, and then the human opponent model.
+
+**Sources:** Rafnson, Caballero, Naveiro & Marrero, [Advancing Bayesian Sequential Play Against Boundedly Rational Opponents](context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/main.tex), §3. Local manuscript.
+:::
+
+## A partially observed stochastic game {#sequential-model .sequential-network}
+
+::: {.columns}
+::: {.column width="61%"}
+![](assets/sequential-interaction-original.svg){height=420 fig-alt="Original two-player influence diagram from the sequential-play manuscript. Both actions affect the shared latent state, each player receives its own observation and utility, and dashed arrows connect successive stages."}
+:::
+::: {.column width="36%"}
+**$X_t$:** the true, unobserved state of the environment.
+
+**$D_t$, $A_t$:** our action and the opponent's action.
+
+**$Y_t$, $Z_t$:** our observation and the opponent's private observation.
+
+**$u_D$, $u_A$:** each player's utility.
+:::
+:::
+
+::: {.small}
+White: our agent. Gray: opponent. Dashed arrows connect **successive stages**.
+:::
+
+
+::: {.notes}
+1 minute. This is the paper's probabilistic graphical model augmented with decision and utility nodes. Circles are uncertain variables, squares are decisions and hexagons are utilities. The striped state is shared; white and gray indicate the two players rather than observed versus latent status. Start at the two actions and follow their arrows to X_t, then to the private observations and utilities. The dashed links lead to the next stage; they are not same-time cycles in a Bayesian network. In the car example X_t contains both vehicles' positions, headings and speeds. We specify the dynamics and observation models, then a behavioral model for the opponent. The decision node D_t will be chosen by us.
+
+**Sources:** Sequential-play manuscript, Fig. 1(a). Original influence diagram, compiled from its TikZ source.
+:::
+
+## How the world changes and what we observe {#sequential-dynamics}
+
+The state moves according to both players' actions:
+
+$$
+X_t=h(X_{t-1},D_t,A_t)+\varepsilon_{X,t}.
+$$
+
+Each player observes a noisy version of that state:
+
+$$
+Y_t=X_t+\varepsilon_{Y,t},
+\qquad Z_t=X_t+\varepsilon_{Z,t}.
+$$
+
+We specify **the transition $h$ and the noise distributions** for the application.
+
+After each stage, we observe **$A_t$ and $Y_t$**. The opponent's view $Z_t$ remains hidden from us.
+
+
+::: {.notes}
+0.75 minutes. X_t is a vector describing the physical situation, not a player or a utility. For a road interaction it includes positions and velocities. The observation noise need not be the same for both players; eta will parameterize our model of the opponent's private observation noise. Actions are simultaneous. At the end of the stage our player sees the other action and its own new reading, which is the information available to update beliefs. This observability of the opponent's action is an assumption of the paper's filter.
+
+**Sources:** Sequential-play manuscript, §3.2–3.3. Actions at stage $t$ use information available at $t-1$.
+:::
+
+## Which sequence of decisions should we choose? {#sequential-objective}
+
+A policy $\pi$ chooses $D_t$ using our history $H_{t-1}$. We want
+
+$$
+\max_{\pi}\;\mathbb E^{\pi}\!\left[\sum_{t=1}^{T}u_D(D_t,A_t,Y_t)\right].
+$$
+
+We control $D_t$. We must **average over the opponent's action** and the uncertain consequences.
+
+::: {.statement}
+We need a probabilistic model for the opponent!
+:::
+
+
+::: {.notes}
+1 minute. The decision problem is to choose a policy maximizing cumulative expected utility, not just predict the other player accurately. H is the information observed so far, including our past actions. The second equation writes the current contribution explicitly by summing over the finite opponent action menu and integrating the future observation. Its predictive distribution also integrates the unknown state and opponent parameters. It does not assume that the other action and the future observation are independent. Later consequences matter too, which motivates look-ahead policies. We now need the missing ingredient in that predictive distribution: a model of how the opponent acts.
+
+**Sources:** Sequential-play manuscript, defender's objective and contribution function. Finite horizon; latent states are integrated into the predictive distribution.
+:::
+
+## A behavioral model for a human opponent {#sequential-ewa-intuition}
+
+Assume the opponent is **human**. Behavioral economics offers models of how people learn (and act) in repeated interactions.
+
+We use **Experience Weighted Attraction (EWA)**:
+
+- Actions that paid off become more attractive.
+- The player may also learn from payoffs it could have obtained with another action.
+- Past experience is gradually discounted.
+
+These evolving attractions will determine **probabilities over the next action**.
+
+
+::: {.notes}
+0.75 minutes. This is a descriptive modeling choice motivated by human-subject work in repeated games. The supported agent still chooses according to its own expected utility. We do not assume that the human opponent solves the same optimization problem or behaves perfectly rationally. EWA combines reinforcement of chosen actions with learning from foregone payoffs. First explain how scores are updated; only then turn those scores into a probabilistic action model.
+
+**Sources:** Camerer & Ho (1999), EWA learning; sequential-play manuscript, §3.2.
+:::
+
+## What payoff does each action receive credit for? {#sequential-ewa-payoffs}
+
+Let $j\in\mathcal A$ be a possible opponent action. Its modeled payoff is
+
+$$
+u_A(D_t,j,Z_t\mid\beta),
+$$
+
+where $\beta$ describes the opponent's preferences and $Z_t$ is its private view of the state.
+
+The payoff credited to action $j$ is
+
+$$
+r_{t,j}=\big[\delta+(1-\delta)\mathbf 1\{A_t=j\}\big]\,
+u_A(D_t,j,Z_t\mid\beta).
+$$
+
+The chosen action receives **full credit**. An unchosen action receives a fraction $\delta\in[0,1]$ of its foregone payoff.
+
+
+::: {.notes}
+1 minute. The indicator equals one when j was the action actually chosen. Its multiplier is then one, whatever delta is. For an unchosen action, the multiplier is delta. Delta zero gives reinforcement only for the selected action; delta one also credits all foregone payoffs. For instance, if an unchosen action has modeled payoff four and delta is one-half, it receives credit two. The counterfactual payoff is evaluated at the private observation Z_t as specified in the manuscript; we are not claiming that the player directly observes a different physical outcome for every action. The utility form and its unknown coefficients are part of our model.
+
+**Sources:** Sequential-play manuscript, EWA attraction update. $r_{t,j}$ abbreviates its payoff term.
+:::
+
+## Updating attraction and experience {#sequential-ewa-update .sequential-equation}
+
+$\psi_{t,j}$ is the attraction of action $j$; $\zeta_t$ is accumulated experience.
+
+$$
+\zeta_t=\rho\zeta_{t-1}+1,
+\qquad
+\psi_{t,j}=\frac{\phi\zeta_{t-1}\psi_{t-1,j}+r_{t,j}}{\zeta_t}.
+$$
+
+The numerator combines the **previous attraction** with the **new payoff credit**.
+
+$\phi\in[0,1]$ controls retention of past attractions; $\rho\in[0,1]$ controls retention of experience.
+
+
+::: {.notes}
+1 minute. This is the paper's EWA recursion with the payoff contribution named r for readability. The experience count grows by one each round while old experience is discounted by rho. The old attraction is weighted by its accumulated experience and by phi, then combined with the new payoff contribution and normalized. The initial attraction vector contains one score per action; initial experience is nonnegative. The opponent's attractions evolve through learning even if its behavioral parameters stay fixed. Our uncertainty about these quantities is a separate issue, introduced shortly.
+
+**Sources:** Sequential-play manuscript, attraction and experience recursions. The preceding slide defines $r_{t,j}$.
+:::
+
+## From attractions to action probabilities {#sequential-ewa-choice}
+
+At the next stage, EWA assigns a probability to each action:
+
+$$
+\Pr(A_{t+1}=j\mid\psi_t,\lambda)
+=\frac{\exp(\lambda\psi_{t,j})}
+{\sum_{k\in\mathcal A}\exp(\lambda\psi_{t,k})}.
+$$
+
+More attractive actions are more likely!
+
+::: {.takeaway}
+EWA gives a **probabilistic model of the opponent's evolving behavior**.
+:::
+
+
+::: {.notes}
+0.75 minutes. An attraction is a score, not yet a probability. Softmax normalizes those scores into a distribution over actions. Given preferences, perception, the learning parameters and initial attractions, the model generates actions and updates attractions as play unfolds. That supplies the opponent-action distribution we need to average over in our decision problem. In practice we do not know these ingredients exactly, so we put priors on them and learn from play.
+
+**Sources:** Sequential-play manuscript, EWA mixed strategy, with the time index shifted to show the next decision.
+:::
+
+## What is unknown about the opponent? {#sequential-beliefs}
+
+Collect the opponent's parameters and evolving learning state into
+
+$$
+\theta_t=(\phi_t,\delta_t,\rho_t,\lambda_t,\beta_t,\eta_t,\psi_t,\zeta_t).
+$$
+
+- $\phi,\delta,\rho,\lambda$: how it **learns and chooses**.
+- $\beta$: its preferences; $\eta$: uncertainty in its **private observations**.
+- $\psi_t,\zeta_t$: its current attractions and experience.
+
+We start with priors over the initial physical state $X_0$ and opponent description $\theta_0$.
+
+
+::: {.notes}
+1 minute. Theta is not the predictor-weight vector from the supervised part of the talk; here it describes the opponent. Eta parameterizes the distribution of its observation noise, epsilon_Z. Psi_t is a vector with one attraction per available action; zeta_t is its experience level. In the behavioral model, the other parameters can be fixed but unknown. The implemented filter adds small artificial dynamics to them, hence the time subscripts in this augmented state. These are an approximation for computation, not a claim that human preferences must randomly change at every instant. Updating an attraction and updating our posterior over attractions are distinct operations.
+
+**Sources:** Sequential-play manuscript, §3.2–3.3. The filter carries both the physical and behavioral state.
+:::
+
+## Where do we update our beliefs? {#sequential-belief-update .sequential-equation}
+
+Before stage $t$, our belief state is
+
+$$
+b_t=p(X_{t-1},\theta_{t-1}\mid H_{t-1}).
+$$
+
+After choosing $D_t$, we observe $A_t,Y_t$ and add them to our history $H_t$.
+
+Bayes' rule updates the opponent beliefs:
+
+$$
+p(\theta_{t-1}\mid H_t)\propto
+p(A_t,Y_t\mid D_t,H_{t-1},\theta_{t-1})\,
+p(\theta_{t-1}\mid H_{t-1}).
+$$
+
+We also update the physical state, then advance EWA learning to obtain **$b_{t+1}$**.
+
+
+::: {.notes}
+1.25 minutes. H_{t-1} contains Y_0 and the sequences of our actions, observed opponent actions and our sensor readings through t−1. The displayed parameter update makes explicit where Bayesian learning happens. Its likelihood integrates the unobserved physical state. The incoming action is evidence about the opponent's attraction and response parameters; the sensor reading helps infer the state that generated its behavior. This updates beliefs over the previous opponent state. We then simulate its private observation and advance the EWA recursion to obtain beliefs about theta_t. The particle filter performs these steps jointly for X and theta.
+
+**Sources:** Sequential-play manuscript, belief-state formulation and Algorithm 1. $H_t$ contains our observations and past actions.
+:::
+
+## The particle filter {#sequential-filter .sequential-filter}
+
+Represent $b_t$ by paired samples of **the physical state and the opponent**:
+
+$$
+\mathcal P_t=\{(X_{t-1}^{(n)},\theta_{t-1}^{(n)})\}_{n=1}^{N}.
+$$
+
+After choosing $D_t$ and observing $A_t,Y_t$:
+
+1. **Predict** each $X_t^{(n)}$ using the physical model and both actions.
+2. **Weight** by how well each particle explains the new evidence:
+
+$$
+w_t^{(n)}\propto p(A_t\mid\theta_{t-1}^{(n)})\,p(Y_t\mid X_t^{(n)}).
+$$
+
+3. **Resample** according to the normalized weights.
+
+4. The resulting samples represent the next belief state:
+
+$$
+\mathcal P_{t+1}\ \approx\ p(X_t,\theta_t\mid H_t).
+$$
+
+
+::: {.notes}
+1 minute. A particle is one possible explanation of the joint situation: a physical state together with a possible opponent. Draw the initial particles from the priors. At each stage, propagate the physical component after the actual actions are known. The action likelihood favors opponents likely to have made the observed choice, while the sensor likelihood favors compatible physical states. Resampling keeps an equally weighted set concentrated on plausible explanations. This is an approximate posterior update, not merely an estimate of the most likely opponent. One further step is needed because the opponent has also learned during the stage.
+
+**Sources:** Sequential-play manuscript, Algorithm 1. Bootstrap filtering approximates the Bayesian update.
+:::
+
+
+## From posterior samples to an action {#sequential-planning}
+
+At decision time $t$, $\mathcal P_t$ contains plausible **states and opponents given our history**.
+
+For each candidate action $d$, simulate an opponent action $A_t^{(n)}$ and our next observation $Y_t^{(n)}$ from each particle.
+
+Then estimate its expected utility:
+
+$$
+\widehat c_t(d)=\frac1N\sum_{n=1}^{N}u_D(d,A_t^{(n)},Y_t^{(n)}),
+\qquad D_t^{\mathrm{AMG}}\in\arg\max_d\widehat c_t(d).
+$$
+
+This **approximate myopic greedy** policy chooses the best action for the current stage.
+
+
+::: {.notes}
+1 minute. The samples are not just possible actions: they are the posterior approximation over X_{t−1} and theta_{t−1}. For a proposed d, each sampled opponent gives action probabilities through EWA. Simulate an action, then the physical transition and our observation, and evaluate utility. Average across particles before comparing decisions. This operationalizes the sum and integral from the objective slide. The myopic policy is useful as a starting point, but it ignores how today's action affects later situations and the opponent's future learning. The next policies include those consequences.
+
+**Sources:** Sequential-play manuscript, §3.4.1. Monte Carlo averaging integrates uncertainty about the opponent and environment.
+:::
+
+## Looking ahead with simulated trajectories {#sequential-horizon}
+
+For each short sequence $d_t,\ldots,d_{t+H-1}$, simulate possible futures from the current particles.
+
+Each simulation evolves the **physical state** and the opponent's **EWA learning**.
+
+Choose the sequence with the largest estimated cumulative utility:
+
+$$
+d^*\in\arg\max_{d_t,\ldots,d_{t+H-1}}
+\frac1N\sum_{n=1}^{N}\sum_{\tau=t}^{t+H-1}
+u_D(d_\tau,A_\tau^{(n,d)},Y_\tau^{(n,d)}).
+$$
+
+Take **only its first action**, observe what happens, update the particles, and plan again. This is the **H2S** policy.
+
+
+::: {.notes}
+1 minute. A candidate sequence specifies our future controls. Its simulated opponent responses and observations depend on that sequence, which is why they carry a superscript d. Forecasts update the physical and EWA states, rather than freezing the opponent's action probabilities. The optimization is over short open-loop sequences; it is not an exact search over all future contingent policies. Only the first decision is executed, and real feedback triggers replanning. Longer horizons can improve anticipation but the number of action sequences grows rapidly. H2S is the manuscript's name for its horizon-simulation family, not a claim that every use has a horizon of two.
+
+**Sources:** Sequential-play manuscript, §3.4.2. Here $H$ denotes the number of planned stages, truncated at the end of the game.
+:::
+
+## Learning the value of future consequences {#sequential-adp}
+
+**Approximate dynamic programming (ADP)** uses a learned value function instead of simulating every remaining action sequence online.
+
+$$
+D_t^{\mathrm{ADP}}\in\arg\max_d
+\left\{\underbrace{\widehat c(S_t,d)}_{\text{immediate utility}}
++\underbrace{\widehat V_t(\bar{\mathcal P}_t,d)}_{\text{future utility}}\right\}.
+$$
+
+
+A **neural network** learns this value from the mean particle vector $\bar{\mathcal P}_t$ and the proposed action.
+
+
+::: {.notes}
+1 minute. ADP separates fitting the continuation value from choosing an action during play. Starting from zero future utility at the end, simulate transitions and regress the next stage's estimated best immediate-plus-future utility on current belief features and the action. Repeat backwards. The current contribution uses the paper's inexpensive approximation c-hat; the network uses mean-particle features, so the method compresses posterior information and is not exact Bayesian planning. EWA remains the model of the opponent's learning, while this neural network supports our planning. The distinction matters in interpreting the driving experiment.
+
+**Sources:** Sequential-play manuscript, §3.4.4 and Algorithm 2. $S_t=(\mathcal P_t,t)$; the value of further stages is zero at $T$.
+:::
+
+## A car must merge before its lane ends {#sequential-driving}
+
+![](assets/sequential-merge-schematic.svg){width=1050 height=270 fig-alt="Schematic highway merge: an automated vehicle occupies the lane that ends, while a human-driven car travels in the continuing lane. Both choose steering and acceleration."}
+
+Our car's lane is closing. The human driver alongside it may change speed or direction while we try to merge.
+
+Both choose steering and acceleration every **0.1 seconds**. Our utility rewards staying within the road, keeping separation, and comfortable headings.
+
+::: {.prompt}
+Can we merge successfully while learning how the other driver behaves?
+:::
+
+
+::: {.notes}
+0.75 minutes. Set up the decision before showing any trajectory. Our car starts in the lane that disappears; the other driver is in the continuing lane. Both can slow down, maintain speed or speed up, combined with three steering choices. The physical state has eight components: two positions, heading and speed for each vehicle. The nine possibilities are control combinations per player, not state dimensions. The other driver's EWA parameters and private observation are uncertain. We compare how far different policies look ahead, starting with an unusually well-informed but myopic benchmark. The human vehicle is called attacker in the paper for consistency, without assuming malicious intent.
+
+**Sources:** Sequential-play manuscript, §4.3. Simulated interaction; schematic illustration of the road geometry.
+:::
+
+## Knowing the opponent does not complete the merge {#sequential-driving-myopic .sequential-demo}
+
+::: {.columns}
+::: {.column width="68%"}
+![](assets/sequential-merge-mc.png){height=515 fig-alt="Original myopic-clairvoyant simulation. The blue automated vehicle follows the closing road boundary and does not complete the merge. The orange opponent moves ahead. Their separation increases."}
+:::
+::: {.column width="29%"}
+
+### Myopic clairvoyant
+
+Imagine and oracle tells you the opponent's **action probabilities**...
+
+... but we just optimize only the current stage. We  **do not merge** in this episode!
+:::
+:::
+
+
+::: {.notes}
+0.75 minutes. MC is the myopic-clairvoyant benchmark. It has true opponent action probabilities, rather than estimating them with the filter, but does not know the next realized action. The top panel shows it following the shrinking boundary; the bottom shows increasing separation. Avoiding proximity is not enough to accomplish the maneuver. This is one representative episode, not a statement that MC always fails. It motivates asking whether short anticipation already changes the outcome.
+
+**Sources:** Sequential-play manuscript, original MC trajectory and distance panels. Blue: our car. Orange: the simulated human driver.
+:::
+
+## Short look-ahead produces a late merge {#sequential-driving-horizon .sequential-demo}
+
+::: {.columns}
+::: {.column width="68%"}
+![](assets/sequential-merge-h2s.png){height=515 fig-alt="Original horizon-simulation trajectory. The blue automated vehicle begins merging late and stays near the closing boundary, while its distance from the orange vehicle remains above the plotted threshold."}
+:::
+::: {.column width="29%"}
+### Horizon simulation
+
+Uses the particle beliefs to anticipate a short sequence of consequences.
+
+The car **does merge**, but stays close to the closing boundary and moves across late.
+:::
+:::
+
+
+::: {.notes}
+0.75 minutes. This is the original intermediate policy in the manuscript's three-panel comparison. The car crosses into the continuing lane near the end of the taper. The paper reports H2S with H=2; keep that reported configuration without converting its horizon-index convention into a different count of steps. The story is that anticipating downstream consequences improves the maneuver even though the horizon remains short. Next compare the learned continuation value.
+
+**Sources:** Sequential-play manuscript, original H2S panels from the same driving comparison. Reported setting: $H=2$.
+:::
+
+## Planning further ahead gives a smoother merge {#sequential-driving-adp .sequential-demo}
+
+::: {.columns}
+::: {.column width="68%"}
+![](assets/sequential-merge-adp.png){height=515 fig-alt="Original approximate-dynamic-programming simulation. The blue automated vehicle begins merging earlier and reaches the continuing lane while maintaining separation from the orange opponent."}
+:::
+::: {.column width="29%"}
+### ADP + particle filter
+
+The car starts moving across earlier and completes a **smoother merge**.
+
+::: {.prompt}
+Forecasting the opponent matters because it helps us plan useful actions over time.
+:::
+:::
+:::
+
+
+::: {.notes}
+0.75 minutes. The continuation value helps anticipate rewards beyond the short horizon. The displayed car moves across earlier and is essentially merged by the episode's end. The takeaway is that opponent inference and planning belong together: good information by itself does not replace anticipation. MC versus ADP changes both information and planning, so these examples do not isolate filtering quality. The wider study reports collisions and implausible behavior from some simulated EWA drivers, so these are illustrative simulations rather than validation of a driving system. Transition: “What changes when the opponent is another AI agent?”
+
+**Sources:** Sequential-play manuscript, original ADP panels. Representative simulations; the comparison does not establish a safety guarantee.
+:::
+
+## Future work {#llm-future .transition-slide}
+
+::: {.transition-copy}
+::: {.transition-main}
+What if the opponent is an AI agent?
+:::
+::: {.transition-subtitle}
+Future work
+:::
+:::
+
+::: {.notes}
+0.25 minutes. Pause after the driving example and return to the agents from the opening. We have a framework for decisions in an evolving environment with a modeled human opponent. Extending its descriptive and computational ingredients to AI opponents is an open problem.
+:::
+
+## Back to the agents {#llm-bayesian-control}
+
+AI agents choose what to do: call a tool, gather evidence, delegate, or stop.
+
+Bayesian decision theory connects these choices to **beliefs about the task** and the **consequences of acting**.
+
+Another agent can **manipulate the evidence** or **act in parallel**, changing what happens next.
+
+::: {.takeaway}
+We need to account for the other agent's behavior as well as uncertainty about the task.
+:::
+
+
+::: {.notes}
+1 minute. Close the loop explicitly. The opening asked how an agent should make decisions when information and other agents can influence it. The orchestration position paper places Bayesian beliefs and utility-sensitive choices at the control layer, without requiring each underlying LLM to be Bayesian. Sequential opponent modeling supplies a way to describe parallel actions and adaptive feedback. Putting the two together for language agents remains proposed work; conditional optimality under a model is not a universal security guarantee.
+
+**Sources:** [Papamarkou et al., Bayesian orchestration](https://arxiv.org/html/2605.00742v2), §§2, 4; connection to the sequential-play manuscript.
+:::
+
+## Human models and physical states were a starting point {#llm-sequential}
+
+In the driving example, we had a behavioral model for the human and a compact vector of physical quantities.
+
+For language agents, the history contains **text, memory and tool results**. Actions can themselves be messages or programs.
+
+Behavior may change with the context, feedback, or a new model version. We need models that predict these changes well enough to support decisions.
+
+::: {.prompt}
+What should we retain from an interaction, and how should we learn from it?
+:::
+
+::: {.notes}
+0.75 minutes. The car state is already continuous and eight-dimensional. The new challenge is the structure and scale of language histories and action spaces, not simply leaving a discrete state space. Behavioral-economics models are an empirically motivated choice for some human interactions; their adequacy for LLM agents is unestablished. A frozen LLM can change its behavior as its context and external memory change. A representation of that history must preserve what matters to future actions and utilities, which sets up the final questions.
+:::
+
+## Open questions for AI opponents {#conclusions-questions .sequential-questions}
+
+1. **Are behavioral-economics models useful for AI agents?**  
+
+2. **What should a belief state retain from a conversation?**  
+   Can we compress text without losing what changes the best action?
+
+3. **When is a check worth its cost?**  
+
+
+
+::: {.notes}
+1.5 minutes. Invite the audience to identify which question matters most in its applications. Possible tests of behavioral transfer would vary prompts, memory, feedback and model versions. The representation question asks what information changes decisions, not merely which summary sounds plausible. Information gathering must account for cost and dependence; an adversary may also influence what a check returns. The substantive scientific discussion ends here. Follow with the vacancies announcement, then bibliography and the closing template. Further questions can use this slide as a reference.
+
+**Sources:** Research questions connecting the sequential-play manuscript and [Papamarkou et al.'s orchestration position](https://arxiv.org/html/2605.00742v2).
+:::
+
+## Tenure-track positions at CUNEF {#conclusions-jobs .cunef-jobs}
+
+<div class="jobs-heading">
+<div><strong>Assistant Professor · Quantitative Methods</strong><p>Madrid · 2026–2027 job market<br>Expected start: September 2027</p></div>
+<img src="assets/cunef-logo.svg" alt="Official CUNEF Universidad logo">
+</div>
+
+- **Fields:** Operations Research, Artificial Intelligence, Data Science, Computer Science and Engineering, and Robotics.
+- **Profile:** PhD completed or nearing completion; research in leading journals and teaching in **English and Spanish**.
+- **Environment:** international research, access to data and research funding, balanced teaching load, and highly competitive remuneration.
+
+::: {.jobs-apply}
+Send a **CV and cover letter** to [jesusmaria.pinar@cunef.edu](mailto:jesusmaria.pinar@cunef.edu).
+:::
+
+
+::: {.notes}
+1 minute. Announce several tenure-track Assistant Professor positions for the 2026–2027 academic job market, with appointments expected in September 2027. The call welcomes recent PhDs, applicants with postdoctoral experience, and candidates expecting to complete their PhD soon. Teaching includes undergraduate and graduate courses in English and Spanish, alongside high-quality research leading to top-tier publications. CUNEF offers an international environment, facilities, data access and research support, a balanced teaching load and competitive remuneration. Applications comprise a CV and cover letter sent to Jesús María Pinar at the displayed address.
+
+**Sources:** Jesús María Pinar, Head of the Department of Quantitative Methods · [CUNEF Universidad](https://www.cunef.edu/).
+:::
+
+## Papers and collaborators {#conclusions-reading}
+
+::: {.reference-list .sequential-references}
+**Bayesian perspectives:** Ríos Insua, Naveiro, Gallego & Poulos. [JASA 2023](https://arxiv.org/abs/2003.03546).
+
+**Poisoning:** Carreau, Naveiro & Caballero, [AISTATS 2025](https://arxiv.org/abs/2503.04480); Caballero, Naveiro & Lunday, [Bayesian Analysis](https://doi.org/10.1214/26-BA1585).
+Naveiro, Caballero & Maroñas, *Posterior Attraction via Moment Matching* (work in progress).
+
+**Evasion and defenses:** Arce, Naveiro & Ríos Insua. [UAI 2025](https://proceedings.mlr.press/v286/arce25a.html); *A unifying Bayesian framework for adversarial robustness* (work in progress).
+
+**Sequential play:** Rafnson, Caballero, Naveiro & Marrero. [Advancing Bayesian Sequential Play Against Boundedly Rational Opponents](context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/main.tex) (local manuscript).
+
+**Agent coordination:** Papamarkou et al., [Bayesian orchestration, 2026](https://arxiv.org/html/2605.00742v2) (position paper).
+:::
+
+
+::: {.notes}
+0.5 minutes. Finish with the bibliography and collaborators after the questions and vacancies announcement. The technical appendix is available for further discussion.
+:::
+
+
+## Thank you {#conclusions-thanks .template-slide data-background-color="#004369"}
+
+<div class="template-layout template-closing">
+<div class="template-stripe"></div>
+<img class="template-network" src="assets/template-network.png" alt="">
+<div class="template-thanks">Thank you</div>
+<div class="template-rule"></div>
+<div class="template-questions">Questions?</div>
+<div class="template-dot"></div>
+<div class="template-email"><a href="mailto:roi.naveiro@cunef.edu">roi.naveiro@cunef.edu</a></div>
+<div class="template-dot second"></div>
+<div class="template-web"><a href="https://roinaveiro.github.io/">roinaveiro.github.io</a></div>
+</div>
+
+::: {.notes}
+7 minutes for final discussion. Return to the open questions about behavioral models, language-based belief states, checking costs and strategic evidence. The closing section starts at 02:31; its 22 minutes of prepared material and seven minutes of discussion complete the 180-minute target. Use the technical appendix when useful.
+:::

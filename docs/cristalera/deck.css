@@ -1,0 +1,204 @@
+:root {
+  --navy: #004369;
+  --teal: #1c7984;
+  --red: #b3434e;
+  --gold: #b58a39;
+  --ink: #253846;
+  --muted: #617583;
+  --pale: #f0f6f6;
+  --line: #d9e5e8;
+}
+.reveal {
+  font-family: "Source Sans Pro", "Segoe UI", Arial, sans-serif;
+  font-size: 30px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.reveal .slides { text-align: left; }
+.reveal .slides section.slide {
+  box-sizing: border-box;
+  height: 720px;
+  padding: 42px 60px 48px;
+}
+.reveal h1, .reveal h2, .reveal h3 {
+  font-family: inherit;
+  text-transform: none;
+  color: var(--navy);
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+.reveal h2 { font-size: 1.5em; margin: 0 0 26px; max-width: 1120px; }
+.reveal h3 { font-size: 1.03em; margin: 16px 0; }
+.reveal p { margin: 0 0 20px; }
+.reveal strong { color: var(--navy); font-weight: 650; }
+.reveal a { color: var(--teal); text-decoration: none; }
+.reveal a:hover { color: var(--navy); text-decoration: underline; }
+.reveal ul, .reveal ol { margin: 0 0 20px 1.05em; padding-left: 0.1em; }
+.reveal li { margin-bottom: 17px; padding-left: 0.1em; }
+.reveal li > p { margin-bottom: 0; }
+.reveal .columns { gap: 34px; align-items: center; }
+.reveal .column { min-width: 0; }
+.reveal .column ul { margin-left: 0.9em; }
+.reveal img { max-width: 100%; object-fit: contain; margin: 0 auto 8px; display: block; }
+.reveal figure { margin: 0; }
+.reveal figcaption { font-size: 0.57em; line-height: 1.3; color: var(--muted); text-align: center; margin-top: 3px; }
+.reveal .quarto-figure { margin: 0 0 10px; }
+.reveal blockquote {
+  width: auto; margin: 25px 0; padding: 18px 25px;
+  background: var(--pale); border-left: 4px solid var(--teal);
+  box-shadow: none; font-style: normal; font-size: 1.08em;
+}
+.reveal blockquote p:last-child { margin-bottom: 0; }
+.reveal .takeaway {
+  border-left: 4px solid var(--teal); background: var(--pale);
+  padding: 12px 20px; margin: 23px 0 0; font-size: 0.94em;
+}
+.reveal .takeaway p:last-child,
+.reveal .prompt p:last-child,
+.reveal .small p:last-child { margin-bottom: 0; }
+.reveal .prompt { color: var(--navy); font-weight: 600; margin-top: 20px; font-size: 1.08em; }
+.reveal .small { font-size: 0.8em; line-height: 1.3; }
+.reveal .katex { font-size: 1.04em; }
+.reveal .katex-display { margin: 21px 0; }
+.reveal table { font-size: 0.85em; margin: 20px 0; width: 100%; border-collapse: collapse; }
+.reveal table th { color: var(--navy); border-bottom: 2px solid var(--teal); font-weight: 650; }
+.reveal table th, .reveal table td { padding: 12px 16px; vertical-align: top; }
+.reveal table td { border-bottom: 1px solid var(--line); }
+.reveal .slide-number { font: 15px "Segoe UI", sans-serif; background: none; color: var(--muted); right: 24px; bottom: 14px; }
+.reveal .progress { height: 3px; color: var(--teal); }
+.reveal .controls { color: var(--teal); font-size: 7px; bottom: 22px; }
+.reveal .section-kicker { position: absolute; left: 61px; top: 15px; font-size: 12px; color: var(--muted); letter-spacing: 0.11em; font-weight: 600; text-transform: uppercase; }
+.reveal .eyebrow { font-size: 0.53em; letter-spacing: 0.14em; font-weight: 650; color: var(--teal); margin-bottom: 12px; }
+.reveal .metric { font-size: 2.3em; color: var(--navy); font-weight: 650; line-height: 1; margin: 20px 0 10px; }
+.reveal .muted { color: var(--muted); }
+.reveal .attack { color: var(--red); }
+.reveal .flow {
+  display: flex; align-items: stretch; gap: 16px; margin: 30px 0;
+}
+.reveal .flow-step { flex: 1; padding: 19px 18px; background: var(--pale); border-top: 3px solid var(--teal); font-size: 0.88em; }
+.reveal .flow-step strong { display: block; font-size: 1.1em; margin-bottom: 10px; }
+.reveal .flow-arrow { align-self: center; font-size: 1.15em; color: var(--teal); }
+.reveal .timeline { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; margin: 35px 0; }
+.reveal .timeline-item { border-top: 3px solid var(--teal); padding-top: 16px; }
+.reveal .timeline-date { color: var(--teal); font-size: 0.64em; font-weight: 650; letter-spacing: 0.05em; margin-bottom: 12px; }
+.reveal .timeline-item h3 { margin: 0 0 15px; }
+.reveal .timeline-item p { font-size: 0.86em; }
+.reveal .statement { font-size: 1.38em; line-height: 1.22; max-width: 1000px; margin: 35px 0; color: var(--navy); }
+.reveal .statement em { color: var(--teal); font-style: normal; }
+.reveal .reference-list { font-size: 0.7em; line-height: 1.3; }
+.reveal .reference-list p { margin-bottom: 17px; }
+.reveal .reference-list strong { font-size: 1.05em; }
+.reveal .evidence-box { padding: 22px 25px; border: 1px solid var(--line); border-left: 4px solid var(--teal); background: #fcfdfd; }
+.reveal .evidence-box.attack { border-left-color: var(--red); color: var(--ink); }
+.reveal .evidence-box p:last-child { margin: 0; }
+.reveal .workflow-table td:first-child { color: var(--navy); font-weight: 600; white-space: nowrap; }
+.reveal .break-slide > h2 { display: none; }
+.reveal .break-slide { padding-top: 160px !important; }
+.reveal .break-title { color: var(--navy); font-size: 2.15em; font-weight: 600; line-height: 1.1; margin: 25px 0 40px; }
+.reveal .break-question { max-width: 840px; font-size: 1.25em; color: var(--teal); }
+/* The first and last slides reproduce the supplied AIHUB template. */
+.reveal .slides section.template-slide { padding: 0; color: white; }
+.reveal .template-slide > h2 { display: none; }
+.reveal .template-slide .template-layout { position: absolute; inset: 0; overflow: hidden; font-family: Calibri, "Carlito", "Segoe UI", sans-serif; background: #004369; }
+.reveal .template-stripe { position: absolute; left: 0; top: 0; width: 0.8%; height: 100%; background: #1c7984; }
+.reveal .template-network { position: absolute; left: 62.1998%; top: 6.4001%; width: 32.6999%; height: 87.1998%; object-fit: fill; margin: 0; opacity: 1; }
+.reveal .template-brand { position: absolute; left: 4.5%; top: 6.2222%; color: #fff; font-size: 19.56px; font-weight: 700; }
+.reveal .template-event { position: absolute; left: 4.5%; top: 12.8%; font-size: 16px; letter-spacing: 0.04em; color: #fff; }
+.reveal .template-rule { position: absolute; left: 4.5%; top: 19.5557%; width: 48.4383%; height: 0.5483%; background: white; }
+.reveal .template-title { position: absolute; left: 4.5%; top: 28%; width: 61%; color: white; font-size: 78px; line-height: 1.04; font-weight: 700; letter-spacing: -0.025em; }
+.reveal .template-subtitle { position: absolute; left: 4.5%; top: 56%; width: 54%; color: #fff; font-size: 29px; line-height: 1.2; font-weight: 400; }
+.reveal .template-meta { position: absolute; left: 6.5%; top: 72.8889%; color: white; font-size: 28.45px; }
+.reveal .template-date { position: absolute; left: 6.5%; top: 80%; color: white; font-size: 19.56px; }
+.reveal .template-dot { position: absolute; left: 4.5%; width: 1%; height: 1.7778%; background: #982825; border-radius: 100%; top: 74.6667%; }
+.reveal .template-dot.second { top: 81.4222%; }
+.reveal .template-thanks { position: absolute; left: 4.5%; top: 19%; font-size: 113.8px; line-height: 1.15; color: #fff; font-weight: 700; letter-spacing: -0.025em; }
+.reveal .template-closing .template-rule { top: 44.4444%; width: 36.25%; height: 0.7116%; }
+.reveal .template-questions { position: absolute; left: 4.5%; top: 48.3556%; font-size: 39.1px; color: #ccc; }
+.reveal .template-email { position: absolute; left: 6.5%; top: 62.5778%; font-size: 24.89px; color: #fff; }
+.reveal .template-web { position: absolute; left: 6.5%; top: 71.1111%; font-size: 24.89px; color: #fff; }
+.reveal .template-closing .template-dot { top: 64%; }
+.reveal .template-closing .template-dot.second { top: 72.5333%; }
+.reveal .template-slide a { color: white; }
+body.template-active .reveal .slide-number,
+body.template-active .reveal .controls,
+body.template-active .reveal .progress,
+body.template-active .reveal .slide-menu-button { opacity: 0; }
+.reveal #defense-examples .columns > .column > div[style] { max-width: 510px; }
+@media print {
+  html.print-pdf .reveal .slides section.slide {
+    padding: 42px 60px 48px !important;
+    box-sizing: border-box !important;
+  }
+  html.print-pdf .reveal .slides section.template-slide {
+    padding: 0 !important;
+  }
+  html.print-pdf .reveal .slides section.break-slide {
+    padding-top: 160px !important;
+  }
+  .reveal .fragment { opacity: 1 !important; visibility: visible !important; }
+  .reveal .slide-number { background: none !important; }
+}
+
+/* Introduction: editable diagrams for systems, coordination, and evidence. */
+.reveal .intro-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin: 28px 0; }
+.reveal .intro-card { padding: 23px 25px; border: 1px solid var(--line); border-top: 4px solid var(--teal); background: #fcfdfd; }
+.reveal .intro-card h3 { margin: 0 0 15px; }
+.reveal .intro-card p { font-size: 0.94em; margin: 0; }
+.reveal .intro-card-risk { border-top-color: var(--red); }
+.reveal .intro-card-risk .eyebrow { color: var(--red); }
+.reveal .intro-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin: 28px 0; }
+.reveal .intro-evidence { margin: 20px 0; }
+.reveal .intro-evidence-origin { width: 53%; margin: 0 auto; padding: 14px 22px; text-align: center; border: 1px solid var(--line); border-left: 4px solid var(--red); background: var(--pale); }
+.reveal .intro-evidence-arrows { text-align: center; color: var(--teal); font-size: 1.4em; line-height: 1.1; margin: 8px 0; }
+.reveal .intro-evidence .intro-pair { margin: 10px 0; }
+
+/* Brief spoken transitions and the poisoning reveal. */
+.reveal .transition-slide > h2,
+.reveal .transition-slide > .section-kicker { display: none; }
+.reveal .transition-copy {
+  position: absolute; inset: 60px;
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: center; text-align: center;
+}
+.reveal .transition-main { max-width: 1050px; font-size: 2em; line-height: 1.15; color: var(--navy); }
+.reveal .transition-subtitle { margin-top: 35px; font-size: 1.12em; color: var(--teal); }
+.reveal .transition-copy p { margin: 0; }
+.reveal .poisoning-emphasis { margin: 60px 0 0; text-align: center; font-size: 1.85em; line-height: 1.15; }
+.reveal .threat-columns { align-items: flex-start; margin-top: 26px; }
+.reveal .threat-columns h3 { margin-top: 0; color: var(--teal); }
+
+/* Center the paired scientific figures within this slide's content area. */
+.reveal #poison-spatial-posteriors .spatial-result {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 50px; width: 1040px; max-width: 100%; min-height: 465px;
+  margin: 22px auto 0; align-items: center;
+}
+.reveal #poison-spatial-posteriors .spatial-result > .column {
+  width: auto !important; text-align: center;
+}
+.reveal #poison-spatial-posteriors .spatial-result .quarto-figure { margin-bottom: 12px; }
+.reveal #poison-spatial-posteriors .spatial-result p:last-child { margin-bottom: 0; }
+.reveal .evasion-distribution-plots { align-items: flex-start; text-align: center; }
+.reveal .evasion-distribution-plots h3 { min-height: 2.3em; margin: 8px 0 14px; }
+
+/* Closing section: sequential play, original driving figures, and questions. */
+.reveal .sequential-equation .math.display { font-size: 0.85em; }
+.reveal .sequential-filter { font-size: 28px; }
+.reveal .sequential-filter li { margin-bottom: 12px; }
+.reveal .sequential-filter .katex-display { margin: 14px 0; }
+.reveal .sequential-demo .columns { gap: 25px; }
+.reveal .sequential-demo .column:last-child { font-size: 0.84em; }
+.reveal .sequential-demo img { height: 515px; width: 100%; }
+.reveal .sequential-demo .quarto-figure { margin: 0; }
+.reveal .sequential-references { font-size: 0.68em; }
+.reveal .sequential-references p { margin-bottom: 15px; }
+.reveal .sequential-questions ol { margin-top: 30px; font-size: 0.94em; }
+.reveal .sequential-questions li { margin-bottom: 28px; }
+.reveal .sequential-network .column:last-child { font-size: 0.85em; }
+.reveal .cunef-jobs { font-size: 28px; }
+.reveal .jobs-heading { display: flex; align-items: center; justify-content: space-between; gap: 32px; margin: 0 0 25px; }
+.reveal .jobs-heading p { margin: 10px 0 0; font-size: 0.9em; }
+.reveal .jobs-heading img { width: 245px; height: auto; margin: 0; }
+.reveal .cunef-jobs li { margin-bottom: 19px; }
+.reveal .jobs-apply { margin-top: 26px; color: var(--navy); font-size: 0.96em; }

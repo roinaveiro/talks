@@ -1,0 +1,24 @@
+{
+  "manuscript": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/main.tex",
+  "manuscript_sha256": "3ec13d66b6b5bdbd7d03db52b3e4f424a0c40ac8fbbdf88fdc2d7460c24a1f9f",
+  "assets": [
+    {
+      "asset": "assets/sequential-merge-mc.png",
+      "source": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/Figures/MergeGame/merge_demo_MC.png",
+      "method": "byte-for-byte copy; no cropping, retouching, or redrawing",
+      "sha256": "2b838f3259505e6511f359b4db23ff2a22c443ad9ea4b17ddd18e31c3d7bb903"
+    },
+    {
+      "asset": "assets/sequential-merge-adp.png",
+      "source": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/Figures/MergeGame/merge_demo_ADP.png",
+      "method": "byte-for-byte copy; no cropping, retouching, or redrawing",
+      "sha256": "a818ed58e8b572e5a86788c8eb7484ddbf6fc7096dcbd5719756c979b6196a0f"
+    },
+    {
+      "asset": "assets/sequential-merge-schematic.svg",
+      "source": "Schematic based on lane-closing geometry in manuscript section 4.3",
+      "method": "Editable vector teaching illustration; no empirical trajectory or measured results",
+      "sha256": "258b6d7a2a8d8268c03fd8c498250845d5ffa5cf3865421d9be7fab72b8d9aea"
+    }
+  ]
+}

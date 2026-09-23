@@ -1,0 +1,257 @@
+{
+  "assets": {
+    "doc.jpg": {
+      "source": "../poisoning_bayes/images/doc.jpg",
+      "method": "byte-for-byte copy",
+      "sha256": "c965416c166cbdf4b8ea9d5f09343293e1d6241816989a9d7e8771782b4f1a22"
+    },
+    "microcredit-clean.jpeg": {
+      "source": "../poisoning_bayes/images/posterior_treatment_effect.jpeg",
+      "method": "byte-for-byte copy",
+      "sha256": "2bfb9b466d489b478f27f38e1f606ae2ee5fbe74dabb740bd79fc7957cddc9c0"
+    },
+    "microcredit-attacked.jpeg": {
+      "source": "../poisoning_bayes/images/tainted_posterior_treatment_effect.jpeg",
+      "method": "byte-for-byte copy",
+      "sha256": "b1f6bcd767ceefa08ad9992615765306ab422cf32ba5a81d0878f29eafdf493d"
+    },
+    "microcredit-comparison.jpeg": {
+      "source": "../poisoning_bayes/images/microcredit1.jpeg",
+      "method": "byte-for-byte copy",
+      "sha256": "184695b3fbb9bc06617a9f3c7bdf1db9535a7d4846666f280db98eb21135a4b7"
+    },
+    "digit-clean.png": {
+      "source": "../aml_comillas/images/7_clean.png",
+      "method": "byte-for-byte copy",
+      "sha256": "fb403223e2312e373acb73ccff940721cd217b84d7be4864f2ff19c2e2e97846"
+    },
+    "digit-pgd.png": {
+      "source": "../aml_comillas/images/7_pgd.png",
+      "method": "byte-for-byte copy",
+      "sha256": "b2adb587de462ecfa3c8fb14404a893779c3b181cf3b8284bc34fad7cb19d389"
+    },
+    "digit-entropy.png": {
+      "source": "../aml_comillas/images/7_ent.png",
+      "method": "byte-for-byte copy",
+      "sha256": "125b63c8bffc0688fa54e2bf1174049a255c80a9e68c6e74bcf5feb23923d957"
+    },
+    "pred-clean.png": {
+      "source": "../aml_comillas/images/clean.png",
+      "method": "byte-for-byte copy",
+      "sha256": "1f05d250a007358f3d7bc2cb13c88e420c634eacec6ce110bd972a141373d18d"
+    },
+    "pred-pgd.png": {
+      "source": "../aml_comillas/images/pgd.png",
+      "method": "byte-for-byte copy",
+      "sha256": "fe5fb33e0cf5f6a38141d27092879549c3617d6c9adf3822fb3559afef2dc993"
+    },
+    "pred-entropy.png": {
+      "source": "../aml_comillas/images/ent.png",
+      "method": "byte-for-byte copy",
+      "sha256": "added45f15fd27642693c4975d7bc69464d86699a65760e95476fe385ae0f91a"
+    },
+    "uncertainty.webp": {
+      "source": "../aml_comillas/images/sin_ppd.webp",
+      "method": "byte-for-byte copy",
+      "sha256": "137bdbc6fade08982439c652ceb5b76d0b04f8d68b7c07c9a57abf0f5ccd6434"
+    },
+    "baseline-examples.png": {
+      "source": "context/adv_bayes_tmlr/images/training/MNIST_examples.png",
+      "method": "byte-for-byte copy",
+      "sha256": "50f090439bd30508fb1f606f7698684038a924e3cf8a6d2de27753d6ec73c061"
+    },
+    "baseline-preds.png": {
+      "source": "context/adv_bayes_tmlr/images/training/MNIST_preds.png",
+      "method": "byte-for-byte copy",
+      "sha256": "1616807d2c60cd10905559d6c4118d7db7681da6907aa1c7f53cc66f9afa24dc"
+    },
+    "protected-examples.png": {
+      "source": "context/adv_bayes_tmlr/images/training/MNIST_newlosses_examples.png",
+      "method": "byte-for-byte copy",
+      "sha256": "e431ee7604cb474ec051e4287d9370a08efc22d388f4f7eb7c9f5a2fedcdf9d5"
+    },
+    "protected-preds.png": {
+      "source": "context/adv_bayes_tmlr/images/training/MNIST_newlosses_preds.png",
+      "method": "byte-for-byte copy",
+      "sha256": "206a6c1696582a5ff8b4fa94dbad6947fab307535a77edae9f337ff862c45044"
+    },
+    "defense-pgd.png": {
+      "source": "context/adv_bayes_tmlr/images/filled/SEP_pgd.png",
+      "method": "byte-for-byte copy",
+      "sha256": "2bd5215ada88faf0c23fe2723edded062f5c336ef5dc969324c3baa850486381"
+    },
+    "defense-pgd-plus.png": {
+      "source": "context/adv_bayes_tmlr/images/filled/SEP_pgd_plus.png",
+      "method": "byte-for-byte copy",
+      "sha256": "3540e7d589dd1c1b6a0fb1d710742779f1b7ae6cbc523c1c9fdc287a893e9bcf"
+    },
+    "defense-selective.png": {
+      "source": "context/adv_bayes_tmlr/images/filled/SEP_sel_acc.png",
+      "method": "byte-for-byte copy",
+      "sha256": "b6246bff0dd7ff2d4612f8670165a041a9095f086ea27a9980f98a2447f48dc5"
+    },
+    "spatial-map.svg": {
+      "source": "context/mmd/figs/spatial_lm/spatial_mean_attacks_selected_attack_map.pdf",
+      "method": "Complete original PDF page converted to SVG with outlined fonts",
+      "sha256": "19e7a93aab1ad02fb9a98fc7e195549b31c64f3a8d27f058f8b10df7d63575d3",
+      "source_sha256": "82c60df1225579aa6a406aab6e38c0683c74b60d9d6e477b01fb9911d7c76488"
+    },
+    "spatial-posteriors.svg": {
+      "source": "context/mmd/figs/spatial_lm/spatial_mean_attacks_all_beta_posteriors.pdf",
+      "method": "Complete original PDF page converted to SVG with outlined fonts",
+      "sha256": "e9811abaf229eb8636d1fe7f02e95b0c6bb541137428ba9dd0943721efd0eaf1",
+      "source_sha256": "ea6d509b4ce13b7596bec53fc75a03ee91c2703c8f8d97905e8354b17b2b0ade"
+    },
+    "spatial-budget.svg": {
+      "source": "context/mmd/figs/spatial_lm/spatial_mean_attacks_budget_vs_achieved_posterior_mean.pdf",
+      "method": "complete PDF page to SVG; text outlined; no crop or redrawing",
+      "source_sha256": "55726004ab7f3e3a261bf84c7fe48c9c4c519169fa78f8d50355d71dba442e02",
+      "width_pt": 652.8818969726562,
+      "height_pt": 394.9746398925781
+    },
+    "radon-gap.svg": {
+      "source": "context/mmd/figs/radon_lake_utility_gap_posterior.pdf",
+      "method": "Complete original PDF page converted to SVG with outlined fonts",
+      "sha256": "514cd06a402f14838cfd18afe85345a3468f5b092e653735dd7b75f312171111",
+      "source_sha256": "b71a804b9b03e48baaefa9706f37233b17689dd9e22cf38939e862b671718996"
+    },
+    "radon-counties.svg": {
+      "source": "context/mmd/figs/radon_county_expected_health_cost.pdf",
+      "method": "Complete original PDF page converted to SVG with outlined fonts",
+      "sha256": "a8bc62d3af1b9644bd2523d6f53392f7d7e6ad8987d8af8e9245cdfc880d6e66",
+      "source_sha256": "1f51b630cf42cae8a65488f4cf69867ccd4295cb60996d861a7222e48c34b6a8"
+    },
+    "radon-decomposition.svg": {
+      "source": "context/mmd/figs/radon_lake_cost_decomposition.pdf",
+      "method": "Complete original PDF page converted to SVG with outlined fonts",
+      "sha256": "cef1fcdb713e835cdab925b1d4e439789dcf329dbf4d457a6f96ebeac69028a0",
+      "source_sha256": "c828aac40ab6f0bc0c1279389578d1e8993b38df4379b87873b165d98e62442f"
+    },
+    "radon-deletions.svg": {
+      "source": "context/mmd/figs/radon_deleted_observations.pdf",
+      "method": "Complete original PDF page converted to SVG with outlined fonts",
+      "sha256": "85860299b819d418829f285d061aebf33ee7e3479b372b2bbe8f9ff4a44a57df",
+      "source_sha256": "888a554c1dfd6811cf969dbb368aa11b4f8beeeed34081cb73911bf373f3fd10"
+    },
+    "template-network.png": {
+      "source": "AIHUB2026_EscuelaVerano_Template_v4.pptx:ppt/media/image1.png",
+      "method": "unchanged ZIP member extraction",
+      "sha256": "364c96484f7512752b49872eb8025e3d54ad6ebc32c0b13a0506e47e6bc7a7ec"
+    },
+    "evasion-selective.png": {
+      "source": "https://arxiv.org/html/2506.09640v1/img/mnist/10bnnvi/acc_reject.png",
+      "method": "unchanged download of published figure",
+      "sha256": "18b7c7d74cd90272b7f5985a5faf47d5ea80dd11104df5101643169c8a2fad5f"
+    },
+    "evasion-entropy-density.png": {
+      "source": "https://arxiv.org/html/2506.09640v1/img/mnist/10bnnvi/baseline.png",
+      "method": "unchanged download of published figure",
+      "sha256": "a9d326efa6f3b07bfb523d633399dcf8b16a1cc9907fa58eac0057bb7aef7faa"
+    },
+    "bayes-prior.svg": {
+      "source": "scripts/build_figures.py",
+      "method": "new scientific teaching plot; explicitly labeled illustrative",
+      "sha256": "08d8a4b5e8003d58cc28d8551db95ed6785d18e124a0f13192ac975e8c0c493e"
+    },
+    "bayes-likelihood.svg": {
+      "source": "scripts/build_figures.py",
+      "method": "new scientific teaching plot; explicitly labeled illustrative",
+      "sha256": "dca1e0b894238f631a42f50a25e893946820476ca5fdc5e192b57b7af449be03"
+    },
+    "bayes-posterior.svg": {
+      "source": "scripts/build_figures.py",
+      "method": "new scientific teaching plot; explicitly labeled illustrative",
+      "sha256": "01de0e0543e4491bf62729ddc57592d983f50f07a0d3b39d9d83dd23b0f0e4e3"
+    },
+    "posterior-predictive.svg": {
+      "source": "scripts/build_figures.py",
+      "method": "new scientific teaching plot; explicitly labeled illustrative",
+      "sha256": "3fc315cad10764fcc4f050be3e8d9317d540a9f54cb43cd4db340ba073e13dcb"
+    },
+    "same-mean-risk.svg": {
+      "source": "scripts/build_figures.py",
+      "method": "new scientific teaching plot; explicitly labeled illustrative",
+      "sha256": "0e45e488f6f5fe620bead27672f9a085f6c749873ae4319f329a678238f7d192"
+    },
+    "microcredit-decision.svg": {
+      "source": "scripts/build_figures.py",
+      "method": "new scientific teaching plot; explicitly labeled illustrative",
+      "sha256": "93746f40e4bb3edfc571ec936763f3e9d756366ae815295ccfa7be4834754fa6"
+    },
+    "radon-decision.svg": {
+      "source": "scripts/build_figures.py",
+      "method": "new scientific teaching plot; explicitly labeled illustrative",
+      "sha256": "5aafdfc3f13cb53ae54dffd3c42a5d2e5dce936f25d23b2d3a0364f077d3c5d7"
+    },
+    "spatial-flooding-panel.svg": {
+      "source": "context/mmd/figs/spatial_lm/spatial_mean_attacks_all_beta_posteriors.pdf",
+      "method": "Original FFREQ coefficient panel extracted without redrawing; shared gray/blue legend supplied in slide caption",
+      "sha256": "7a6a32a2fb5240988698cc1f9907ee765dbfb3bad91f1d096892c0ba460fd468",
+      "source_sha256": "ea6d509b4ce13b7596bec53fc75a03ee91c2703c8f8d97905e8354b17b2b0ade"
+    },
+    "spatial-ba-location-changes.png": {
+      "source": "context/posterior_attraction_BA/Figures/spatial_lm/location_changes_with_response_EPA_b1=40_b3=1.0.png",
+      "method": "Unchanged byte-for-byte copy",
+      "sha256": "ec22527a308f15b3dda3e1964b8667cff4df38483b674a465bcdda22716ad985",
+      "source_sha256": "ec22527a308f15b3dda3e1964b8667cff4df38483b674a465bcdda22716ad985"
+    },
+    "data-poisoning-villain.png": {
+      "source": "Built-in image-generation tool; prompt: assets/data-poisoning-villain-prompt.txt",
+      "method": "Original fictional illustration, copied unchanged into workspace",
+      "sha256": "0cb79834fbfcb14df172bd934a0a4d5248a27f2b553dcc85881ae54e51011a74"
+    },
+    "evasion-distribution-rise.png": {
+      "source": "https://arxiv.org/html/2506.09640v1/img/mnist/10bnnvi/distr_rise.png",
+      "description": "Figure 5a, full-distribution attacks raising MNIST entropy",
+      "method": "Original published PNG downloaded unchanged",
+      "sha256": "f4d4f89217032cc0b35df46b8a54edeb2af334dee025675b90ad8365566c86e3"
+    },
+    "evasion-distribution-lower.png": {
+      "source": "https://arxiv.org/html/2506.09640v1/img/mnist/10bnnvi/distr_lower.png",
+      "description": "Figure 5b, full-distribution attacks lowering notMNIST entropy",
+      "method": "Original published PNG downloaded unchanged",
+      "sha256": "f48ae13930562577b75a4f2ef659d3f2904251dbc97f1b81aa54cd1f0d2c17f1"
+    },
+    "sequential-merge-mc.png": {
+      "source": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/Figures/MergeGame/merge_demo_MC.png",
+      "method": "byte-for-byte copy; no cropping, retouching, or redrawing",
+      "sha256": "2b838f3259505e6511f359b4db23ff2a22c443ad9ea4b17ddd18e31c3d7bb903"
+    },
+    "sequential-merge-adp.png": {
+      "source": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/Figures/MergeGame/merge_demo_ADP.png",
+      "method": "byte-for-byte copy; no cropping, retouching, or redrawing",
+      "sha256": "a818ed58e8b572e5a86788c8eb7484ddbf6fc7096dcbd5719756c979b6196a0f"
+    },
+    "sequential-merge-schematic.svg": {
+      "source": "Schematic based on lane-closing geometry in manuscript section 4.3",
+      "method": "Editable vector teaching illustration; no empirical trajectory or measured results",
+      "sha256": "258b6d7a2a8d8268c03fd8c498250845d5ffa5cf3865421d9be7fab72b8d9aea"
+    },
+    "sequential-interaction-original.svg": {
+      "source": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/main.tex, first tikzpicture, Figure 1(a)",
+      "method": "Original TikZ compiled with its original stripe pattern in a standalone wrapper; complete PDF page converted to SVG with text outlined. Nodes, arcs, labels and legend unchanged.",
+      "editable_source": "assets/sequential-interaction-original.tex",
+      "source_sha256": "3ec13d66b6b5bdbd7d03db52b3e4f424a0c40ac8fbbdf88fdc2d7460c24a1f9f",
+      "sha256": "c5122273b7acb708c2345bd57c4ae035cc6d352259028840a4da1113567c44a9"
+    },
+    "cunef-logo.svg": {
+      "source": "https://www.cunef.edu/",
+      "retrieved": "2026-09-23",
+      "method": "Official inline SVG named logo extracted unchanged except for removal of CSS class and addition of standalone xmlns attribute. Original paths, dimensions, and orange fill preserved.",
+      "sha256": "1bba09c4dcc42f14f5e947d7d27c1c5f505bcbb4f395d65cab0bc0a8829f21b1"
+    },
+    "sequential-merge-h2s.png": {
+      "source": "context/Filter_based_Approaches_for_Bayesian_Sequential_Play___Premium/Figures/MergeGame/merge_demo_H2S.png",
+      "method": "byte-for-byte copy; all original axes, trajectories, panels and annotations preserved.",
+      "sha256": "d1c5e2295fdf19b8e876def06749963bae465f825d447c3a5bd8fc3d674ad7f8"
+    }
+  },
+  "normal_normal_illustration": {
+    "prior_mean": 0.0,
+    "prior_sd": 8.0,
+    "likelihood_estimate": 3.0,
+    "likelihood_standard_error": 3.0,
+    "posterior_mean": 2.6301369863013697,
+    "posterior_sd": 2.8089875327071336
+  }
+}

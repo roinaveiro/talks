@@ -1,0 +1,5 @@
+Use case: illustration-story.
+Asset type: humorous illustration for an academic lecture slide on data poisoning through deletion and replication.
+Primary request: a cartoon villain wearing a simple black eye mask, mischievously manipulating a small orderly set of data-record cards on a desk. With one hand the villain pulls a single card out and drops it into a wastebasket; with the other hand the villain places identical copies of a different card into the row. Give the duplicated cards the same simple teal dot-and-line pattern so copying is immediately apparent. Removing and duplicating existing records, not changing the numbers on a screen, is the visual point.
+Style: crisp hand-drawn editorial ink with restrained flat navy, teal, and red accents on a white background, matching a clean academic presentation. Friendly satirical tone, not frightening. No complicated technical interface.
+Composition: landscape 3:2, one clearly readable central character with cards, basket and copies visible, generous outer white margin. No text, letters, numerals, labels, logos or watermark. Fictional conceptual illustration.

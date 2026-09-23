@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Talks &amp; lectures · Roi Naveiro</title>
+  <meta name="description" content="Research talks and lectures by Roi Naveiro on Bayesian inference, machine learning, adversarial robustness, and decision-making.">
+  <link rel="canonical" href="https://roinaveiro.github.io/talks/">
+  <meta name="theme-color" content="#faf9f6">
+  <link rel="stylesheet" href="assets/catalog.css">
+  <script src="assets/catalog.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to talks</a>
+  <header class="site-header page-width">
+    <a class="wordmark" href="https://roinaveiro.github.io/">Roi Naveiro</a>
+    <nav aria-label="Main navigation">
+      <a href="https://roinaveiro.github.io/">About</a>
+      <a href="https://roinaveiro.github.io/publications/">Publications</a>
+      <a href="https://github.com/roinaveiro/talks">GitHub</a>
+    </nav>
+  </header>
+  <main id="main" class="page-width">
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">Research &amp; teaching</p>
+      <h1 id="page-title">Talks &amp; lectures</h1>
+      <p class="intro-copy">Bayesian inference, machine learning, and decisions under uncertainty.</p>
+    </section>
+    {{FEATURED}}
+    <section class="collection" aria-labelledby="collection-title">
+      <div class="collection-heading">
+        <h2 id="collection-title">Browse the collection</h2>
+        <p>{{TALK_COUNT}} talks and lectures, with alternative versions grouped together.</p>
+      </div>
+      <div class="catalog-tools" hidden>
+        <div class="topic-filters" role="group" aria-label="Filter by topic">
+          <button type="button" data-topic="all" aria-pressed="true">All topics</button>
+          <button type="button" data-topic="security" aria-pressed="false">Security &amp; decisions</button>
+          <button type="button" data-topic="methods" aria-pressed="false">Bayesian methods</button>
+          <button type="button" data-topic="applications" aria-pressed="false">Applications</button>
+        </div>
+        <div class="search-field">
+          <label for="talk-search">Search talks</label>
+          <input id="talk-search" type="search" placeholder="Title, topic, or event" autocomplete="off">
+        </div>
+      </div>
+      <p class="result-count" role="status" aria-live="polite" hidden></p>
+      {{CATALOG}}
+      <div class="empty-state" hidden>
+        <h3>No talks match this search</h3>
+        <p>Try a different term or choose another topic.</p>
+        <button type="button" id="clear-filters">Clear search and filters</button>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer page-width">
+    <p>Roi Naveiro · CUNEF Universidad</p>
+    <p><a href="https://roinaveiro.github.io/">Personal website</a><span aria-hidden="true"> / </span><a href="https://github.com/roinaveiro/talks">Source repository</a></p>
+  </footer>
+</body>
+</html>

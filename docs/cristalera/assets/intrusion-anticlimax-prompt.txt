@@ -1,0 +1,9 @@
+Use case: illustration-story.
+Asset type: humorous illustration for an academic slide about an AI-agent intrusion that achieved nothing because the agents already possessed the required flag.
+Primary request: a witty single-panel editorial cartoon. Two small exhausted robot agents in harmless cartoon burglar eye masks stand beside a gigantic bank vault they have opened with absurd effort. They sheepishly notice that the little finish-line flag they sought has been in one robot's hand the whole time. The empty open vault and their embarrassed expressions carry the joke.
+Style: crisp hand-drawn editorial ink and restrained flat color, white background, navy and teal accents, a small red flag. Sophisticated and funny, not a technical diagram. Wide landscape composition, all characters and vault comfortably within frame.
+No text, no labels, no logos, no watermark, no real people. This is clearly a fictional comic illustration, not documentary evidence.
+
+Generated with the built-in image-generation tool on 21 September 2026.
+Final asset: assets/intrusion-anticlimax.png
+Fictional illustration. Not a reconstruction of a real incident.

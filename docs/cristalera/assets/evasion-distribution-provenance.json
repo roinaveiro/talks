@@ -1,0 +1,16 @@
+[
+  {
+    "asset": "assets/evasion-distribution-rise.png",
+    "source": "https://arxiv.org/html/2506.09640v1/img/mnist/10bnnvi/distr_rise.png",
+    "description": "Figure 5a, full-distribution attacks raising MNIST entropy",
+    "method": "Original published PNG downloaded unchanged",
+    "sha256": "f4d4f89217032cc0b35df46b8a54edeb2af334dee025675b90ad8365566c86e3"
+  },
+  {
+    "asset": "assets/evasion-distribution-lower.png",
+    "source": "https://arxiv.org/html/2506.09640v1/img/mnist/10bnnvi/distr_lower.png",
+    "description": "Figure 5b, full-distribution attacks lowering notMNIST entropy",
+    "method": "Original published PNG downloaded unchanged",
+    "sha256": "f48ae13930562577b75a4f2ef659d3f2904251dbc97f1b81aa54cd1f0d2c17f1"
+  }
+]

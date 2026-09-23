@@ -1,0 +1,42 @@
+# Operating-system and editor files
+.DS_Store
+._*
+.Rhistory
+.RData
+.Ruserdata
+*.swp
+*~
+
+# Build caches and local environments
+.quarto/
+**/*.quarto_ipynb
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.conda/
+node_modules/
+.pytest_cache/
+.mypy_cache/
+
+# Local inputs, working copies, and generated bundles
+context/
+backups/
+sbi-logs/
+*-source.zip
+*_bundle/
+*_bundle.zip
+*MacBook*
+
+# Local project not part of this publication
+/docs/NFs/
+/docs/NFs.zip
+
+# Superseded exports and authoring-only material for the current lecture
+/docs/cristalera/*.pdf
+/docs/cristalera/*.pptx
+/docs/cristalera/sections/
+/docs/cristalera/validation.md
+/docs/cristalera/talk-structure.html
+/docs/cristalera/talk-structure_files/

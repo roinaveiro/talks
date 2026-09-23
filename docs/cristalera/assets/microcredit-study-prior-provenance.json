@@ -1,0 +1,27 @@
+{
+  "asset": "microcredit-study-prior.svg",
+  "paper": "Poisoning Bayesian Inference via Data Deletion and Replication",
+  "paper_source": "https://arxiv.org/html/2503.04480v1#S6.SS3",
+  "paper_section": "6.3 Case Study: Mexico Microcredit",
+  "code_source": "https://github.com/Matthieu-Carreau/Poisoning_Bayesian_Inference/blob/main/src/studentT_prior_lin_reg.py",
+  "data_preprocessing_source": "https://github.com/Matthieu-Carreau/Poisoning_Bayesian_Inference/blob/main/notebooks/microcredit.ipynb",
+  "distribution": "Student-t",
+  "parameter": "beta_1",
+  "parameters": {
+    "df": 3,
+    "loc": 0,
+    "scale": 1000
+  },
+  "parameter_convention": "df is degrees of freedom; loc is location; scale is the multiplicative Student-t scale, not a standard deviation or variance.",
+  "method": "Evaluate the stated prior density using scipy.stats.t.pdf. No empirical data were fitted or approximated.",
+  "axis_units": "Profit units used in the attack analysis. The notebook multiplies the Q10_9_toprof field by 0.1026493 after imputing missing outcomes with zero.",
+  "plot_window": [
+    -5000,
+    5000
+  ],
+  "probability_in_plot_window": 0.9846075619266976,
+  "support": "All real numbers; the displayed window does not truncate or renormalize the prior.",
+  "script": "scripts/build_microcredit_prior.py",
+  "source_verified": "2026-09-16",
+  "asset_sha256": "e4d19fc7fa292bb4f43435673b9d020fc65b69806f9dddddf89d61bf5bf8e501"
+}

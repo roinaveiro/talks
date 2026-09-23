@@ -1,0 +1,8 @@
+{
+  "source_page": "https://huggingface.co/brand",
+  "asset_url": "https://huggingface.co/datasets/huggingface/brand-assets/resolve/main/hf-logo.svg?download=true",
+  "asset_path": "assets/huggingface-logo.svg",
+  "retrieved": "2026-09-16",
+  "modifications": "None: exact official SVG downloaded without changes.",
+  "sha256": "942cad1ccda905ac5a659dfd2d78b344fccfb84a8a3ac3721e08f488205638a0"
+}

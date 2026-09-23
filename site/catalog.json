@@ -1,0 +1,81 @@
+{
+  "featured": {
+    "title": "Secure Machine Learning",
+    "subtitle": "A Bayesian perspective",
+    "description": "Adversarial attacks and defenses, decisions under uncertainty, and learning to act alongside an opponent.",
+    "event": "AIHUB CSIC Summer School",
+    "date": "September 2026",
+    "details": "English · 3-hour lecture",
+    "url": "cristalera/secure-ml.html",
+    "appendix": "cristalera/secure-ml-appendix.html"
+  },
+  "groups": [
+    {
+      "id": "security",
+      "title": "Security & decision-making",
+      "talks": [
+        {
+          "title": "Can Small Data Manipulations Compromise ML-Based Decisions?",
+          "description": "How changes to training data can shift Bayesian inference and the decisions it supports.",
+          "links": [
+            {"label": "Research talk", "url": "poisoning_bayes/poisoning_bayes.html"},
+            {"label": "Comillas seminar", "url": "aml_comillas/aml_comillas.html"}
+          ]
+        },
+        {
+          "title": "Sensitivity of Bayesian Inference to Data Deletion and Replication",
+          "description": "A shorter presentation on manipulating data to change posterior beliefs.",
+          "links": [{"label": "Slides", "url": "poisoning_bayes_short/poisoning_bayes.html"}]
+        },
+        {
+          "title": "Scalable Methods for Solving Games in Adversarial Machine Learning",
+          "description": "Gradient-based methods for strategic interactions in machine learning.",
+          "event": "EURO 2022",
+          "links": [{"label": "Slides", "url": "GDSG/gmsg.html"}]
+        },
+        {
+          "title": "Decision Analytic Support in Non-Cooperative Sequential Games",
+          "description": "Simulation-based decisions when an adversary’s actions and preferences are uncertain.",
+          "event": "ADA 2022",
+          "links": [{"label": "Slides", "url": "aps/aps.html"}]
+        }
+      ]
+    },
+    {
+      "id": "methods",
+      "title": "Machine learning & Bayesian methods",
+      "talks": [
+        {
+          "title": "Simulation-Based Bayesian Optimization",
+          "description": "Searching for good decisions when evaluating an objective is expensive.",
+          "links": [
+            {"label": "Full talk", "url": "sbbo_long/iiia23.html"},
+            {"label": "Condensed talk", "url": "sbbo_long/iiia23_reduced.html"},
+            {"label": "Short introduction", "url": "sbbo_short/sbbo_short.html"}
+          ]
+        },
+        {
+          "title": "Machine Learning: a Probabilistic Perspective",
+          "description": "An introduction to learning from data, predictive models, and uncertainty.",
+          "links": [{"label": "Slides", "url": "ml-upm/ml_cc.html"}]
+        }
+      ]
+    },
+    {
+      "id": "applications",
+      "title": "Applications & perspectives",
+      "talks": [
+        {
+          "title": "Machine Learning for Molecular Properties Prediction",
+          "description": "Predicting molecular properties and using machine learning to guide molecular discovery.",
+          "links": [{"label": "Slides", "url": "repsol/session1.html"}]
+        },
+        {
+          "title": "Statistics in the Knowledge Economy",
+          "description": "The role of statistical reasoning in turning data into useful knowledge.",
+          "links": [{"label": "Slides", "url": "stats_knowledge_economy/stats_knowledge_economy.html"}]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "asset": "assets/defense-reactive-dag-original.svg",
+    "source": "context/adv_bayes_tmlr/main.pdf",
+    "source_tex": "context/adv_bayes_tmlr/main.tex",
+    "source_pdf_sha256": "b00e360e72672cbd1842214d6c835422ba60041d646ad7f6e0121227605f2c1c",
+    "source_tex_sha256": "cb717d770afd49265871a0aba5e88ed513e88384408a7e69d31a6ba20ac6ae87",
+    "figure": 1,
+    "tex_label": "fig:operations",
+    "page": 4,
+    "clip_points": [
+      193,
+      462,
+      419,
+      602
+    ],
+    "conversion": "Original vector panel extracted from manuscript PDF with PyMuPDF; text rendered as vector outlines. No nodes, arrows, labels, or shading changed.",
+    "asset_sha256": "1ea0b23920e3a75394472b16a5ef4b849229a4624c7883b72d81a13e4056a823"
+  },
+  {
+    "asset": "assets/defense-proactive-dag-original.svg",
+    "source": "context/adv_bayes_tmlr/main.pdf",
+    "source_tex": "context/adv_bayes_tmlr/main.tex",
+    "source_pdf_sha256": "b00e360e72672cbd1842214d6c835422ba60041d646ad7f6e0121227605f2c1c",
+    "source_tex_sha256": "cb717d770afd49265871a0aba5e88ed513e88384408a7e69d31a6ba20ac6ae87",
+    "figure": 2,
+    "tex_label": "fig:train",
+    "page": 7,
+    "clip_points": [
+      193,
+      517,
+      419,
+      656
+    ],
+    "conversion": "Original vector panel extracted from manuscript PDF with PyMuPDF; text rendered as vector outlines. No nodes, arrows, labels, or shading changed.",
+    "asset_sha256": "0cdade4b28e71201487b3b77b037108c41a6514edfef3ddba0eab4020ae22161"
+  }
+]

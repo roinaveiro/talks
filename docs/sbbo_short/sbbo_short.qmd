@@ -260,7 +260,7 @@ Z_i = \Lambda_i (1-x_i)(1 - Z_{i-1}) + (1 - \Gamma_i x_i) Z_{i-1}
 
 ## Results
 
-![](sbbo_short_files/CON.png){width="800" height="600" style="display: block; margin: 0 auto"}
+![](sbbo_short_files/_ON.png){width="800" height="600" style="display: block; margin: 0 auto"}
 
 ::: footer
 Number of Function Evaluations vs Best Value found for CP

@@ -1,0 +1,24 @@
+{
+  "source": "https://arxiv.org/pdf/2605.00742v2",
+  "html_source": "https://arxiv.org/html/2605.00742v2",
+  "page": 1,
+  "description": "Original first-page title and complete author list.",
+  "crop_points": [
+    52,
+    80,
+    544,
+    220
+  ],
+  "pdf_page_points": [
+    612,
+    792
+  ],
+  "render_scale": 3,
+  "image_pixels": [
+    1476,
+    420
+  ],
+  "conversion": "Direct raster crop of the source PDF. No text or image content altered.",
+  "source_sha256": "31cd314911784250350ee36e00701586f2abb6d3c36d29e5d44958f7ef95b756",
+  "asset_sha256": "6501b960d9e469e10a0e29ad544927b73237530cb6833c0b19ffafa6dc8d2152"
+}

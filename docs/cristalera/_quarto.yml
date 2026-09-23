@@ -1,0 +1,52 @@
+# Run `quarto preview secure-ml.qmd` to edit, or `quarto render` to build both decks.
+project:
+  type: default
+  render:
+    - secure-ml.qmd
+    - secure-ml-appendix.qmd
+
+lang: en
+filters:
+  - filters/local-references.lua
+format:
+  revealjs:
+    title-slide: false
+    theme: default
+    css: deck.css
+    slide-level: 2
+    width: 1280
+    height: 720
+    margin: 0
+    center: false
+    auto-stretch: false
+    transition: fade
+    transition-speed: fast
+    background-transition: none
+    slide-number: c/t
+    show-slide-number: all
+    controls: true
+    controls-layout: edges
+    controls-tutorial: false
+    progress: true
+    hash: true
+    history: true
+    navigation-mode: linear
+    keyboard: true
+    overview: true
+    touch: true
+    help: true
+    menu: true
+    preview-links: false
+    # Local maths resources are embedded by Quarto itself, including fonts.
+    html-math-method:
+      method: katex
+      url: assets/vendor/katex/
+    embed-resources: true
+    self-contained-math: true
+    pdf-separate-fragments: false
+    pdf-max-pages-per-slide: 1
+    include-after-body: deck.js
+
+execute:
+  echo: false
+  warning: false

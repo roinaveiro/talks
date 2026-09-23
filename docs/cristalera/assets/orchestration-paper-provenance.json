@@ -1,0 +1,14 @@
+{
+  "source": "https://arxiv.org/pdf/2605.00742v2",
+  "page": 6,
+  "figure": "1(a)",
+  "clip_points": [
+    52,
+    74,
+    296,
+    194
+  ],
+  "conversion": "Original vector panel extracted from PDF; text converted to outlines. No labels or data changed.",
+  "source_sha256": "31cd314911784250350ee36e00701586f2abb6d3c36d29e5d44958f7ef95b756",
+  "asset_sha256": "facd045669d1b13cce34a18a7b2537706e22fd9f42070480c5aa099f4a84b269"
+}
