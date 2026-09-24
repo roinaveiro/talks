@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the talks landing page using only Python's standard library."""
 import argparse
+from datetime import date
 import html
 import json
 from pathlib import Path
@@ -26,17 +27,15 @@ def build():
     catalog = json.loads((SITE / "catalog.json").read_text())
     featured = catalog["featured"]
     feature = f'''<section class="featured" aria-labelledby="featured-title">
-      <div>
-        <p class="eyebrow">Latest lecture · {escape(featured["date"])}</p>
-        <h2 id="featured-title">{link(featured["url"], featured["title"])}</h2>
-        <p class="subtitle">{escape(featured["subtitle"])}</p>
-        <p class="description">{escape(featured["description"])}</p>
-      </div>
-      <div class="featured-meta">
-        <p><strong>{escape(featured["event"])}</strong>{escape(featured["details"])}</p>
-        {link(featured["url"], "Open slides ↗", "primary-link")}
-        {link(featured["appendix"], "Technical appendix", "appendix-link")}
-      </div>
+      <p class="feature-label">Latest lecture · {escape(featured["date"])}</p>
+      <h2 id="featured-title">{link(featured["url"], featured["title"])}</h2>
+      <p class="subtitle">{escape(featured["subtitle"])}</p>
+      <p class="description">{escape(featured["description"])}</p>
+      <p class="featured-event">{escape(featured["event"])} · {escape(featured["details"])}</p>
+      <p class="featured-links">
+        {link(featured["url"], "Open slides")}
+        {link(featured["appendix"], "Technical appendix")}
+      </p>
     </section>'''
     sections = []
     count = 1
@@ -60,7 +59,7 @@ def build():
           <h3 id="topic-{escape(group_id)}">{escape(group["title"])}</h3>
           {chr(10).join(rows)}
         </section>''')
-    page = (SITE / "index.html").read_text().replace("{{FEATURED}}", feature).replace("{{CATALOG}}", "\n".join(sections)).replace("{{TALK_COUNT}}", str(count))
+    page = (SITE / "index.html").read_text().replace("{{FEATURED}}", feature).replace("{{CATALOG}}", "\n".join(sections)).replace("{{TALK_COUNT}}", str(count)).replace("{{YEAR}}", str(date.today().year))
     return {
         DOCS / "index.html": page,
         DOCS / "assets/catalog.css": (SITE / "catalog.css").read_text(),

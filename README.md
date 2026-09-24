@@ -32,6 +32,8 @@ python3 scripts/build_catalog.py --check
 python3 scripts/check_site.py
 ```
 
+The catalog loads the shared `minimal.css` and favicon from the main website at `roinaveiro.github.io`, so its typography, colors, header, and footer stay aligned. `site/catalog.css` contains only catalog-specific styling.
+
 Only Python 3.9 or later is needed. The generated page works without JavaScript; JavaScript adds topic filters and search. No external fonts, analytics, frameworks, or build services are required.
 
 ## Edit Secure Machine Learning
