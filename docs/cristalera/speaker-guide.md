@@ -1,6 +1,6 @@
 # Secure Machine Learning — speaker guide
 
-**120 main slides. 180-minute target**, including a ten-minute break and seven minutes of final discussion. The separate technical appendix has **11 slides**.
+**122 main slides. 180-minute target**, including a ten-minute break and seven minutes of final discussion. The separate technical appendix has **11 slides**.
 
 The previous visual design has been restored. Wording is only lightly condensed; extra slides give the stories and formulas room to develop. Explain the problem first, introduce one mathematical idea, and return to the example's consequence.
 
@@ -10,17 +10,17 @@ The thread is **evidence → beliefs → uncertainty → decisions → consequen
 
 | Elapsed time | Slides | Section | Minutes | Transition |
 |---|---:|---|---:|---|
-| 00:00–00:22 | 1–18 | Motivation and coordination | 22 | Choosing what an agent should do is a decision under uncertainty. |
-| 00:22–00:46 | 19–34 | Bayesian decision theory | 24 | We know how to decide; what if someone selects our evidence? |
-| 00:46–01:34 | 35–68 | Poisoning, moments, and decisions | 48 | Change what the model learns from, then change what it sees. |
-| 01:34–01:44 | 69 | Break | 10 | Hold the centered Evasion attacks divider. |
-| 01:44–02:04:30 | 70–79 | Evasion | 20.5 | Parameter uncertainty does not model the attack process. |
-| 02:04:30–02:31 | 80–93 | Adversarial channels and protection | 26.5 | Defended predictions can feed a decision rule. |
-| 02:31–02:48 | 94–113 | Bayesian sequential play and the driving experiment | 17 | The opponent learns; we infer its behavior and plan ahead. |
-| 02:48–02:53 | 114–119 | AI opponents, open questions, vacancies, and bibliography | 5 | What must change for language, memory, and strategic feedback? |
-| 02:53–03:00 | 120 | Final discussion | 7 | Revisit the open questions or use the technical appendix. |
+| 00:00–00:22 | 1–19 | Motivation and coordination | 22 | Choosing what an agent should do is a decision under uncertainty. |
+| 00:22–00:46 | 20–36 | Bayesian decision theory | 24 | We know how to decide; what if someone selects our evidence? |
+| 00:46–01:34 | 37–70 | Poisoning, moments, and decisions | 48 | Change what the model learns from, then change what it sees. |
+| 01:34–01:44 | 71 | Break | 10 | Hold the centered Evasion attacks divider. |
+| 01:44–02:04:30 | 72–81 | Evasion | 20.5 | Parameter uncertainty does not model the attack process. |
+| 02:04:30–02:31 | 82–95 | Adversarial channels and protection | 26.5 | Defended predictions can feed a decision rule. |
+| 02:31–02:48 | 96–115 | Bayesian sequential play and the driving experiment | 17 | The opponent learns; we infer its behavior and plan ahead. |
+| 02:48–02:53 | 116–121 | AI opponents, open questions, vacancies, and bibliography | 5 | What must change for language, memory, and strategic feedback? |
+| 02:53–03:00 | 122 | Final discussion | 7 | Revisit the open questions or use the technical appendix. |
 
-Times are rehearsal targets. The opening has 22 minutes and the foundations, including the AML roadmap, have 24. Poisoning has 48 minutes to accommodate the expanded Meuse and radon stories. Keep the brief coordination transition and general poisoning introduction short. Use this table for the overall schedule. The final 29 minutes contain 22 minutes of prepared material and seven minutes of discussion. Questions conclude the scientific narrative, followed by the vacancies announcement, bibliography, and closing template. Return to the questions slide during discussion if useful.
+Times are rehearsal targets. The opening has 22 minutes and the foundations, including the AML roadmap, have 24. Poisoning has 48 minutes to accommodate the expanded Meuse and radon stories. Keep the centered transition slides and general poisoning introduction short. Use this table for the overall schedule. The final 29 minutes contain 22 minutes of prepared material and seven minutes of discussion. Questions conclude the scientific narrative, followed by the vacancies announcement, bibliography, and closing template. Return to the questions slide during discussion if useful.
 
 ## How to pace the story
 
@@ -42,25 +42,25 @@ Times are rehearsal targets. The opening has 22 minutes and the foundations, inc
 
 | Slide | Prompt | Debrief |
 |---|---|---|
-| [Slide 14](secure-ml.html#/motivation-shared-evidence) | Many agents report findings. Whose evidence should count? | Model reliability and shared sources; agreement need not be independent evidence. Then ask whether another tool call or a human expert could improve the decision enough to justify its cost. |
-| [Slide 27](secure-ml.html#/bayes-real-posterior) | What does a mean effect of −4.71 establish? | It summarizes this posterior. It neither makes every plausible effect negative nor chooses a policy without a utility. |
-| [Slide 32](secure-ml.html#/bayes-microcredit-decision) | With expansion cost 2, what does the rule choose? | Expansion utility is −4.71−2=−6.71; no expansion gives 0. Choose no expansion under this illustrative model. |
-| [Slide 46](secure-ml.html#/poison-gradient) | Current expected log likelihood −4; target −1. Which way does the weight move? | The derivative is −3. Gradient descent increases that row's weight if constraints allow it. |
-| [Slide 49](secure-ml.html#/poison-mexico-attacked) | What happens after twenty operations? | The posterior mean moves to +6.28; expected expansion utility becomes +4.28. The illustrative action flips. |
-| [Slide 50](secure-ml.html#/poison-target-summary) | Why replace a full posterior target with moments? | The attacker may care about an effect, probability, or utility gap without wanting a specific distribution for nuisance parameters. |
-| [Slide 65](secure-ml.html#/poison-radon-restriction) | Can an attack outside Lake County affect its decision? | Shared hierarchical parameters carry information across counties. The selected attack deletes six non-Lake homes. |
-| [Slide 67](secure-ml.html#/poison-radon-result) | What changes the action? | The reported estimated exposure cost crosses 2000: 2179.9→1988.6; mean utility gap +179.9→−11.4. The target −50 is missed, but the fitted action changes. |
-| [Slide 78](secure-ml.html#/evasion-gate) | Does reviewing uncertain inputs ensure security? | The attacker can raise uncertainty for digits and lower it for unfamiliar inputs, changing which cases pass. |
-| [Slide 82](secure-ml.html#/defense-attacker-beliefs) | Where should the channel come from? | Evidence about access, incentives, constraints, and observed attacks informs uncertain attacker goals and beliefs. Average over these to forecast behavior. |
-| [Slide 86](secure-ml.html#/defense-reactive-joint) | Does reactive protection just choose one clean input? | Proposition 3.1 nests an expectation over clean inputs inside an expectation over parameters. Both distributions condition on the received input. |
-| [Slide 101](secure-ml.html#/sequential-ewa-payoffs) | What changes when delta goes from zero to one? | The chosen action always receives its modeled payoff; unchosen actions change from receiving no payoff credit to receiving their full foregone payoff. |
-| [Slide 106](secure-ml.html#/sequential-filter) | Why use both likelihood factors? | The observed action informs the behavioral model; the sensor reading informs the physical state. Both matter for forecasting the next interaction. |
-| [Slide 111](secure-ml.html#/sequential-driving-myopic) | Why can a clairvoyant policy fail to merge? | MC knows current action probabilities but optimizes only the current stage. It is not a globally optimal oracle. |
-| [Slide 117](secure-ml.html#/conclusions-questions) | Are behavioral-economics models useful for AI agents? | Treat this as a testable descriptive claim across prompts, memory, feedback and model changes. Then discuss representations, checking, and adversarial feedback. |
+| [Slide 15](secure-ml.html#/motivation-shared-evidence) | Many agents report findings. Whose evidence should count? | Model reliability and shared sources; agreement need not be independent evidence. Then ask whether another tool call or a human expert could improve the decision enough to justify its cost. |
+| [Slide 29](secure-ml.html#/bayes-real-posterior) | What does a mean effect of −4.71 establish? | It summarizes this posterior. It neither makes every plausible effect negative nor chooses a policy without a utility. |
+| [Slide 34](secure-ml.html#/bayes-microcredit-decision) | With expansion cost 2, what does the rule choose? | Expansion utility is −4.71−2=−6.71; no expansion gives 0. Choose no expansion under this illustrative model. |
+| [Slide 48](secure-ml.html#/poison-gradient) | Current expected log likelihood −4; target −1. Which way does the weight move? | The derivative is −3. Gradient descent increases that row's weight if constraints allow it. |
+| [Slide 51](secure-ml.html#/poison-mexico-attacked) | What happens after twenty operations? | The posterior mean moves to +6.28; expected expansion utility becomes +4.28. The illustrative action flips. |
+| [Slide 52](secure-ml.html#/poison-target-summary) | Why replace a full posterior target with moments? | The attacker may care about an effect, probability, or utility gap without wanting a specific distribution for nuisance parameters. |
+| [Slide 67](secure-ml.html#/poison-radon-restriction) | Can an attack outside Lake County affect its decision? | Shared hierarchical parameters carry information across counties. The selected attack deletes six non-Lake homes. |
+| [Slide 69](secure-ml.html#/poison-radon-result) | What changes the action? | The reported estimated exposure cost crosses 2000: 2179.9→1988.6; mean utility gap +179.9→−11.4. The target −50 is missed, but the fitted action changes. |
+| [Slide 80](secure-ml.html#/evasion-gate) | Does reviewing uncertain inputs ensure security? | The attacker can raise uncertainty for digits and lower it for unfamiliar inputs, changing which cases pass. |
+| [Slide 84](secure-ml.html#/defense-attacker-beliefs) | Where should the channel come from? | Evidence about access, incentives, constraints, and observed attacks informs uncertain attacker goals and beliefs. Average over these to forecast behavior. |
+| [Slide 88](secure-ml.html#/defense-reactive-joint) | Does reactive protection just choose one clean input? | Proposition 3.1 nests an expectation over clean inputs inside an expectation over parameters. Both distributions condition on the received input. |
+| [Slide 103](secure-ml.html#/sequential-ewa-payoffs) | What changes when delta goes from zero to one? | The chosen action always receives its modeled payoff; unchosen actions change from receiving no payoff credit to receiving their full foregone payoff. |
+| [Slide 108](secure-ml.html#/sequential-filter) | Why use both likelihood factors? | The observed action informs the behavioral model; the sensor reading informs the physical state. Both matter for forecasting the next interaction. |
+| [Slide 113](secure-ml.html#/sequential-driving-myopic) | Why can a clairvoyant policy fail to merge? | MC knows current action probabilities but optimizes only the current stage. It is not a globally optimal oracle. |
+| [Slide 119](secure-ml.html#/conclusions-questions) | Are behavioral-economics models useful for AI agents? | Treat this as a testable descriptive claim across prompts, memory, feedback and model changes. Then discuss representations, checking, and adversarial feedback. |
 
 ## Closing narrative
 
-Slides 94–120 develop sequential play and close the talk. The source is *Advancing Bayesian Sequential Play Against Boundedly Rational Opponents* by Rafnson, Caballero, Naveiro and Marrero. Only the driving application is used.
+Slides 96–122 develop sequential play and close the talk. The source is *Advancing Bayesian Sequential Play Against Boundedly Rational Opponents* by Rafnson, Caballero, Naveiro and Marrero. Only the driving application is used.
 
 The mathematics follows the current main text: two players with private noisy observations, EWA attractions, a belief state over the environment and opponent, bootstrap filtering with artificial parameter evolution, and approximate planning. The original MC, H2S, and ADP images show representative simulated trajectories. Notes retain the wider study's limitations without treating one smooth trajectory as a safety result. The future-work divider returns to the opening's AI agents, followed by four research questions. CUNEF vacancies come immediately after the questions; the bibliography immediately precedes the thanks slide.
 

@@ -174,3 +174,5 @@ The opening now uses that Student-t prior and the original empirical posterior. 
 - `sequential-play-provenance.json` and `closing-sep23-provenance.json` record source paths, transformations and checksums. These supplied assets do not require the optional figure-regeneration script.
 
 The plots compare representative simulated episodes. They do not validate human behavior or establish collision-free operation. The manuscript's broader experiment and model limitations are explained in the speaker notes and source notes.
+
+- `headline-amodei-pacing.png`: AI-generated typeset excerpt of the verified Washington Post / AP headline of 12 September 2026, not a screenshot. Only the headline, publication name, and date are reproduced. Source and checksum are recorded in `headline-amodei-pacing-provenance.json`.

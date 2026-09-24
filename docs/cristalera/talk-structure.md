@@ -1,6 +1,6 @@
 # Secure Machine Learning — narrative and teaching plan
 
-**120 slides, a 180-minute target, in English.** The separate appendix contains 11 optional slides. The [speaker guide](speaker-guide.md) gives timings and discussion answers.
+**122 slides, a 180-minute target, in English.** The separate appendix contains 11 optional slides. The [speaker guide](speaker-guide.md) gives timings and discussion answers.
 
 ## The story
 

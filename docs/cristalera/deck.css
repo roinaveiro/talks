@@ -202,3 +202,16 @@ body.template-active .reveal .slide-menu-button { opacity: 0; }
 .reveal .jobs-heading img { width: 245px; height: auto; margin: 0; }
 .reveal .cunef-jobs li { margin-bottom: 19px; }
 .reveal .jobs-apply { margin-top: 26px; color: var(--navy); font-size: 0.96em; }
+
+/* Opening headline excerpt and its single discussion question. */
+.reveal .headline-slide > h2,
+.reveal .headline-slide > .section-kicker { display: none; }
+.reveal .headline-content {
+  position: absolute; inset: 60px;
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: center; gap: 34px;
+}
+.reveal .headline-content .quarto-figure,
+.reveal .headline-content p { margin: 0; }
+.reveal .headline-content img { width: 1080px; max-height: 390px; margin: 0; }
+.reveal .headline-question { color: var(--navy); font-size: 1.35em; line-height: 1.25; text-align: center; }

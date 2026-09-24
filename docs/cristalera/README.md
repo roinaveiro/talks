@@ -108,7 +108,7 @@ Quarto embeds the vendored KaTeX library directly through `self-contained-math: 
 - **[Source notes](sources-and-design-notes.md):** paper selection, current-news attribution, limitations.
 - **[Teaching structure](talk-structure.md):** current narrative and progression.
 
-The main deck has **120 slides**, including cover, section dividers, and closing; the appendix has **11**. The session is designed for **180 minutes**; see the speaker guide for rehearsal targets. The sequence runs from agent coordination and decisions under uncertainty through Bayesian foundations, poisoning, moment targets, spatial and radon decisions, evasion, protection, Bayesian sequential play, and open questions about AI opponents. A CUNEF vacancies announcement follows the questions, and the bibliography immediately precedes the thanks slide.
+The main deck has **122 slides**, including cover, section dividers, and closing; the appendix has **11**. The session is designed for **180 minutes**; see the speaker guide for rehearsal targets. The sequence runs from agent coordination and decisions under uncertainty through Bayesian foundations, poisoning, moment targets, spatial and radon decisions, evasion, protection, Bayesian sequential play, and open questions about AI opponents. A CUNEF vacancies announcement follows the questions, and the bibliography immediately precedes the thanks slide.
 
 ## Visual style and pacing
 

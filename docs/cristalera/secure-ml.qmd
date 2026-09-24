@@ -1,5 +1,5 @@
 ---
-pagetitle: "Secure Machine Learning — Roi Naveiro"
+pagetitle: "Secure (Probabilistic) Machine Learning — Roi Naveiro"
 ---
 
 ## Secure Machine Learning {#motivation-title .template-slide data-background-color="#004369"}
@@ -19,27 +19,23 @@ pagetitle: "Secure Machine Learning — Roi Naveiro"
 </div>
 
 
-## Amodei: Pace the Frontier! {#motivation-pacing}
+## Amodei's call to slow AI development {#motivation-pacing .headline-slide}
 
-::: {.eyebrow}
-SEPTEMBER 2026
-:::
+::: {.headline-content}
+![](assets/headline-amodei-pacing.png){width=1080px fig-alt="A typeset excerpt of a Washington Post headline reporting Amodei's call to allow time for AI safety."}
 
-::: {.statement}
-Dario Amodei calls for **slower advances in frontier AI models**.
-:::
-
-Aim: more time for safety research?
-
-::: {.statement}
+::: {.headline-question}
 What (supposedly) motivated this call?
+:::
 :::
 
 ::: {.notes}
-**Sources:** Dario Amodei, [We Must Pace the Frontier](https://darioamodei.com/post/we-must-pace-the-frontier), September 2026.
+The image reproduces a verified newspaper headline in a new typeset layout. It is an AI-generated typographic excerpt, not a screenshot of the newspaper's page. The headline reports Amodei's stated concern; it does not establish his intentions or endorse his forecast.
+
+**Sources:** [The Washington Post / AP](https://www.washingtonpost.com/business/2026/09/12/anthropic-ai-dario-amodei/5cc3cc44-aec8-11f1-b498-8697f35a6743_story.html), 12 September 2026; Dario Amodei, [We Must Pace the Frontier](https://darioamodei.com/post/we-must-pace-the-frontier).
 :::
 
-## Two reasons {#motivation-two-reasons}
+## Amodei's stated concerns {#motivation-two-reasons}
 
 <div class="intro-pair">
 <div class="intro-card"><h3>Faster development cycle</h3><p>AI helps develop its successors.</p></div>
@@ -50,7 +46,19 @@ What (supposedly) motivated this call?
 **Sources:** The two motivations in [Amodei's essay](https://darioamodei.com/post/we-must-pace-the-frontier).
 :::
 
-## OpenAI Agents working on ExploitGym {#motivation-exploitgym}
+## What was the Hugging Face incident? {#motivation-incident-transition .transition-slide}
+
+::: {.transition-copy}
+::: {.transition-main}
+What was the Hugging Face incident?
+:::
+:::
+
+::: {.notes}
+Pause before the case study. Reconstruct the assigned task, the boundary crossing, and the consequences before drawing a lesson about agent behavior.
+:::
+
+## The ExploitGym evaluation {#motivation-exploitgym}
 
 OpenAI was measuring **what its models could do in cybersecurity** (to decide on safeguards before deployment).
 
@@ -78,7 +86,7 @@ Finally, the safeguard point. OpenAI identifies an internal research model, IM1,
 
 ---
 
-## Agents left the sandbox! {#motivation-escape}
+## Agents crossed the sandbox boundary {#motivation-escape}
 
 **198 of the 898 ExploitGym tasks had never been solved!**
 
@@ -112,7 +120,7 @@ The 1,200 and 700 figures are METR estimates, based partly on incomplete records
 
 ---
 
-## Why Hugging Face?{#motivation-hugging-face}
+## Why Hugging Face? {#motivation-hugging-face}
 
 ::: {.columns}
 ::: {.column width="78%"}
@@ -144,17 +152,16 @@ Two earlier stops, if someone asks. On 9 July an agent looking for solutions fou
 **Sources:** [Hugging Face Hub](https://huggingface.co/docs/hub/index) · [OpenAI retrospective](https://openai.com/index/hugging-face-incident-and-the-road-ahead/).
 :::
 
-## The intrusion {#motivation-incident-why}
+## Seeking private benchmark data {#motivation-incident-why}
 
 Public repo → **flag** easy to reverse engineer. But *necessary, not sufficient*.
 
 - Agents needed proof of the **intended vulnerability**: reference exploits, patches, previous solved runs.
 
-- Not in the public release. Sat in **gated datasets** on Hugging Face.
+- Not in the public release. Sat in **gated datasets** (credentials required) on Hugging Face.
 
-- Gated = **credentials required**. Cannot simply download.
 
-14 Hugging Face **write tokens**, publicly exposed on the internet!!
+A few Hugging Face **write tokens**, publicly exposed on the internet!!
 
 
 ::: {.notes}
@@ -171,7 +178,9 @@ Second, the means. The 14 credentials were publicly exposed on the internet, not
 
 ---
 
-## The intrusion {#motivation-incident-mechanism}
+## Compromising the dataset pipeline {#motivation-incident-mechanism}
+
+- They could upload datasets to Hugging Face.
 
 - Hugging Face does not just store a dataset. It **opens** it: a server reads the description, finds the files, converts them.
 
@@ -179,7 +188,7 @@ Second, the means. The 14 credentials were publicly exposed on the internet, not
 
 - Idea: upload descriptions that **lie about where the data is**.
 
-- Agents managed to **run the code** in production.
+- Agents managed to **run code** in production!!
 
 
 
@@ -201,7 +210,7 @@ Worth adding: they first tried the obvious attack, asking the worker to fetch re
 
 ---
 
-## The (useless) intrusion {#motivation-incident-result}
+## The intrusion did not improve the score {#motivation-incident-result}
 
 ::: {.columns}
 ::: {.column width="47%"}
@@ -213,6 +222,10 @@ Worth adding: they first tried the obvious attack, asking the worker to fetch re
 ::: {.column width="53%"}
 ![](assets/intrusion-anticlimax.png){height=390px fig-alt="Fictional cartoon: two exhausted robot burglars open a huge vault, only to realize one was holding the flag all along."}
 :::
+:::
+
+::: {.takeaway}
+Agents can pursue a task in unexpected ways, with harmful consequences.
 :::
 
 
@@ -231,7 +244,7 @@ Keep one detail for the coordination slide: an agent recorded that attacking Hug
 :::
 
 
-## The other Amodei reason: AI builds more AI {#motivation-acceleration}
+## AI-assisted model development {#motivation-acceleration}
 
 AI can contribute to the **code, experiments and analysis** used to develop later models.
 
@@ -252,9 +265,8 @@ Amodei's concern: progress may shorten the time available for safety work.
 **Sources:** [Amodei's argument about AI-assisted AI development](https://darioamodei.com/post/we-must-pace-the-frontier), September 2026.
 :::
 
-## Other reasons? {#motivation-other-reasons}
+## Commercial incentives and alternative explanations {#motivation-other-reasons}
 
-Commentators point elsewhere... 
 
 - **Anthropic and OpenAI are mid-IPO...** Investors want a earnings, not a models races.
 
@@ -282,11 +294,11 @@ Then the prompt, which is why this slide is in a lecture on secure machine learn
 **Sources:** [Essay](https://darioamodei.com/post/we-must-pace-the-frontier) · Commentary: [Markman](https://markmancapitalinsight.substack.com/p/dario-amodeis-we-must-pace-the-frontier) · [Mark](https://nickmark.substack.com/p/pacing-the-frontier-or-pacing-the). Interpretations by others, not claims about intentions.
 :::
 
-## Coordination can be dangerous {#motivation-coordination-transition .transition-slide}
+## Risks of agent coordination {#motivation-coordination-transition .transition-slide}
 
 ::: {.transition-copy}
 ::: {.transition-main}
-Anyway, coordinating AI agents can be **dangerous!**
+Coordinating agents can **amplify mistakes**
 :::
 
 ::: {.transition-subtitle}
@@ -327,18 +339,18 @@ Useful coordination might pair a coding agent with a reviewer and a test runner.
 
 ---
 
-## Many agents... what should we believe? {#motivation-shared-evidence}
+## Uncertainty about agent outcomes {#motivation-shared-evidence}
 
-A team of agents returns **opinions, tool results, recommendations...**. They could disagree!
+Agent reports help us predict the **consequences of possible actions**. But their evidence may be unreliable.
 
 - Whose evidence is reliable? In which situations?
 
 - Independent findings, or the **same source repeated**?
 
-- An agent's confidence is **not** a probability of being right.
+- An agent's stated confidence **need not be calibrated**.
 
 ::: {.prompt}
-In general... how uncertain should we be?
+We need to quantify uncertainty about each action’s consequences, including task success and possible harm.
 :::
 
 ::: {.notes}
@@ -346,12 +358,14 @@ In general... how uncertain should we be?
 
 Take the three in turn. Reliability varies by agent and by situation: the same model may be dependable at reading a file and unreliable at judging whether a source is trustworthy. Independence is the subtle one, and the incident illustrates it: several agents can read the same document, reuse one another's output, or inherit the same blind spot, so agreement among them can be one piece of evidence wearing many hats. And a stated confidence is a number the model produced, not a frequency of being correct; treating it as calibrated is an assumption, not an observation.
 
+The uncertainty concerns observable outcomes: will the proposed action complete the task, and could it cause unauthorized access or other harm? Reliability and dependence determine how agent reports should change those probabilities.
+
 Note the positive case too: disagreement can be the useful signal, marking exactly the question that deserves another check. Ask the audience what they would want to know about the agents, their tools, and their sources before acting on a recommendation. Transition: "Whatever we believe, something has to be done."
 :::
 
 ---
 
-## And what do we do? {#motivation-evidence}
+## Choosing actions under uncertainty {#motivation-evidence}
 
 Someone must choose (with uncertain and possibly unreliable evidence!)
 
@@ -364,7 +378,7 @@ Someone must choose (with uncertain and possibly unreliable evidence!)
 - Is that extra information worth its cost?
 
 ::: {.statement}
-We need a framework for **making decisions under uncertainty**.
+We need agents to make decisions according to a (coherent and auditable) framework for **making decisions under uncertainty**.
 :::
 
 ::: {.notes}
@@ -398,7 +412,7 @@ Then the caveat, which is also the thesis of the lecture. This is a normative fr
 
 ---
 
-## This has been proposed!{#motivation-bayesian-orchestration}
+## Bayesian orchestration of AI agents {#motivation-bayesian-orchestration}
 
 ![](assets/orchestration-paper-title-short.png){width=930px fig-alt="Title and first three author rows of Position: agentic AI orchestration should be Bayes-consistent, by Theodore Papamarkou and colleagues."}
 
@@ -425,9 +439,11 @@ State the status honestly: this is a position paper and a research agenda, not a
 
 ---
 
-## Is Bayesian decision theory itself safe against **potentially manipulated evidence**?
+## Bayesian decisions with manipulated evidence {#motivation-manipulated-evidence}
 
-Let's see! Plan:
+**If evidence is altered**
+
+This is what we will study in this talk!
 
 1. Foundations of Bayesian inference and decision theory.
 
@@ -445,8 +461,19 @@ Say plainly what Bayes does and does not do. It is very good at carrying uncerta
 Then the route. We leave multi-agent systems here and move to simpler predictive settings where the mathematics can be developed and analyzed carefully: Mexico microcredit, spatial pollution, images, radon. The defense framework at the end gives foundations for specific adversarial settings, not a solution to the opening incident. Mention the ten-minute midpoint break.
 :::
 
+## Bayesian inference and decision theory {#bayes-foundations .transition-slide}
 
-## How does Bayesian Decision Theory work? {#bayes-start}
+::: {.transition-copy}
+::: {.transition-main}
+Bayesian inference<br>and decision theory
+:::
+:::
+
+::: {.notes}
+Pause to mark the move from the motivation to the mathematical foundations. Introduce the microcredit decision next and use it throughout this section.
+:::
+
+## A decision about microcredit {#bayes-start}
 
 Example:
 
@@ -502,7 +529,7 @@ Beliefs about $\beta_1$ before any data:
 **Sources:** Prior used in [Carreau et al. (2025), §6.3](https://arxiv.org/html/2503.04480v1#S6.SS3); [authors' implementation](https://github.com/Matthieu-Carreau/Poisoning_Bayesian_Inference/blob/main/src/studentT_prior_lin_reg.py).
 :::
 
-## Evidence (and how it speaks) {#bayes-evidence}
+## The likelihood {#bayes-evidence}
 
 We collect dataset $D$ and build a **model (likelihood)**  that says how observations arise, given the parameters:
 
@@ -690,7 +717,7 @@ $$
 **Sources:** Posterior mean: [Carreau et al. (2025)](https://arxiv.org/abs/2503.04480). Utility and cost: teaching illustration.
 :::
 
-## We know how to decide. What might fail? {#bayes-assumptions}
+## Assumptions behind a Bayesian decision {#bayes-assumptions}
 
 - A mean suffices for **linear utility**. Other losses need more of the distribution.
 
@@ -812,7 +839,7 @@ The issue: **they were wanting to choose the evidence that lead to their preferr
 Time: 1 minute. This is the exchange from the earlier talks, condensed onto one slide. The existing talks describe the suggestion; do not add an undocumented claim about whether a deletion was subsequently implemented. Explain the problem as choosing which evidence to include after seeing which answer it produces. Legitimate exclusion rules need substantive reasons and consistent application; the mere fact that one observation is unusual is not enough to justify selecting a favorable result. Transition: “But the suggestion raised a research question.”
 :::
 
-## This inspired a research question! {#poison-question}
+## Can data edits change a Bayesian analysis? {#poison-question}
 
 - Selective data perturbations may change a statistical conclusion.
 
@@ -842,7 +869,7 @@ We study how manipulating **training data** can alter a probabilistic model's **
 1 minute. The general research goal includes inference and prediction in probabilistic machine learning, with downstream decisions as the eventual target. A model can retain useful average accuracy while a particular posterior quantity or action changes. Data deletion and replication are the concrete attack family we analyze next, not the definition of all poisoning. Later, moment matching lets us express more selective objectives and utility gaps let us target decisions directly.
 :::
 
-## Someone gets to edit the evidence {#poison-threat-model}
+## The attacker's control over the data {#poison-threat-model}
 
 The **defender** fits a Bayesian model to the observations it receives.
 
@@ -913,7 +940,7 @@ Time: 2 minutes. Explain KL as a directed discrepancy, evaluated here under the 
 **Sources:** [Carreau, Naveiro & Caballero — AISTATS 2025](https://arxiv.org/abs/2503.04480)
 :::
 
-## A hard optimization problem!{#poison-obstacles}
+## Optimizing a posterior discrepancy {#poison-obstacles}
 
 - **Integer edits:** choosing which rows to delete or replicate is combinatorial and **NP-hard in general**.
 - **Intractable objective:** the normalizer $Z(w)$ usually has no analytic expression, so we cannot evaluate the KL exactly.
@@ -934,7 +961,7 @@ In nonconjugate models, evaluating Z(w) adds a separate obstacle. Yet the relaxe
 **Sources:** [Carreau et al. (2025), §§4–5](https://arxiv.org/html/2503.04480v1#S4). General NP-hardness: Gaussian subset-sum reduction in the notes.
 :::
 
-## The main trick: compare two expectations {#poison-gradient}
+## A gradient from two expectations {#poison-gradient}
 
 Let $\ell_i(\theta)=\log p(y_i\mid x_i,\theta)$ describe the fit of observation $i$.
 
@@ -1006,7 +1033,7 @@ Time: 1 minute. Reconnect to the foundation section without rederiving the regre
 **Sources:** [Published experiment, §6.3](https://arxiv.org/html/2503.04480v1) · Policy utility is illustrative.
 :::
 
-## Changing the story! {#poison-mexico-attacked}
+## Data edits change the inferred effect {#poison-mexico-attacked}
 
 ::: {.columns}
 ::: {.column width="52%"}
@@ -1073,7 +1100,7 @@ The **kernel** determines which differences between posteriors matter.
 **Sources:** [MMD manuscript, formulation and kernel choice](context/mmd/main.tex). Work in progress.
 :::
 
-## Moment matching kernels targets selected quantities {#poison-moment-matching}
+## Targeting selected quantities with moment kernels {#poison-moment-matching}
 
 Choose features $h(\theta)=(h_1(\theta),\ldots,h_q(\theta))$ and desired means $m$:
 
@@ -1101,7 +1128,7 @@ We developed a relaxation-and-projection algorithm analogous to the KL attack: a
 **Sources:** [MMD manuscript, moment-matching kernel and algorithm](context/mmd/main.tex). Work in progress.
 :::
 
-## Motivating example {#poison-spatial-example}
+## A planning decision based on soil pollution {#poison-spatial-example}
 
 Imagine a regulator deciding whether to allow **new homes near the Meuse river**.
 
@@ -1475,7 +1502,7 @@ $$
 **Sources:** MNIST illustration: Bayesian neural network predictions averaged over parameter draws.
 :::
 
-## Attacker's goal? {#evasion-goals}
+## The attacker's objective {#evasion-goals}
 
 Predictive distributions contain all **full predictive information** (not only point forecasts, also uncertainties). 
 
@@ -1523,7 +1550,7 @@ The efficient algorithm estimates gradients with posterior and predictive sample
 **Sources:** [Arce et al., UAI 2025, §4.1](https://arxiv.org/html/2506.09640v1#S4.SS1). The target can be scalar or vector valued.
 :::
 
-## Chaging the prediction {#evasion-targeted}
+## Changing the prediction {#evasion-targeted}
 
 ::: {.columns}
 ::: {.column width="40%"}
@@ -1860,7 +1887,7 @@ The implementation uses a factorized Gaussian variational approximation. Proacti
 **Sources:** [Defense manuscript, channel-averaged loss and generalized posterior](context/adv_bayes_tmlr/main.tex). Experimental formulation with learning rate $\eta=1$.
 :::
 
-##  AML defenses are limiting cases!! {#defense-limits}
+## Standard defenses as limiting cases {#defense-limits}
 
 The framework recovers familiar defenses as special cases or approximations:
 
@@ -1880,7 +1907,7 @@ Point purification approximates the original-input posterior with one restored i
 :::
 
 
-## Protection beyond the assumed attack !!{#defense-examples}
+## Protection beyond the assumed attack {#defense-examples}
 
 We train against one-step attacks, then test against **stronger iterative attacks**.
 
@@ -1988,7 +2015,7 @@ From supervised learning to sequential decisions
 0.25 minutes. Move from defending a fixed predictor to choosing actions repeatedly while another player adapts. This section draws on our manuscript with Christopher Rafnson, William Caballero and Wesley Marrero.
 :::
 
-## A prediction was only one step {#sequential-loop}
+## Sequential decisions and feedback {#sequential-loop}
 
 **Our evasion setting:** the trained model is frozen; the attacker perturbs its input to change a prediction or decision.
 
@@ -2012,7 +2039,7 @@ We must choose a **sequence of decisions** whose consequences unfold over time.
 0.5 minutes. Contrast a frozen deployed model with an adapting decision process. Poisoning changed training data earlier; the static comparison here refers specifically to evasion. Today's action changes the situation in which tomorrow's decision is made.
 :::
 
-## The attacker is in the loop too {#sequential-opponent}
+## An opponent acts in parallel {#sequential-opponent}
 
 ::: {.columns .threat-columns}
 ::: {.column width="48%"}
@@ -2226,7 +2253,7 @@ We start with priors over the initial physical state $X_0$ and opponent descript
 **Sources:** Sequential-play manuscript, §3.2–3.3. The filter carries both the physical and behavioral state.
 :::
 
-## Where do we update our beliefs? {#sequential-belief-update .sequential-equation}
+## Updating beliefs about the opponent {#sequential-belief-update .sequential-equation}
 
 Before stage $t$, our belief state is
 
@@ -2454,7 +2481,7 @@ Future work
 0.25 minutes. Pause after the driving example and return to the agents from the opening. We have a framework for decisions in an evolving environment with a modeled human opponent. Extending its descriptive and computational ingredients to AI opponents is an open problem.
 :::
 
-## Back to the agents {#llm-bayesian-control}
+## Decisions made by AI agents {#llm-bayesian-control}
 
 AI agents choose what to do: call a tool, gather evidence, delegate, or stop.
 
@@ -2473,7 +2500,7 @@ We need to account for the other agent's behavior as well as uncertainty about t
 **Sources:** [Papamarkou et al., Bayesian orchestration](https://arxiv.org/html/2605.00742v2), §§2, 4; connection to the sequential-play manuscript.
 :::
 
-## Human models and physical states were a starting point {#llm-sequential}
+## Opponent models and states for AI agents {#llm-sequential}
 
 In the driving example, we had a behavioral model for the human and a compact vector of physical quantities.
 

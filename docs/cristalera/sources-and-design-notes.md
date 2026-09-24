@@ -8,6 +8,7 @@ The opening follows the pacing proposal, its two reasons, the Hugging Face / Exp
 
 | Source | Date | Supported use |
 |---|---|---|
+| [Washington Post / AP headline](https://www.washingtonpost.com/business/2026/09/12/anthropic-ai-dario-amodei/5cc3cc44-aec8-11f1-b498-8697f35a6743_story.html) | 12 September 2026 | Opening image: a typeset excerpt of the verified headline, generated for this deck. It is not a screenshot. |
 | [Dario Amodei, pacing proposal](https://darioamodei.com/post/we-must-pace-the-frontier) | September 2026; no publication day on the page | A call for slower capability growth, motivated by AI-assisted AI development and the July incident. |
 | [Hugging Face Hub documentation](https://huggingface.co/docs/hub/index) | Consulted 16 September 2026 | The platform's role in sharing models, datasets, and applications. |
 | [Hugging Face incident disclosure](https://huggingface.co/blog/security-incident-july-2026) | 16 July 2026 | Data-processing compromise and unauthorized internal access. Attribution was incomplete then. |
