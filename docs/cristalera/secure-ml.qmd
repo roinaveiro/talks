@@ -298,7 +298,7 @@ Then the prompt, which is why this slide is in a lecture on secure machine learn
 
 ::: {.transition-copy}
 ::: {.transition-main}
-Coordinating agents can **amplify mistakes**
+AI agents coordinations **can be dangerous**
 :::
 
 ::: {.transition-subtitle}
@@ -1642,7 +1642,7 @@ Predictive entropy **decreases**.
 **Sources:** [Arce et al., UAI 2025, Fig. 5](https://arxiv.org/html/2506.09640v1#S5.F5). Original figures; colors indicate perturbation budget $\epsilon$.
 :::
 
-## Would reviewing uncertain cases solve the problem? {#evasion-gate}
+## Uncertainty is very relevant for downstream tasks! {#evasion-gate}
 
 ::: {.columns}
 ::: {.column width="48%"}
@@ -2017,13 +2017,11 @@ From supervised learning to sequential decisions
 
 ## Sequential decisions and feedback {#sequential-loop}
 
-**Our evasion setting:** the trained model is frozen; the attacker perturbs its input to change a prediction or decision.
+* **Our evasion setting:** the trained model is frozen; the attacker perturbs its input to change a prediction or decision; then we protect.
 
-$$
-x' \longrightarrow p(y\mid x',\mathcal D) \longrightarrow d
-$$
+* Reality is dynamic: upon observing defense, attacker changes strategy, and so on.
 
-In a dynamic setting, we update our beliefs as observations arrive. The attacker can adapt its actions too.
+* Thus, we need to update our believes about attacker, and redesign the defense...
 
 <div class="flow">
 <div class="flow-step"><strong>Observe</strong>Update beliefs</div><div class="flow-arrow">→</div>
@@ -2500,17 +2498,19 @@ We need to account for the other agent's behavior as well as uncertainty about t
 **Sources:** [Papamarkou et al., Bayesian orchestration](https://arxiv.org/html/2605.00742v2), §§2, 4; connection to the sequential-play manuscript.
 :::
 
-## Opponent models and states for AI agents {#llm-sequential}
+## Wya more complex when dealing with AI agents{#llm-sequential}
 
-In the driving example, we had a behavioral model for the human and a compact vector of physical quantities.
+In the driving example:
 
-For language agents, the history contains **text, memory and tool results**. Actions can themselves be messages or programs.
+* State was a compact vector of physical quantities.
+* Opponent was a human (we have behavioral models).
 
-Behavior may change with the context, feedback, or a new model version. We need models that predict these changes well enough to support decisions.
+For AI agents
 
-::: {.prompt}
-What should we retain from an interaction, and how should we learn from it?
-:::
+* The state contains **text, memory and tool results**. Actions can themselves be messages or programs.
+
+* Behavioral models for AI agents?
+
 
 ::: {.notes}
 0.75 minutes. The car state is already continuous and eight-dimensional. The new challenge is the structure and scale of language histories and action spaces, not simply leaving a discrete state space. Behavioral-economics models are an empirically motivated choice for some human interactions; their adequacy for LLM agents is unestablished. A frozen LLM can change its behavior as its context and external memory change. A representation of that history must preserve what matters to future actions and utilities, which sets up the final questions.
